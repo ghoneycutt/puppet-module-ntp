@@ -1,0 +1,90 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
+
+# Drift file.  Put this in a directory which the daemon can write to.
+# No symbolic links allowed, either, since the daemon updates the file
+# by creating a temporary in the same directory and then rename()'ing
+# it to the file.
+driftfile <%= scope.lookupvar('ntp::data::driftfile') %>
+
+<% if @enable_stats == 'true' %>
+# Statistics are being logged
+statsdir <%= @statsdir %>
+<% else %>
+# Statistics are not being logged
+<% end %>
+
+<% if @logfile != 'UNSET' %>logfile <%= @logfile %><% end %>
+
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+
+# You do need to talk to an NTP server or two (or three).
+#server ntp.your-provider.example
+
+# pool.ntp.org maps to about 1000 low-stratum NTP servers.  Your server will
+# pick a different set every time it starts up.  Please consider joining the
+# pool: <http://www.pool.ntp.org/join.html>
+
+<% @servers.each do |server| -%>
+server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><% end %>
+<% end -%>
+
+# Access control configuration; see /usr/share/doc/ntp-doc/html/accopt.html for
+# details.  The web page <http://support.ntp.org/bin/view/Support/AccessRestrictions>
+# might also be helpful.
+#
+# Note that "restrict" applies to both servers and clients, so a configuration
+# that might be intended to block requests from certain clients could also end
+# up blocking replies from your own upstream servers.
+
+# By default, exchange time with everybody, but don't allow configuration.
+restrict -4 default kod notrap nomodify nopeer noquery
+restrict -6 default kod notrap nomodify nopeer noquery
+
+# Local users may interrogate the ntp server more closely.
+restrict 127.0.0.1
+restrict ::1
+
+# Clients from this (example!) subnet have unlimited access, but only if
+# cryptographically authenticated.
+#restrict 192.168.123.0 mask 255.255.255.0 notrust
+
+
+# If you want to provide time to your local subnet, change the next line.
+# (Again, the address is an example only.)
+#broadcast 192.168.123.255
+
+# If you want to listen to time broadcasts on your local subnet, de-comment the
+# next lines.  Please do this only if you trust everybody on the network!
+#disable auth
+#broadcastclient
+
+# Undisciplined Local Clock. This is a fake driver intended for backup
+# and when no outside source of synchronized time is available.
+server  127.127.1.0  # local clock
+fudge  127.127.1.0 stratum <%= @fudge_stratum %>
+
+# Key file containing the keys and key identifiers used when operating
+# with symmetric key cryptography.
+keys /etc/ntp/keys
+
+# Specify the key identifiers which are trusted.
+#trustedkey 4 8 42
+
+# Specify the key identifier to use with the ntpdc utility.
+#requestkey 8
+
+# Specify the key identifier to use with the ntpq utility.
+#controlkey 8
+
+# Orphan mode
+# http://support.ntp.org/bin/view/Support/OrphanMode
+<% if @orphan_mode_stratum != 'UNSET' %>tos orphan <%= @orphan_mode_stratum %><% end %>
+
+# Accept any offset - useful for VM's or suspended systems
+tinker panic 0

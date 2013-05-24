@@ -21,8 +21,24 @@ class ntp::data {
       $my_driftfile        = '/var/lib/ntp/ntp.drift'
       $step_tickers_enable = 'true'
     }
+    'suse': {
+      case $::lsbmajdistrelease {
+      '9','10': {
+        $my_package_name     = [ 'xntp' ]
+      }
+      '11': {
+        $my_package_name     = [ 'ntp' ]
+      default: {
+        fail("The ${module_name} module is supported by release 9, 10 and 11 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")
+      }
+      $my_package_noop     = 'false'
+      $my_service_name     = 'ntp'
+      $my_config_file      = '/etc/ntp.conf'
+      $my_driftfile        = '/var/lib/ntp/ntp.drift'
+      $step_tickers_enable = 'true'
+    }
     'solaris': {
-      $my_package_name     = [ 'ntp' ] # GH: this is not confirmed and should be altered
+      $my_package_name     = [ 'network/ntp' ]
       $my_package_noop     = 'true'
       $my_service_name     = 'ntp'
       $my_config_file      = '/etc/inet/ntp.conf'
@@ -30,7 +46,7 @@ class ntp::data {
       $step_tickers_enable = 'false'
     }
     default: {
-      fail("The ${module_name} module is supported by OS Families Debian, Redhat, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ${module_name} module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
     }
   }
 

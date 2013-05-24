@@ -29,7 +29,7 @@ class ntp::data {
       '11': {
         $my_package_name     = [ 'ntp' ]
       default: {
-        fail("The ${module_name} module is supported by release 9, 10 and 11 of the Suse OS Family. Your system, ${::operatingsystem}, is part of the osfamily, ${::lsbmajdistrelease}")
+        fail("The ${module_name} module is supported by release 9, 10 and 11 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")
       }
       $my_package_noop     = 'false'
       $my_service_name     = 'ntp'

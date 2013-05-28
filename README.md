@@ -48,13 +48,13 @@ If service should be running
 
 service_hasstatus
 -----------------
-If service has a status option
+Service has a status option
 
 - *Default*: true
 
 service_hasrestart
 ------------------
-If service has a restart option
+Service has a restart option
 
 - *Default*: true
 

@@ -13,12 +13,12 @@ This module is supported by the following OS families.
 
 # Parameters #
 
-See man ntp.conf for more information regarding /etc/ntp.conf settings.
+See ntp.conf(5) for more information regarding settings.
 
 
 package_latest
 --------------
-Check if the latest package is in place
+Use the latest version of the package.
 
 - *Default*: false
 
@@ -62,7 +62,7 @@ servers
 -------
 Array of pools to check time against.
 
-- *Default*: NTP's default american pools
+- *Default*: NTP's default pools in the US
 
 server_options
 --------------

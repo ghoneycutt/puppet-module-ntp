@@ -1,7 +1,10 @@
 fixtures:
   repositories:
-    "hiera":
+    "hiera-puppet":
       repo: "git://github.com/puppetlabs/hiera-puppet.git"
+      ref: "1.0.0"
+    "hiera":
+      repo: "git://github.com/puppetlabs/hiera.git"
       ref: "1.0.0"
   symlinks:
     "ntp": "#{source_dir}"

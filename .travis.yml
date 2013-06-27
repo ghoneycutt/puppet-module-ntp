@@ -14,3 +14,4 @@ gemfile: Gemfile
 matrix:
   allow_failures:
     - rvm: 1.9.3
+    - env: PUPPET_VERSION=2.7.13

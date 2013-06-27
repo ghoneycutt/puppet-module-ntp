@@ -11,7 +11,13 @@ class ntp::data {
       $my_service_name     = 'ntp'
       $my_config_file      = '/etc/ntp.conf'
       $my_driftfile        = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable = 'true'
+
+      # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
+      if $::operatingsystem == 'Ubuntu' {
+        $step_tickers_enable = 'false'
+      } else {
+        $step_tickers_enable = 'true'
+      }
     }
     'redhat': {
       $my_package_name     = [ 'ntp' ]

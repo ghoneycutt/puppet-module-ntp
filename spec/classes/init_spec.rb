@@ -52,6 +52,58 @@ describe 'ntp' do
       }
 
     end
+    context 'on Ubuntu platform with default class options' do
+      let :facts do
+      {
+        :osfamily        => 'debian',
+        :operatingsystem => 'Ubuntu',
+      }
+      end
+
+      it { should include_class('ntp')}
+      it { should include_class('ntp::data')}
+
+      it {
+        should contain_package('ntp_package').with({
+          'name'   => 'ntp',
+          'ensure' => 'present',
+        })
+      }
+
+      it {
+        should contain_file('step-tickers').with({
+          'ensure' => 'absent',
+          'path'   => '/etc/ntp/step-tickers',
+        })
+      }
+
+      it {
+        should contain_file('ntp_conf').with({
+          'ensure' => 'file',
+          'path'   => '/etc/ntp.conf',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+        should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
+        should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
+        should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
+        should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
+      }
+
+      it {
+        should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
+      }
+
+      it {
+        should contain_service('ntp_service').with({
+          'ensure' => 'running',
+          'name'   => 'ntp',
+          'enable' => 'true',
+        })
+      }
+
+    end
 
     context 'on EL platform with default class options' do
       let :facts do
@@ -119,6 +171,13 @@ describe 'ntp' do
         should contain_package('ntp_package').with({
           'name'   => 'network/ntp',
           'ensure' => 'present',
+        })
+      }
+
+      it {
+        should contain_file('step-tickers').with({
+          'ensure' => 'absent',
+          'path'   => '/etc/ntp/step-tickers',
         })
       }
 

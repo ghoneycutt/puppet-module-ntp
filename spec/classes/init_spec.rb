@@ -8,7 +8,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -60,7 +59,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -112,7 +110,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -164,7 +161,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -213,7 +209,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -266,7 +261,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({
@@ -319,7 +313,6 @@ describe 'ntp' do
     end
 
     it { should include_class('ntp')}
-    it { should include_class('ntp::data')}
 
     it {
       should contain_package('ntp_package').with({

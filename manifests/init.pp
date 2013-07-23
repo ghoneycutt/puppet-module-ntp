@@ -18,6 +18,8 @@ class ntp (
   $package_latest      = 'false',
   $package_name        = 'USE_DEFAULTS',
   $package_noop        = 'USE_DEFAULTS',
+  $package_source      = 'USE_DEFAULTS',
+  $package_adminfile   = 'USE_DEFAULTS',
   $service_name        = 'USE_DEFAULTS',
   $config_file         = 'USE_DEFAULTS',
   $driftfile           = 'USE_DEFAULTS',
@@ -56,11 +58,13 @@ class ntp (
 
   case $::osfamily {
     'debian': {
-      $default_package_name     = [ 'ntp' ]
-      $default_package_noop     = 'false'
-      $default_service_name     = 'ntp'
-      $default_config_file      = '/etc/ntp.conf'
-      $default_driftfile        = '/var/lib/ntp/ntp.drift'
+      $default_package_name      = [ 'ntp' ]
+      $default_package_noop      = 'false'
+      $default_package_source    = undef
+      $default_package_adminfile = undef
+      $default_service_name      = 'ntp'
+      $default_config_file       = '/etc/ntp.conf'
+      $default_driftfile         = '/var/lib/ntp/ntp.drift'
 
       # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
       if $::operatingsystem == 'Ubuntu' {
@@ -70,19 +74,23 @@ class ntp (
       }
     }
     'redhat': {
-      $default_package_name     = [ 'ntp' ]
-      $default_package_noop     = 'false'
-      $default_service_name     = 'ntpd'
-      $default_config_file      = '/etc/ntp.conf'
-      $default_driftfile        = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable = 'true'
+      $default_package_name      = [ 'ntp' ]
+      $default_package_noop      = 'false'
+      $default_package_source    = undef
+      $default_package_adminfile = undef
+      $default_service_name      = 'ntpd'
+      $default_config_file       = '/etc/ntp.conf'
+      $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $step_tickers_enable       = 'true'
     }
     'suse': {
-      $default_package_noop     = 'false'
-      $default_service_name     = 'ntp'
-      $default_config_file      = '/etc/ntp.conf'
-      $default_driftfile        = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable = 'true'
+      $default_package_noop      = 'false'
+      $default_package_source    = undef
+      $default_package_adminfile = undef
+      $default_service_name      = 'ntp'
+      $default_config_file       = '/etc/ntp.conf'
+      $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $step_tickers_enable       = 'true'
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -97,12 +105,24 @@ class ntp (
       }
     }
     'solaris': {
-      $default_package_name     = [ 'network/ntp' ]
-      $default_package_noop     = 'true'
-      $default_service_name     = 'ntp'
-      $default_config_file      = '/etc/inet/ntp.conf'
-      $default_driftfile        = '/var/ntp/ntp.drift'
-      $step_tickers_enable = 'false'
+      case $::kernelrelease {
+        '5.9','5.10': {
+          $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
+        }
+        '5.11': {
+          $default_package_name     = [ 'network/ntp' ]
+        }
+        default: {
+          fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
+        }
+      }
+      $default_package_noop      = 'true'
+      $default_package_source    = '/var/spool/pkg'
+      $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
+      $default_service_name      = 'ntp4'
+      $default_config_file       = '/etc/inet/ntp.conf'
+      $default_driftfile         = '/var/ntp/ntp.drift'
+      $step_tickers_enable       = 'false'
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
@@ -119,6 +139,18 @@ class ntp (
     $package_noop_real = $default_package_noop
   } else {
     $package_noop_real = $package_noop
+  }
+
+  if $package_source == 'USE_DEFAULTS' {
+    $package_source_real = $default_package_source
+  } else {
+    $package_source_real = $package_source
+  }
+
+  if $package_adminfile == 'USE_DEFAULTS' {
+    $package_adminfile_real = $default_package_adminfile
+  } else {
+    $package_adminfile_real = $package_adminfile
   }
 
   if $service_name == 'USE_DEFAULTS' {
@@ -173,10 +205,24 @@ class ntp (
     }
   }
 
+  if $package_adminfile_real != undef {
+
+    file { 'admin_file':
+      name   => $package_adminfile_real,
+      ensure => 'present',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => 'puppet:///files/ntp/admin_file',
+    }
+  }
+
   package { 'ntp_package':
-    ensure => $package_ensure,
-    name   => $package_name_real,
-    noop   => $package_noop_real,
+    ensure    => $package_ensure,
+    name      => $package_name_real,
+    noop      => $package_noop_real,
+    source    => $package_source_real,
+    adminfile => $package_adminfile_real,
   }
 
   file { 'ntp_conf':

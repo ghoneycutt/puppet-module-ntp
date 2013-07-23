@@ -8,8 +8,8 @@ This module is supported by the following OS families.
 
  * Debian
  * Redhat
- * Suse 9,10,11
- * Solaris
+ * Suse 9, 10, 11
+ * Solaris 9, 10, 11
 
 # Parameters #
 
@@ -21,6 +21,16 @@ package_latest
 Use the latest version of the package.
 
 - *Default*: false
+
+package_source
+--------------
+The source for packages on Solaris 5.10 and earlier.
+
+- *Default*: /var/spool/pkg
+
+package_adminfile
+-----------------
+Path to the admin file used for installation on Solaris 5.10 and earlier.
 
 config_file_owner
 -----------------

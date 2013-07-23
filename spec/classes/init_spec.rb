@@ -156,7 +156,8 @@ describe 'ntp' do
   context 'on solaris platform with default class options' do
     let :facts do
     {
-      :osfamily => 'solaris',
+      :osfamily      => 'solaris',
+      :kernelrelease => '5.11',
     }
     end
 
@@ -193,7 +194,7 @@ describe 'ntp' do
     it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
-        'name'   => 'ntp',
+        'name'   => 'ntp4',
         'enable' => 'true',
       })
     }

@@ -351,7 +351,7 @@ describe 'ntp' do
       should contain_service('ntp_service').with({
         'ensure' => 'running',
         'name'   => 'ntp',
-        'enable' => 'true',
+        'enable' => true,
       })
     }
 

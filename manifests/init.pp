@@ -15,7 +15,7 @@ class ntp (
   $config_file_owner   = 'root',
   $config_file_group   = 'root',
   $config_file_mode    = '0644',
-  $package_latest      = 'false',
+  $package_latest      = false,
   $package_name        = 'USE_DEFAULTS',
   $package_noop        = 'USE_DEFAULTS',
   $package_source      = 'USE_DEFAULTS',
@@ -23,9 +23,9 @@ class ntp (
   $service_name        = 'USE_DEFAULTS',
   $config_file         = 'USE_DEFAULTS',
   $driftfile           = 'USE_DEFAULTS',
-  $service_running     = 'true',
-  $service_hasstatus   = 'true',
-  $service_hasrestart  = 'true',
+  $service_running     = true,
+  $service_hasstatus   = true,
+  $service_hasrestart  = true,
   $servers             = ['0.us.pool.ntp.org',
                           '1.us.pool.ntp.org',
                           '2.us.pool.ntp.org'],
@@ -37,18 +37,58 @@ class ntp (
   $step_tickers_mode   = '0644',
   $orphan_mode_stratum = 'UNSET',
   $fudge_stratum       = '10',
-  $enable_stats        = 'false',
+  $enable_stats        = false,
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
 ) {
 
-  if $package_latest == 'true' {
+  # validate type and convert string to boolean if necessary
+  $package_latest_type = type($package_latest)
+  if $package_latest_type == 'string' {
+    $my_package_latest = str2bool($package_latest)
+  } else {
+    $my_package_latest = $package_latest
+  }
+
+  # validate type and convert string to boolean if necessary
+  $service_running_type = type($service_running)
+  if $service_running_type == 'string' {
+    $my_service_running = str2bool($service_running)
+  } else {
+    $my_service_running = $service_running
+  }
+
+  # validate type and convert string to boolean if necessary
+  $service_hasstatus_type = type($service_hasstatus)
+  if $service_hasstatus_type == 'string' {
+    $my_service_hasstatus = str2bool($service_hasstatus)
+  } else {
+    $my_service_hasstatus = $service_hasstatus
+  }
+
+  # validate type and convert string to boolean if necessary
+  $service_hasrestart_type = type($service_hasrestart)
+  if $service_hasrestart_type == 'string' {
+    $my_service_hasrestart = str2bool($service_hasrestart)
+  } else {
+    $my_service_hasrestart = $service_hasrestart
+  }
+
+  # validate type and convert string to boolean if necessary
+  $enable_stats_type = type($enable_stats)
+  if $enable_stats_type == 'string' {
+    $my_enable_stats = str2bool($enable_stats)
+  } else {
+    $my_enable_stats = $enable_stats
+  }
+
+  if $my_package_latest == true {
     $package_ensure = latest
   } else {
     $package_ensure = present
   }
 
-  if $service_running == 'true' {
+  if $my_service_running == true {
     $service_ensure = running
     $service_enable = true
   } else {
@@ -59,7 +99,7 @@ class ntp (
   case $::osfamily {
     'debian': {
       $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = 'false'
+      $default_package_noop      = false
       $default_package_source    = undef
       $default_package_adminfile = undef
       $default_service_name      = 'ntp'
@@ -68,29 +108,29 @@ class ntp (
 
       # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
       if $::operatingsystem == 'Ubuntu' {
-        $step_tickers_enable = 'false'
+        $step_tickers_enable = false
       } else {
-        $step_tickers_enable = 'true'
+        $step_tickers_enable = true
       }
     }
     'redhat': {
       $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = 'false'
+      $default_package_noop      = false
       $default_package_source    = undef
       $default_package_adminfile = undef
       $default_service_name      = 'ntpd'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = 'true'
+      $step_tickers_enable       = true
     }
     'suse': {
-      $default_package_noop      = 'false'
+      $default_package_noop      = false
       $default_package_source    = undef
       $default_package_adminfile = undef
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = 'true'
+      $step_tickers_enable       = true
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -116,13 +156,13 @@ class ntp (
           fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
         }
       }
-      $default_package_noop      = 'true'
+      $default_package_noop      = true
       $default_package_source    = '/var/spool/pkg'
       $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
       $default_service_name      = 'ntp4'
       $default_config_file       = '/etc/inet/ntp.conf'
       $default_driftfile         = '/var/ntp/ntp.drift'
-      $step_tickers_enable       = 'false'
+      $step_tickers_enable       = false
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
@@ -172,20 +212,20 @@ class ntp (
   }
 
   case $step_tickers_enable {
-    'true': {
+    true: {
       $default_step_tickers_ensure  = present
       $step_tickers_owner_real = $step_tickers_owner
       $step_tickers_group_real = $step_tickers_group
       $step_tickers_mode_real  = $step_tickers_mode
     }
-    'false': {
+    false: {
       $default_step_tickers_ensure  = absent
       $step_tickers_owner_real = undef
       $step_tickers_group_real = undef
       $step_tickers_mode_real  = undef
     }
     default: {
-      fail("step_tickers_enable must be 'true' or 'false'. Current value is ${step_tickers_enable}")
+      fail("step_tickers_enable must be true or false. Current value is ${step_tickers_enable}")
     }
   }
 
@@ -195,13 +235,13 @@ class ntp (
     $step_tickers_ensure_real = $step_tickers_ensure
   }
 
-  # validate $enable_stats - must be 'true' or 'false'
-  case $enable_stats {
-    'true','false': {
+  # validate $my_enable_stats - must be true or false
+  case $my_enable_stats {
+    true,false: {
       # noop - accepting values
     }
     default: {
-      fail("enable_stats must be 'true' or 'false' and is ${enable_stats}")
+      fail("enable_stats must be true or false and is ${my_enable_stats}")
     }
   }
 
@@ -249,8 +289,8 @@ class ntp (
     ensure     => $service_ensure,
     name       => $service_name_real,
     enable     => $service_enable,
-    hasstatus  => $service_hasstatus,
-    hasrestart => $service_hasrestart,
+    hasstatus  => $my_service_hasstatus,
+    hasrestart => $my_service_hasrestart,
     subscribe  => [ Package['ntp_package'],
                     File['ntp_conf'],
                   ],

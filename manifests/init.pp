@@ -35,6 +35,11 @@ class ntp (
   $step_tickers_owner  = 'root',
   $step_tickers_group  = 'root',
   $step_tickers_mode   = '0644',
+  # ntp dir needs to exist for step-tickers
+  $ntp_dir_path   = '/etc/ntp',
+  $ntp_dir_owner  = 'root',
+  $ntp_dir_group  = 'root',
+  $ntp_dir_mode   = '0755',
   $orphan_mode_stratum = 'UNSET',
   $fudge_stratum       = '10',
   $enable_stats        = false,
@@ -217,6 +222,9 @@ class ntp (
       $step_tickers_owner_real = $step_tickers_owner
       $step_tickers_group_real = $step_tickers_group
       $step_tickers_mode_real  = $step_tickers_mode
+      $ntp_dir_owner_real = $ntp_dir_owner
+      $ntp_dir_group_real = $ntp_dir_group
+      $ntp_dir_mode_real = $ntp_dir_mode
     }
     false: {
       $default_step_tickers_ensure  = absent
@@ -285,6 +293,15 @@ class ntp (
     require => Package['ntp_package'],
   }
 
+  file { 'ntp_dir':
+    ensure  => $step_tickers_ensure_real,
+    path    => $ntp_dir,
+    owner   => $ntp_dir_owner_real,
+    group   => $ntp_dir_group_real,
+    mode    => $ntp_dir_mode_real,
+    require => Package['ntp_package'],
+  }
+ 
   service { 'ntp_service':
     ensure     => $service_ensure,
     name       => $service_name_real,

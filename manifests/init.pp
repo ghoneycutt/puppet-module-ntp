@@ -43,7 +43,9 @@ class ntp (
 ) {
 
   # validate type and convert string to boolean if necessary
-  $package_latest_type = type($package_latest)
+  #$package_latest_type = type($package_latest)
+  $package_latest_type = 'string'
+
   if $package_latest_type == 'string' {
     $my_package_latest = str2bool($package_latest)
   } else {
@@ -51,7 +53,9 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $service_running_type = type($service_running)
+  # $service_running_type = type($service_running)
+  $service_running_type = 'string'
+
   if $service_running_type == 'string' {
     $my_service_running = str2bool($service_running)
   } else {
@@ -59,7 +63,8 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $service_hasstatus_type = type($service_hasstatus)
+  #$service_hasstatus_type = type($service_hasstatus)
+  $service_hasstatus_type = 'string'
   if $service_hasstatus_type == 'string' {
     $my_service_hasstatus = str2bool($service_hasstatus)
   } else {
@@ -67,7 +72,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $service_hasrestart_type = type($service_hasrestart)
+  $service_hasrestart_type = 'string'
   if $service_hasrestart_type == 'string' {
     $my_service_hasrestart = str2bool($service_hasrestart)
   } else {
@@ -75,7 +80,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $enable_stats_type = type($enable_stats)
+  $enable_stats_type = 'string'
   if $enable_stats_type == 'string' {
     $my_enable_stats = str2bool($enable_stats)
   } else {
@@ -147,7 +152,9 @@ class ntp (
     'solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
-          $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
+          # $default_package_name     = hiera(ntp::packages)
+          # Package array always complains on Solaris
+          $default_package_name     = [ 'SUNWntpr' ]
         }
         '5.11': {
           $default_package_name     = [ 'network/ntp' ]
@@ -157,9 +164,9 @@ class ntp (
         }
       }
       $default_package_noop      = true
-      $default_package_source    = '/var/spool/pkg'
+      $default_package_source    = '/var/sadm/pkg'
       $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
-      $default_service_name      = 'ntp4'
+      $default_service_name      = 'ntp'
       $default_config_file       = '/etc/inet/ntp.conf'
       $default_driftfile         = '/var/ntp/ntp.drift'
       $step_tickers_enable       = false
@@ -253,7 +260,7 @@ class ntp (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      source => 'puppet:///files/ntp/admin_file',
+      source => 'puppet:///modules/ntp/admin_file',
     }
   }
 
@@ -274,6 +281,7 @@ class ntp (
     content => template('ntp/ntp.conf.erb'),
     require => Package['ntp_package'],
   }
+
 
   file { 'step-tickers':
     ensure  => $step_tickers_ensure_real,

@@ -43,9 +43,7 @@ class ntp (
 ) {
 
   # validate type and convert string to boolean if necessary
-  #$package_latest_type = type($package_latest)
-  $package_latest_type = 'string'
-
+  $package_latest_type = type($package_latest)
   if $package_latest_type == 'string' {
     $my_package_latest = str2bool($package_latest)
   } else {
@@ -53,9 +51,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  # $service_running_type = type($service_running)
-  $service_running_type = 'string'
-
+  $service_running_type = type($service_running)
   if $service_running_type == 'string' {
     $my_service_running = str2bool($service_running)
   } else {
@@ -63,8 +59,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  #$service_hasstatus_type = type($service_hasstatus)
-  $service_hasstatus_type = 'string'
+  $service_hasstatus_type = type($service_hasstatus)
   if $service_hasstatus_type == 'string' {
     $my_service_hasstatus = str2bool($service_hasstatus)
   } else {
@@ -72,7 +67,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $service_hasrestart_type = 'string'
+  $service_hasrestart_type = type($service_hasrestart)
   if $service_hasrestart_type == 'string' {
     $my_service_hasrestart = str2bool($service_hasrestart)
   } else {
@@ -80,7 +75,7 @@ class ntp (
   }
 
   # validate type and convert string to boolean if necessary
-  $enable_stats_type = 'string'
+  $enable_stats_type = type($enable_stats)
   if $enable_stats_type == 'string' {
     $my_enable_stats = str2bool($enable_stats)
   } else {

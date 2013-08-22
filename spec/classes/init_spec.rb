@@ -371,6 +371,20 @@ describe 'ntp' do
     end
   end
 
+  context 'on unsupported Solaris platform should fail' do
+    let :facts do
+    {
+      :osfamily => 'solaris',
+    }
+    end
+
+    it do
+      expect {
+        should include_class('ntp')
+      }.to raise_error(Puppet::Error,/The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11./)
+    end
+  end
+
   context 'on unsupported platform should fail' do
     it do
       expect {

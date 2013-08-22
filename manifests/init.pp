@@ -97,7 +97,7 @@ class ntp (
   }
 
   case $::osfamily {
-    'debian': {
+    'Debian': {
       $default_package_name      = [ 'ntp' ]
       $default_package_noop      = false
       $default_package_source    = undef
@@ -113,7 +113,7 @@ class ntp (
         $step_tickers_enable = true
       }
     }
-    'redhat': {
+    'RedHat': {
       $default_package_name      = [ 'ntp' ]
       $default_package_noop      = false
       $default_package_source    = undef
@@ -123,7 +123,7 @@ class ntp (
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
       $step_tickers_enable       = true
     }
-    'suse': {
+    'SuSE': {
       $default_package_noop      = false
       $default_package_source    = undef
       $default_package_adminfile = undef
@@ -144,7 +144,7 @@ class ntp (
         }
       }
     }
-    'solaris': {
+    'Solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
           $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
@@ -165,7 +165,7 @@ class ntp (
       $step_tickers_enable       = false
     }
     default: {
-      fail("The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ntp module is supported by OS Families Debian, Redhat, SuSE, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
     }
   }
 

@@ -1,9 +1,9 @@
 require 'spec_helper'
 describe 'ntp' do
-  context 'on debian platform with default class options' do
+  context 'on Debian platform with default class options' do
     let :facts do
     {
-      :osfamily => 'debian',
+      :osfamily => 'Debian',
     }
     end
 
@@ -53,7 +53,7 @@ describe 'ntp' do
   context 'on Ubuntu platform with default class options' do
     let :facts do
     {
-      :osfamily        => 'debian',
+      :osfamily        => 'Debian',
       :operatingsystem => 'Ubuntu',
     }
     end
@@ -153,10 +153,10 @@ describe 'ntp' do
 
   end
 
-  context 'on solaris platform with default class options' do
+  context 'on Solaris platform with default class options' do
     let :facts do
     {
-      :osfamily      => 'solaris',
+      :osfamily      => 'Solaris',
       :kernelrelease => '5.11',
     }
     end
@@ -201,10 +201,10 @@ describe 'ntp' do
 
   end
 
-  context 'on suse 9 platform with default class options' do
+  context 'on SuSE 9 platform with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'SuSE',
       :lsbmajdistrelease => '9',
     }
     end
@@ -253,10 +253,10 @@ describe 'ntp' do
 
   end
 
-  context 'on suse 10 platform with default class options' do
+  context 'on SuSE 10 platform with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'SuSE',
       :lsbmajdistrelease => '10',
     }
     end
@@ -305,10 +305,10 @@ describe 'ntp' do
 
   end
 
-  context 'on suse 11 platform with default class options' do
+  context 'on SuSE 11 platform with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'SuSE',
       :lsbmajdistrelease => '11',
     }
     end
@@ -360,14 +360,14 @@ describe 'ntp' do
   context 'on unsupported SuSE platform should fail' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'SuSE',
     }
     end
 
     it do
       expect {
         should include_class('ntp')
-      }.to raise_error(Puppet::Error,/The ntp module is supported by release 9, 10 and 11 of the Suse OS Family./)
+      }.to raise_error(Puppet::Error,/The ntp module is supported by release 9, 10 and 11 of the SuSE OS Family./)
     end
   end
 
@@ -375,7 +375,7 @@ describe 'ntp' do
     it do
       expect {
         should include_class('ntp')
-      }.to raise_error(Puppet::Error,/The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris./)
+      }.to raise_error(Puppet::Error,/The ntp module is supported by OS Families Debian, RedHat, SuSE, and Solaris./)
     end
   end
 end

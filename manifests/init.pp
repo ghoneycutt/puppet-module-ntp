@@ -286,7 +286,6 @@ class ntp (
     require => Package['ntp_package'],
   }
 
-
   file { 'step-tickers':
     ensure  => $step_tickers_ensure_real,
     path    => $step_tickers_path,

@@ -77,9 +77,9 @@ keys /etc/ntp/keys
 <% end -%>
 
 <% if @operatingsystem  =~ /SLE[DS]/ -%>
-#Failing because of a bug - when key is set,
-#need to figure out how to get it fixed
-#keys /etc/ntp.keys
+  <% if @ntp_key_enable_real == 'true' %>
+keys /etc/ntp.keys
+  <% end %>
 <% end -%>
 
 # Specify the key identifiers which are trusted.

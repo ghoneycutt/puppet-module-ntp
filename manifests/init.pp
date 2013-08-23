@@ -23,6 +23,7 @@ class ntp (
   $service_name        = 'USE_DEFAULTS',
   $config_file         = 'USE_DEFAULTS',
   $driftfile           = 'USE_DEFAULTS',
+  $ntp_key_enable      = 'USE_DEFAULTS',
   $service_running     = true,
   $service_hasstatus   = true,
   $service_hasrestart  = true,
@@ -105,6 +106,7 @@ class ntp (
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $default_ntp_key_enable    = true
 
       # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
       if $::operatingsystem == 'Ubuntu' {
@@ -122,6 +124,7 @@ class ntp (
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
       $step_tickers_enable       = true
+      $default_ntp_key_enable    = true
     }
     'suse': {
       $default_package_noop      = false
@@ -131,6 +134,7 @@ class ntp (
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
       $step_tickers_enable       = false
+      $default_ntp_key_enable    = false
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -147,7 +151,7 @@ class ntp (
     'solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
-          $default_package_name     = [ 'SUNWntpr' ]
+          $default_package_name     = [ 'SUNWntpr', 'SUNWntpu' ]
         }
         '5.11': {
           $default_package_name     = [ 'network/ntp' ]
@@ -163,6 +167,7 @@ class ntp (
       $default_config_file       = '/etc/inet/ntp.conf'
       $default_driftfile         = '/var/ntp/ntp.drift'
       $step_tickers_enable       = false
+      $default_ntp_key_enable    = true
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
@@ -233,6 +238,12 @@ class ntp (
     $step_tickers_ensure_real = $default_step_tickers_ensure
   } else {
     $step_tickers_ensure_real = $step_tickers_ensure
+  }
+
+  if $ntp_key_enable  == 'USE_DEFAULTS'  {
+      $ntp_key_enable_real = $default_ntp_key_enable
+  } else {
+      $ntp_key_enable_real = $ntp_key_enable
   }
 
   # validate $my_enable_stats - must be true or false

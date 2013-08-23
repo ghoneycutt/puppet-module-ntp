@@ -71,7 +71,16 @@ fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
+
+<% if @operatingsystem !~ /SLE[DS]/ -%>
 keys /etc/ntp/keys
+<% end -%>
+
+ <% if @operatingsystem  =~ /SLE[DS]/ -%>
+  #Failing because of a bug - when key is set,
+  #need to figure out how to get it fixed
+#keys /etc/ntp.keys
+ <% end -%>
 
 # Specify the key identifiers which are trusted.
 #trustedkey 4 8 42

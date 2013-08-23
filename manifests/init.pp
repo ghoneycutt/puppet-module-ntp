@@ -130,7 +130,7 @@ class ntp (
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = true
+      $step_tickers_enable       = false
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -147,8 +147,6 @@ class ntp (
     'solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
-          # $default_package_name     = hiera(ntp::packages)
-          # Package array always complains on Solaris
           $default_package_name     = [ 'SUNWntpr' ]
         }
         '5.11': {
@@ -159,7 +157,7 @@ class ntp (
         }
       }
       $default_package_noop      = true
-      $default_package_source    = '/var/sadm/pkg'
+      $default_package_source    = '/var/spool/pkg'
       $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/inet/ntp.conf'
@@ -255,7 +253,7 @@ class ntp (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      source => 'puppet:///modules/ntp/admin_file',
+      content => template('ntp/admin_file.erb'),
     }
   }
 
@@ -276,6 +274,7 @@ class ntp (
     content => template('ntp/ntp.conf.erb'),
     require => Package['ntp_package'],
   }
+
 
   file { 'step-tickers':
     ensure  => $step_tickers_ensure_real,

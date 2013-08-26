@@ -71,7 +71,17 @@ fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
+
+<% if @ntp_key_enable_real == 'true' -%>
+<% if @operatingsystem !~ /SLE[DS]/ %>
+# ntp keys are enabled
 keys /etc/ntp/keys
+<% else %>
+# ntp keydir keyword in ntp.conf causes an error, modification is necessary
+# enable ntp_key in SuSE when errors have been fixed.
+keys /etc/ntp.keys
+<% end %>
+<% end -%>
 
 # Specify the key identifiers which are trusted.
 #trustedkey 4 8 42

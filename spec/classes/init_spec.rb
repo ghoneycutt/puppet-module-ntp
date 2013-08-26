@@ -194,7 +194,7 @@ describe 'ntp' do
     it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
-        'name'   => 'ntp4',
+        'name'   => 'ntp',
         'enable' => 'true',
       })
     }
@@ -234,11 +234,8 @@ describe 'ntp' do
 
     it {
       should contain_file('step-tickers').with({
-        'ensure' => 'present',
+        'ensure' => 'absent',
         'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
       })
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
@@ -286,11 +283,8 @@ describe 'ntp' do
 
     it {
       should contain_file('step-tickers').with({
-        'ensure' => 'present',
+        'ensure' => 'absent',
         'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
       })
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
@@ -338,11 +332,8 @@ describe 'ntp' do
 
     it {
       should contain_file('step-tickers').with({
-        'ensure' => 'present',
+        'ensure' => 'absent',
         'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
       })
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }

@@ -248,12 +248,12 @@ class ntp (
   if $package_adminfile_real != undef {
 
     file { 'admin_file':
-      ensure => 'present',
-      name   => $package_adminfile_real,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      source => 'puppet:///files/ntp/admin_file',
+      ensure  => 'present',
+      path    => $package_adminfile_real,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('ntp/solaris_admin_file.erb'),
     }
   }
 

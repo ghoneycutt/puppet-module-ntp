@@ -1,5 +1,5 @@
 name    'ghoneycutt-ntp'
-version '2.0.2'
+version '2.0.3'
 source 'git://github.com/ghoneycutt/puppet-module-ntp.git'
 author 'ghoneycutt'
 license 'Apache License, Version 2.0'

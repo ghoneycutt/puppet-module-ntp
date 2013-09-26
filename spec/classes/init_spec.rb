@@ -41,6 +41,8 @@ describe 'ntp' do
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
 
+    it { should_not contain_file('admin_file') }
+
     it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
@@ -91,6 +93,8 @@ describe 'ntp' do
     it {
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should_not contain_file('admin_file') }
 
     it {
       should contain_service('ntp_service').with({
@@ -143,6 +147,8 @@ describe 'ntp' do
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
 
+    it { should_not contain_file('admin_file') }
+
     it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
@@ -192,13 +198,132 @@ describe 'ntp' do
     }
 
     it {
+      should contain_file('admin_file').with({
+        'ensure' => 'present',
+        'path'   => '/var/sadm/install/admin/puppet-ntp',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
+
+    it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
         'name'   => 'ntp4',
         'enable' => 'true',
       })
     }
+  end
 
+  context 'on solaris platform with no package_adminfile' do
+    let :facts do
+      {
+        :osfamily      => 'solaris',
+        :kernelrelease => '5.11',
+      }
+    end
+
+    let(:params) { { :package_adminfile => '' } }
+
+    it { should include_class('ntp')}
+
+    it {
+      should contain_package('ntp_package').with({
+        'name'   => 'network/ntp',
+        'ensure' => 'present',
+      })
+    }
+
+    it {
+      should contain_file('step-tickers').with({
+        'ensure' => 'absent',
+        'path'   => '/etc/ntp/step-tickers',
+      })
+    }
+
+    it {
+      should contain_file('ntp_conf').with({
+        'ensure' => 'file',
+        'path'   => '/etc/inet/ntp.conf',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+      should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/)
+      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
+      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
+      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
+    }
+
+    it { should_not contain_file('admin_file') }
+
+    it {
+      should contain_service('ntp_service').with({
+        'ensure' => 'running',
+        'name'   => 'ntp4',
+        'enable' => 'true',
+      })
+    }
+  end
+
+  context 'on solaris platform with package_adminfile specified' do
+    let :facts do
+      {
+        :osfamily      => 'solaris',
+        :kernelrelease => '5.11',
+      }
+    end
+
+    let(:params) { { :package_adminfile => '/tmp/admin' } }
+
+    it { should include_class('ntp')}
+
+    it {
+      should contain_package('ntp_package').with({
+        'name'   => 'network/ntp',
+        'ensure' => 'present',
+      })
+    }
+
+    it {
+      should contain_file('step-tickers').with({
+        'ensure' => 'absent',
+        'path'   => '/etc/ntp/step-tickers',
+      })
+    }
+
+    it {
+      should contain_file('ntp_conf').with({
+        'ensure' => 'file',
+        'path'   => '/etc/inet/ntp.conf',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+      should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/)
+      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
+      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
+      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
+    }
+
+    it {
+      should contain_file('admin_file').with({
+        'ensure' => 'present',
+        'path'   => '/tmp/admin',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
+
+    it {
+      should contain_service('ntp_service').with({
+        'ensure' => 'running',
+        'name'   => 'ntp4',
+        'enable' => 'true',
+      })
+    }
   end
 
   context 'on suse 9 platform with default class options' do
@@ -242,6 +367,8 @@ describe 'ntp' do
       })
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should_not contain_file('admin_file') }
 
     it {
       should contain_service('ntp_service').with({
@@ -295,6 +422,8 @@ describe 'ntp' do
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
 
+    it { should_not contain_file('admin_file') }
+
     it {
       should contain_service('ntp_service').with({
         'ensure' => 'running',
@@ -346,6 +475,8 @@ describe 'ntp' do
       })
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should_not contain_file('admin_file') }
 
     it {
       should contain_service('ntp_service').with({

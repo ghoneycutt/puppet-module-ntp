@@ -1,10 +1,9 @@
 require 'spec_helper'
+
 describe 'ntp' do
-  context 'on debian platform with default class options' do
+  context 'on osfamily Debian with default class options' do
     let :facts do
-    {
-      :osfamily => 'debian',
-    }
+      { :osfamily => 'Debian' }
     end
 
     it { should include_class('ntp')}
@@ -24,11 +23,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('step-tickers').with({
@@ -38,8 +38,9 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -50,12 +51,12 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
-
   end
-  context 'on Ubuntu platform with default class options' do
+
+  context 'on Ubuntu with default class options' do
     let :facts do
     {
-      :osfamily        => 'debian',
+      :osfamily        => 'Debian',
       :operatingsystem => 'Ubuntu',
     }
     end
@@ -84,11 +85,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
@@ -106,11 +108,9 @@ describe 'ntp' do
 
   end
 
-  context 'on EL platform with default class options' do
+  context 'on osfamily EL with default class options' do
     let :facts do
-    {
-      :osfamily => 'RedHat',
-    }
+      { :osfamily => 'RedHat' }
     end
 
     it { should include_class('ntp')}
@@ -130,11 +130,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('step-tickers').with({
@@ -144,8 +145,9 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -156,13 +158,12 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
-
   end
 
-  context 'on solaris platform with default class options' do
+  context 'on osfamily Solaris release 11 with default class options' do
     let :facts do
     {
-      :osfamily      => 'solaris',
+      :osfamily      => 'Solaris',
       :kernelrelease => '5.11',
     }
     end
@@ -191,11 +192,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('admin_file').with({
@@ -216,10 +218,10 @@ describe 'ntp' do
     }
   end
 
-  context 'on solaris platform with no package_adminfile' do
+  context 'on osfamily Solaris release 11 with no package_adminfile' do
     let :facts do
       {
-        :osfamily      => 'solaris',
+        :osfamily      => 'Solaris',
         :kernelrelease => '5.11',
       }
     end
@@ -250,11 +252,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -267,10 +270,10 @@ describe 'ntp' do
     }
   end
 
-  context 'on solaris platform with package_adminfile specified' do
+  context 'on osfamily Solaris release 11 with package_adminfile specified' do
     let :facts do
       {
-        :osfamily      => 'solaris',
+        :osfamily      => 'Solaris',
         :kernelrelease => '5.11',
       }
     end
@@ -301,11 +304,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('admin_file').with({
@@ -326,10 +330,10 @@ describe 'ntp' do
     }
   end
 
-  context 'on suse 9 platform with default class options' do
+  context 'on Suse 9 with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'Suse',
       :lsbmajdistrelease => '9',
     }
     end
@@ -351,11 +355,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('step-tickers').with({
@@ -365,8 +370,9 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -377,13 +383,12 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
-
   end
 
-  context 'on suse 10 platform with default class options' do
+  context 'on Suse 10 with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'Suse',
       :lsbmajdistrelease => '10',
     }
     end
@@ -405,11 +410,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('step-tickers').with({
@@ -419,8 +425,9 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -431,13 +438,12 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
-
   end
 
-  context 'on suse 11 platform with default class options' do
+  context 'on Suse 11 with default class options' do
     let :facts do
     {
-      :osfamily => 'suse',
+      :osfamily => 'Suse',
       :lsbmajdistrelease => '11',
     }
     end
@@ -459,11 +465,12 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/)
-      should contain_file('ntp_conf').with_content(/# Statistics are not being logged/)
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
-      should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('step-tickers').with({
@@ -473,8 +480,9 @@ describe 'ntp' do
         'group'  => 'root',
         'mode'   => '0644',
       })
-      should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/)
     }
+
+    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -485,14 +493,11 @@ describe 'ntp' do
         'enable' => true,
       })
     }
-
   end
 
   context 'on unsupported SuSE platform should fail' do
     let :facts do
-    {
-      :osfamily => 'suse',
-    }
+      { :osfamily => 'Suse' }
     end
 
     it do
@@ -504,9 +509,7 @@ describe 'ntp' do
 
   context 'on unsupported Solaris platform should fail' do
     let :facts do
-    {
-      :osfamily => 'solaris',
-    }
+      { :osfamily => 'Solaris' }
     end
 
     it do

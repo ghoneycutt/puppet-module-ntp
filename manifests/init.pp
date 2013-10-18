@@ -1,6 +1,6 @@
-# Class: ntp
+# == Class: ntp
 #
-#   This module manages the ntp service.
+# This module manages the ntp service
 #
 # Actions:
 #
@@ -217,12 +217,14 @@ class ntp (
       $step_tickers_owner_real = $step_tickers_owner
       $step_tickers_group_real = $step_tickers_group
       $step_tickers_mode_real  = $step_tickers_mode
+      $step_tickers_dir_real   = regsubst($step_tickers_path, '^(.+)\/([^\/]+)$','\1')
     }
     false: {
       $default_step_tickers_ensure  = absent
       $step_tickers_owner_real = undef
       $step_tickers_group_real = undef
       $step_tickers_mode_real  = undef
+      $step_tickers_dir_real   = undef
     }
     default: {
       fail("step_tickers_enable must be true or false. Current value is ${step_tickers_enable}")
@@ -275,14 +277,17 @@ class ntp (
     require => Package['ntp_package'],
   }
 
+  common::mkdir_p { $step_tickers_dir_real: }
   file { 'step-tickers':
-    ensure  => $step_tickers_ensure_real,
-    path    => $step_tickers_path,
-    owner   => $step_tickers_owner_real,
-    group   => $step_tickers_group_real,
-    mode    => $step_tickers_mode_real,
-    content => template('ntp/step-tickers.erb'),
-    require => Package['ntp_package'],
+    ensure   => $step_tickers_ensure_real,
+    path     => $step_tickers_path,
+    owner    => $step_tickers_owner_real,
+    group    => $step_tickers_group_real,
+    mode     => $step_tickers_mode_real,
+    content  => template('ntp/step-tickers.erb'),
+    require  => [ Package['ntp_package'],
+                  Common::Mkdir_p[$step_tickers_dir_real],
+                ]
   }
 
   service { 'ntp_service':

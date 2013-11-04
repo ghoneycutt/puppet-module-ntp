@@ -74,7 +74,7 @@ fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 <% if @osfamily == 'RedHat' %>
 keys /etc/ntp/keys
 <% elsif @osfamily == 'Suse'%>
-keys /etc/ntp.keys
+#keys /etc/ntp.keys
 <% else %>
 #key /etc/ntp/keys
 <% end %>

@@ -105,13 +105,8 @@ class ntp (
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $step_tickers_enable       = false
 
-      # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
-      if $::operatingsystem == 'Ubuntu' {
-        $step_tickers_enable = false
-      } else {
-        $step_tickers_enable = true
-      }
     }
     'redhat': {
       $default_package_name      = [ 'ntp' ]
@@ -130,7 +125,7 @@ class ntp (
       $default_service_name      = 'ntp'
       $default_config_file       = '/etc/ntp.conf'
       $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = true
+      $step_tickers_enable       = false
 
       case $::lsbmajdistrelease {
         '9','10': {

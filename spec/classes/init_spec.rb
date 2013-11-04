@@ -30,16 +30,6 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
-    it {
-      should contain_file('step-tickers').with({
-        'ensure' => 'present',
-        'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
@@ -362,15 +352,6 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
-    it {
-      should contain_file('step-tickers').with({
-        'ensure' => 'present',
-        'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
 
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
@@ -417,16 +398,6 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
-    it {
-      should contain_file('step-tickers').with({
-        'ensure' => 'present',
-        'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
     it { should_not contain_file('admin_file') }
@@ -471,16 +442,6 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-
-    it {
-      should contain_file('step-tickers').with({
-        'ensure' => 'present',
-        'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
 
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 

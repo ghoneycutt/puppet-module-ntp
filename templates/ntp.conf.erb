@@ -73,6 +73,8 @@ fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 # with symmetric key cryptography.
 <% if @osfamily == 'RedHat' %>
 keys /etc/ntp/keys
+<% elif @osfamily == 'Suse'%>
+keys /etc/ntp.keys
 <% else %>
 #key /etc/ntp/keys
 <% end %>

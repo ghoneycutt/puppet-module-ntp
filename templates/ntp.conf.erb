@@ -71,7 +71,7 @@ fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
-<% if $::osfamily == 'redhat' %>
+<% if @osfamily == 'redhat' %>
 keys /etc/ntp/keys
 <% else %>
 #key /etc/ntp/keys

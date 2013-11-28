@@ -8,3 +8,4 @@ description 'Manages NTP server'
 project_page 'https://github.com/ghoneycutt/puppet-module-ntp'
 
 dependency 'puppetlabs/stdlib',  '3.2.x'
+dependency 'ghoneycutt/common', '>= 1.0.2'

@@ -1,17 +1,30 @@
-# ntp module #
+# ntp module
+===
 
-Puppet module to manage ntp
+Puppet module to manage NTP
 
-# Compatibility #
+[![Build Status](https://api.travis-ci.org/ghoneycutt/puppet-module-ntp.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-ntp)
 
-This module is supported by the following OS families.
+===
 
- * Debian
- * Redhat
- * Suse 9, 10, 11
- * Solaris 9, 10, 11
+# Compatibility
 
-# Parameters #
+This module is supported on the following systems with Puppet v3.
+
+ * Debian 6
+ * EL 5
+ * EL 6
+ * Solaris 9
+ * Solaris 10
+ * Solaris 11
+ * Suse 9
+ * Suse 10
+ * Suse 11
+ * Ubuntu 12.04 LTS
+
+===
+
+# Parameters
 
 See ntp.conf(5) for more information regarding settings.
 
@@ -49,6 +62,12 @@ config_file_mode
 ntp.conf's mode
 
 - *Default*: 0644
+
+step_tickers_ensure
+-------------------
+Ensure step tickers file. Valid values are 'present' and 'absent'.
+
+- *Default*: based on OS
 
 service_running
 ---------------

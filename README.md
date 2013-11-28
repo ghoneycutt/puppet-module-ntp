@@ -87,6 +87,12 @@ Service has a restart option
 
 - *Default*: true
 
+keys
+----
+Path of the symmetric key file. See ntpd(1).
+
+- *Default*: based on OS
+
 servers
 -------
 Array of pools to check time against.

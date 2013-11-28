@@ -17,6 +17,7 @@ class ntp (
   $service_running     = true,
   $service_hasstatus   = true,
   $service_hasrestart  = true,
+  $keys                = 'USE_DEFAULTS',
   $servers             = ['0.us.pool.ntp.org',
                           '1.us.pool.ntp.org',
                           '2.us.pool.ntp.org'],
@@ -89,33 +90,36 @@ class ntp (
 
   case $::osfamily {
     'Debian': {
-      $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
+      $default_package_name        = [ 'ntp' ]
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
       $default_step_tickers_ensure = 'absent'
-      $default_service_name      = 'ntp'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $default_service_name        = 'ntp'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = '/etc/ntp/keys'
     }
     'RedHat': {
-      $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
+      $default_package_name        = [ 'ntp' ]
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
       $default_step_tickers_ensure = 'present'
-      $default_service_name      = 'ntpd'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $default_service_name        = 'ntpd'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = '/etc/ntp/keys'
     }
     'Suse': {
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
       $default_step_tickers_ensure = 'absent'
-      $default_service_name      = 'ntp'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
+      $default_service_name        = 'ntp'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = undef
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -141,13 +145,14 @@ class ntp (
           fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
         }
       }
-      $default_package_noop      = true
-      $default_package_source    = '/var/spool/pkg'
-      $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
+      $default_package_noop        = true
+      $default_package_source      = '/var/spool/pkg'
+      $default_package_adminfile   = '/var/sadm/install/admin/puppet-ntp'
       $default_step_tickers_ensure = 'absent'
-      $default_service_name      = 'ntp4'
-      $default_config_file       = '/etc/inet/ntp.conf'
-      $default_driftfile         = '/var/ntp/ntp.drift'
+      $default_service_name        = 'ntp4'
+      $default_config_file         = '/etc/inet/ntp.conf'
+      $default_driftfile           = '/var/ntp/ntp.drift'
+      $default_keys                = '/etc/inet/ntp.keys'
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
@@ -205,6 +210,16 @@ class ntp (
     "ntp::step_tickers_ensure must be 'present' or 'absent'. Detected value is <${step_tickers_ensure_real}>.")
 
   validate_absolute_path($step_tickers_path)
+
+  if $keys == 'USE_DEFAULTS' {
+    $keys_real = $default_keys
+  } else {
+    $keys_real = $keys
+  }
+
+  if $keys_real != undef {
+    validate_absolute_path($keys_real)
+  }
 
   # validate $my_enable_stats - must be true or false
   case $my_enable_stats {

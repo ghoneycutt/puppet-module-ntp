@@ -1,15 +1,6 @@
-# Class: ntp
+# == Class: ntp
 #
-#   This module manages the ntp service.
-#
-# Actions:
-#
-#  Installs, configures, and manages the ntp service.
-#
-# Requires:
-#
-# Sample Usage:
-#   include ntp
+# This module manages the ntp service.
 #
 class ntp (
   $config_file_owner   = 'root',
@@ -26,6 +17,7 @@ class ntp (
   $service_running     = true,
   $service_hasstatus   = true,
   $service_hasrestart  = true,
+  $keys                = 'USE_DEFAULTS',
   $servers             = ['0.us.pool.ntp.org',
                           '1.us.pool.ntp.org',
                           '2.us.pool.ntp.org'],
@@ -97,40 +89,37 @@ class ntp (
   }
 
   case $::osfamily {
-    'debian': {
-      $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
-      $default_service_name      = 'ntp'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
-
-      # Verified that Ubuntu does not use /etc/ntp/step-tickers by default.
-      if $::operatingsystem == 'Ubuntu' {
-        $step_tickers_enable = false
-      } else {
-        $step_tickers_enable = true
-      }
+    'Debian': {
+      $default_package_name        = [ 'ntp' ]
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
+      $default_step_tickers_ensure = 'absent'
+      $default_service_name        = 'ntp'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = '/etc/ntp/keys'
     }
-    'redhat': {
-      $default_package_name      = [ 'ntp' ]
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
-      $default_service_name      = 'ntpd'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = true
+    'RedHat': {
+      $default_package_name        = [ 'ntp' ]
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
+      $default_step_tickers_ensure = 'present'
+      $default_service_name        = 'ntpd'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = '/etc/ntp/keys'
     }
-    'suse': {
-      $default_package_noop      = false
-      $default_package_source    = undef
-      $default_package_adminfile = undef
-      $default_service_name      = 'ntp'
-      $default_config_file       = '/etc/ntp.conf'
-      $default_driftfile         = '/var/lib/ntp/ntp.drift'
-      $step_tickers_enable       = true
+    'Suse': {
+      $default_package_noop        = false
+      $default_package_source      = undef
+      $default_package_adminfile   = undef
+      $default_step_tickers_ensure = 'absent'
+      $default_service_name        = 'ntp'
+      $default_config_file         = '/etc/ntp.conf'
+      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_keys                = undef
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -144,7 +133,7 @@ class ntp (
         }
       }
     }
-    'solaris': {
+    'Solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
           $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
@@ -156,16 +145,17 @@ class ntp (
           fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
         }
       }
-      $default_package_noop      = true
-      $default_package_source    = '/var/spool/pkg'
-      $default_package_adminfile = '/var/sadm/install/admin/puppet-ntp'
-      $default_service_name      = 'ntp4'
-      $default_config_file       = '/etc/inet/ntp.conf'
-      $default_driftfile         = '/var/ntp/ntp.drift'
-      $step_tickers_enable       = false
+      $default_package_noop        = true
+      $default_package_source      = '/var/spool/pkg'
+      $default_package_adminfile   = '/var/sadm/install/admin/puppet-ntp'
+      $default_step_tickers_ensure = 'absent'
+      $default_service_name        = 'ntp4'
+      $default_config_file         = '/etc/inet/ntp.conf'
+      $default_driftfile           = '/var/ntp/ntp.drift'
+      $default_keys                = '/etc/inet/ntp.keys'
     }
     default: {
-      fail("The ntp module is supported by OS Families Debian, Redhat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
     }
   }
 
@@ -211,28 +201,24 @@ class ntp (
     $driftfile_real = $driftfile
   }
 
-  case $step_tickers_enable {
-    true: {
-      $default_step_tickers_ensure  = present
-      $step_tickers_owner_real = $step_tickers_owner
-      $step_tickers_group_real = $step_tickers_group
-      $step_tickers_mode_real  = $step_tickers_mode
-    }
-    false: {
-      $default_step_tickers_ensure  = absent
-      $step_tickers_owner_real = undef
-      $step_tickers_group_real = undef
-      $step_tickers_mode_real  = undef
-    }
-    default: {
-      fail("step_tickers_enable must be true or false. Current value is ${step_tickers_enable}")
-    }
-  }
-
   if $step_tickers_ensure == 'USE_DEFAULTS' {
     $step_tickers_ensure_real = $default_step_tickers_ensure
   } else {
     $step_tickers_ensure_real = $step_tickers_ensure
+  }
+  validate_re($step_tickers_ensure_real, '^(present)|(absent)$',
+    "ntp::step_tickers_ensure must be 'present' or 'absent'. Detected value is <${step_tickers_ensure_real}>.")
+
+  validate_absolute_path($step_tickers_path)
+
+  if $keys == 'USE_DEFAULTS' {
+    $keys_real = $default_keys
+  } else {
+    $keys_real = $keys
+  }
+
+  if $keys_real != undef {
+    validate_absolute_path($keys_real)
   }
 
   # validate $my_enable_stats - must be true or false
@@ -275,14 +261,32 @@ class ntp (
     require => Package['ntp_package'],
   }
 
-  file { 'step-tickers':
-    ensure  => $step_tickers_ensure_real,
-    path    => $step_tickers_path,
-    owner   => $step_tickers_owner_real,
-    group   => $step_tickers_group_real,
-    mode    => $step_tickers_mode_real,
-    content => template('ntp/step-tickers.erb'),
-    require => Package['ntp_package'],
+  if $step_tickers_ensure_real == 'present' {
+
+    $step_tickers_dir = dirname($step_tickers_path)
+    validate_absolute_path($step_tickers_dir)
+
+    common::mkdir_p { $step_tickers_dir: }
+
+    file { 'step_tickers_dir':
+      ensure  => directory,
+      owner   => $step_tickers_owner,
+      group   => $step_tickers_group,
+      mode    => $step_tickers_mode,
+      require => Common::Mkdir_p[$step_tickers_dir],
+    }
+
+    file { 'step-tickers':
+      ensure  => $step_tickers_ensure_real,
+      path    => $step_tickers_path,
+      owner   => $step_tickers_owner,
+      group   => $step_tickers_group,
+      mode    => $step_tickers_mode,
+      content => template('ntp/step-tickers.erb'),
+      require => [ Package['ntp_package'],
+                  File['step_tickers_dir'],
+                  ],
+    }
   }
 
   service { 'ntp_service':

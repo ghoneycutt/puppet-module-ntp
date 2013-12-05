@@ -270,6 +270,7 @@ class ntp (
 
     file { 'step_tickers_dir':
       ensure  => directory,
+      path    => $step_tickers_dir,
       owner   => $step_tickers_owner,
       group   => $step_tickers_group,
       mode    => $step_tickers_mode,

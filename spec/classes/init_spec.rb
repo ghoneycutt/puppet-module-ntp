@@ -131,6 +131,7 @@ describe 'ntp' do
     it {
       should contain_file('step_tickers_dir').with({
         'ensure' => 'directory',
+        'path'   => '/etc/ntp',
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',

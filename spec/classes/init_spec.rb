@@ -6,7 +6,7 @@ describe 'ntp' do
       { :osfamily => 'Debian' }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -52,7 +52,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -96,7 +96,7 @@ describe 'ntp' do
       { :osfamily => 'RedHat' }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -169,7 +169,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -223,7 +223,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -277,7 +277,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -333,7 +333,7 @@ describe 'ntp' do
 
     let(:params) { { :package_adminfile => '' } }
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -381,7 +381,7 @@ describe 'ntp' do
 
     let(:params) { { :package_adminfile => '/tmp/admin' } }
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -435,7 +435,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -481,7 +481,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -527,7 +527,7 @@ describe 'ntp' do
     }
     end
 
-    it { should include_class('ntp')}
+    it { should contain_class('ntp')}
 
     it {
       should contain_package('ntp_package').with({
@@ -572,7 +572,7 @@ describe 'ntp' do
 
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error,/The ntp module is supported by release 9, 10 and 11 of the Suse OS Family./)
     end
   end
@@ -584,7 +584,7 @@ describe 'ntp' do
 
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error,/The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11./)
     end
   end
@@ -592,7 +592,7 @@ describe 'ntp' do
   context 'on unsupported platform should fail' do
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error,/The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris./)
     end
   end
@@ -603,7 +603,7 @@ describe 'ntp' do
 
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error,/ntp::step_tickers_ensure must be 'present' or 'absent'. Detected value is <invalid>./)
     end
   end
@@ -614,7 +614,7 @@ describe 'ntp' do
 
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error)
     end
   end
@@ -625,7 +625,7 @@ describe 'ntp' do
 
     it do
       expect {
-        should include_class('ntp')
+        should contain_class('ntp')
       }.to raise_error(Puppet::Error)
     end
   end

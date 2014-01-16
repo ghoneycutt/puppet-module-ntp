@@ -629,4 +629,27 @@ describe 'ntp' do
       }.to raise_error(Puppet::Error)
     end
   end
+
+  context 'on physical machine' do
+    let :facts do
+      {
+        :osfamily => 'RedHat',
+        :virtual  => 'physical'
+      }
+    end
+
+    it { should_not contain_exec('xen_independent_wallclock') }
+  end
+
+  context 'on Xen guest' do
+    let :facts do
+      {
+        :osfamily => 'RedHat',
+        :virtual  => 'xenu'
+      }
+    end
+
+    it { should contain_exec('xen_independent_wallclock') }
+  end
+
 end

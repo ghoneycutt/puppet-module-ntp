@@ -300,4 +300,14 @@ class ntp (
                     File['ntp_conf'],
                   ],
   }
+
+  if $::virtual == 'xenu' {
+    exec { 'xen_independent_wallclock':
+      path    => '/bin:/usr/bin',
+      command => 'echo 1 > /proc/sys/xen/independent_wallclock',
+      unless  => 'grep ^1 /proc/sys/xen/independent_wallclock',
+      onlyif  => 'test -f /proc/sys/xen/independent_wallclock',
+    }
+  }
+
 }

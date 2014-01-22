@@ -301,7 +301,7 @@ class ntp (
                   ],
   }
 
-  if $::virtual == 'xenu' {
+  if $::virtual == 'xenu' and $::kernel == 'Linux' {
     exec { 'xen_independent_wallclock':
       path    => '/bin:/usr/bin',
       command => 'echo 1 > /proc/sys/xen/independent_wallclock',

@@ -42,6 +42,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on Ubuntu with default class options' do
@@ -89,6 +91,7 @@ describe 'ntp' do
       })
     }
 
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily EL with default class options' do
@@ -159,6 +162,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 9 with default class options' do
@@ -213,6 +218,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 10 with default class options' do
@@ -267,6 +274,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 11 with default class options' do
@@ -321,6 +330,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 11 with no package_adminfile' do
@@ -369,6 +380,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 11 with package_adminfile specified' do
@@ -425,6 +438,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on Suse 9 with default class options' do
@@ -471,6 +486,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on Suse 10 with default class options' do
@@ -517,6 +534,8 @@ describe 'ntp' do
         'enable' => 'true',
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on Suse 11 with default class options' do
@@ -563,6 +582,8 @@ describe 'ntp' do
         'enable' => true,
       })
     }
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on unsupported SuSE platform should fail' do
@@ -645,7 +666,8 @@ describe 'ntp' do
     let :facts do
       {
         :osfamily => 'RedHat',
-        :virtual  => 'xenu'
+        :virtual  => 'xenu',
+	:kernel   => 'Linux'
       }
     end
 

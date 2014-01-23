@@ -651,18 +651,19 @@ describe 'ntp' do
     end
   end
 
-  context 'on physical machine' do
+  context 'on Linux physical machine' do
     let :facts do
       {
         :osfamily => 'RedHat',
-        :virtual  => 'physical'
+        :virtual  => 'physical',
+	:kernel   => 'Linux'
       }
     end
 
     it { should_not contain_exec('xen_independent_wallclock') }
   end
 
-  context 'on Xen guest' do
+  context 'on Linux Xen guest' do
     let :facts do
       {
         :osfamily => 'RedHat',
@@ -672,6 +673,19 @@ describe 'ntp' do
     end
 
     it { should contain_exec('xen_independent_wallclock') }
+  end
+
+  context 'on non-Linux Xen guest' do
+    let :facts do
+      {
+        :osfamily => 'Solaris',
+        :kernelrelease => '5.11',
+        :virtual  => 'xenu',
+	:kernel   => 'Solaris'
+      }
+    end
+
+    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
 end

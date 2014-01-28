@@ -7,7 +7,7 @@
 # No symbolic links allowed, either, since the daemon updates the file
 # by creating a temporary in the same directory and then rename()'ing
 # it to the file.
-driftfile <%= driftfile_real %>
+driftfile <%= @driftfile_real %>
 
 <% if @enable_stats == 'true' %>
 # Statistics are being logged

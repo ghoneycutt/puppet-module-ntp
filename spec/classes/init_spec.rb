@@ -9,8 +9,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'ntp',
+      should contain_package('ntp').with({
         'ensure' => 'present',
       })
     }
@@ -22,6 +21,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[ntp]',
       })
     }
 
@@ -57,8 +57,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'ntp',
+      should contain_package('ntp').with({
         'ensure' => 'present',
       })
     }
@@ -72,6 +71,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[ntp]',
       })
     }
 
@@ -102,8 +102,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'ntp',
+      should contain_package('ntp').with({
         'ensure' => 'present',
       })
     }
@@ -115,6 +114,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[ntp]',
       })
     }
 
@@ -149,7 +149,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
-        'require' => ['Package[ntp_package]', 'File[step_tickers_dir]'],
+        'require' => ['Package[ntp]', 'File[step_tickers_dir]'],
       })
     }
 
@@ -177,8 +177,13 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => [ 'SUNWntp4r', 'SUNWntp4u' ],
+      should contain_package('SUNWntp4r').with({
+        'ensure' => 'present',
+      })
+    }
+
+    it {
+      should contain_package('SUNWntp4u').with({
         'ensure' => 'present',
       })
     }
@@ -187,11 +192,12 @@ describe 'ntp' do
 
     it {
       should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/inet/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
+        'ensure'  => 'file',
+        'path'    => '/etc/inet/ntp.conf',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => ['Package[SUNWntp4r]', 'Package[SUNWntp4u]'],
       })
     }
 
@@ -233,8 +239,13 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => [ 'SUNWntp4r', 'SUNWntp4u' ],
+      should contain_package('SUNWntp4r').with({
+        'ensure' => 'present',
+      })
+    }
+
+    it {
+      should contain_package('SUNWntp4u').with({
         'ensure' => 'present',
       })
     }
@@ -243,11 +254,12 @@ describe 'ntp' do
 
     it {
       should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/inet/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
+        'ensure'  => 'file',
+        'path'    => '/etc/inet/ntp.conf',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => ['Package[SUNWntp4r]', 'Package[SUNWntp4u]'],
       })
     }
 
@@ -289,8 +301,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'network/ntp',
+      should contain_package('network/ntp').with({
         'ensure' => 'present',
       })
     }
@@ -304,6 +315,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[network/ntp]',
       })
     }
 
@@ -347,8 +359,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'network/ntp',
+      should contain_package('network/ntp').with({
         'ensure' => 'present',
       })
     }
@@ -362,6 +373,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[network/ntp]',
       })
     }
 
@@ -397,8 +409,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'network/ntp',
+      should contain_package('network/ntp').with({
         'ensure' => 'present',
       })
     }
@@ -412,6 +423,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[network/ntp]',
       })
     }
 
@@ -453,8 +465,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'xntp',
+      should contain_package('xntp').with({
         'ensure' => 'present',
       })
     }
@@ -466,6 +477,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[xntp]',
       })
     }
 
@@ -501,8 +513,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'xntp',
+      should contain_package('xntp').with({
         'ensure' => 'present',
       })
     }
@@ -514,6 +525,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[xntp]',
       })
     }
 
@@ -549,8 +561,7 @@ describe 'ntp' do
     it { should contain_class('ntp')}
 
     it {
-      should contain_package('ntp_package').with({
-        'name'   => 'ntp',
+      should contain_package('ntp').with({
         'ensure' => 'present',
       })
     }
@@ -562,6 +573,7 @@ describe 'ntp' do
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'require' => 'Package[ntp]',
       })
     }
 
@@ -653,10 +665,9 @@ describe 'ntp' do
 
   context 'on Linux physical machine' do
     let :facts do
-      {
-        :osfamily => 'RedHat',
+      { :osfamily => 'RedHat',
         :virtual  => 'physical',
-	:kernel   => 'Linux'
+	      :kernel   => 'Linux'
       }
     end
 
@@ -665,10 +676,9 @@ describe 'ntp' do
 
   context 'on Linux Xen guest' do
     let :facts do
-      {
-        :osfamily => 'RedHat',
+      { :osfamily => 'RedHat',
         :virtual  => 'xenu',
-	:kernel   => 'Linux'
+        :kernel   => 'Linux'
       }
     end
 
@@ -677,15 +687,59 @@ describe 'ntp' do
 
   context 'on non-Linux Xen guest' do
     let :facts do
-      {
-        :osfamily => 'Solaris',
+      { :osfamily      => 'Solaris',
         :kernelrelease => '5.11',
-        :virtual  => 'xenu',
-	:kernel   => 'Solaris'
+        :virtual       => 'xenu',
+        :kernel        => 'Solaris'
       }
     end
 
     it { should_not contain_exec('xen_independent_wallclock') }
   end
 
+  describe 'with package_name set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to an array' do
+      let(:params) { { :package_name => ['ntp','ntphelper'] } }
+
+      it { should compile.with_all_deps }
+      it { should contain_class('ntp') }
+
+      it {
+        should contain_package('ntp').with({
+          'ensure' => 'present',
+        })
+      }
+
+      it {
+        should contain_package('ntphelper').with({
+          'ensure' => 'present',
+        })
+      }
+    end
+
+    context 'to a string' do
+      let(:params) { { :package_name => 'myntp' } }
+
+      it { should compile.with_all_deps }
+      it { should contain_class('ntp') }
+
+      it {
+        should contain_package('myntp').with({
+          'ensure' => 'present',
+        })
+      }
+    end
+
+    context 'to an invalid type (boolean)' do
+      let(:params) { { :package_name => true } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/ntp::package_name must be a string or an array./)
+      end
+    end
+  end
 end

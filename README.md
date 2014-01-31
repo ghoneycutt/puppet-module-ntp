@@ -9,7 +9,7 @@ Puppet module to manage NTP
 
 # Compatibility
 
-This module is supported on the following systems with Puppet v3.
+This module is supported on the following systems with Puppet v3 and Ruby 1.8.7, 1.9.3, and 2.0.0.
 
  * Debian 6
  * EL 5
@@ -27,6 +27,12 @@ This module is supported on the following systems with Puppet v3.
 # Parameters
 
 See ntp.conf(5) for more information regarding settings.
+
+package_name
+------------
+String or Array of the related ntp packages. 'USE_DEFAULTS' will choose the appropriate default for the system.
+
+- *Default*: 'USE_DEFAULTS'
 
 
 package_latest

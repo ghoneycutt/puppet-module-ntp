@@ -165,6 +165,10 @@ class ntp (
     $package_name_real = $package_name
   }
 
+  if type($package_name_real) != 'String' and type($package_name_real) != 'Array' {
+    fail('ntp::package_name must be a string or an array.')
+  }
+
   if $package_noop == 'USE_DEFAULTS' {
     $package_noop_real = $default_package_noop
   } else {
@@ -243,9 +247,8 @@ class ntp (
     }
   }
 
-  package { 'ntp_package':
+  package { $package_name_real:
     ensure    => $package_ensure,
-    name      => $package_name_real,
     noop      => $package_noop_real,
     source    => $package_source_real,
     adminfile => $package_adminfile_real,
@@ -258,7 +261,7 @@ class ntp (
     group   => $config_file_group,
     mode    => $config_file_mode,
     content => template('ntp/ntp.conf.erb'),
-    require => Package['ntp_package'],
+    require => Package[$package_name_real],
   }
 
   if $step_tickers_ensure_real == 'present' {
@@ -284,7 +287,7 @@ class ntp (
       group   => $step_tickers_group,
       mode    => $step_tickers_mode,
       content => template('ntp/step-tickers.erb'),
-      require => [ Package['ntp_package'],
+      require => [ Package[$package_name_real],
                   File['step_tickers_dir'],
                   ],
     }
@@ -296,7 +299,7 @@ class ntp (
     enable     => $service_enable,
     hasstatus  => $my_service_hasstatus,
     hasrestart => $my_service_hasrestart,
-    subscribe  => [ Package['ntp_package'],
+    subscribe  => [ Package[$package_name_real],
                     File['ntp_conf'],
                   ],
   }
@@ -309,5 +312,4 @@ class ntp (
       onlyif  => 'test -f /proc/sys/xen/independent_wallclock',
     }
   }
-
 }

@@ -153,6 +153,8 @@ describe 'ntp' do
       })
     }
 
+    it { should contain_file('step-tickers').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+
     it { should_not contain_file('admin_file') }
 
     it {

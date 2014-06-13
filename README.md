@@ -111,6 +111,12 @@ Extra options to provide to ntp servers
 
 - *Default*: none
 
+restrict_options
+----------------
+String with options to provide to access control configuration (restrict) in ntp.conf
+
+- *Default*: 'default kod notrap nomodify nopeer noquery'
+
 orphan_mode_stratum
 -------------------
 Orphan stratum configuration

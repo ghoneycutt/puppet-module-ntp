@@ -30,6 +30,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it { should_not contain_file('step-tickers') }
 
@@ -80,6 +82,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -123,6 +127,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it {
       should contain_exec('mkdir_p-/etc/ntp').with({
@@ -206,6 +212,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it {
       should contain_file('admin_file').with({
@@ -268,6 +276,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it {
       should contain_file('admin_file').with({
@@ -324,6 +334,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it {
       should contain_file('admin_file').with({
@@ -486,6 +498,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it { should_not contain_file('step-tickers') }
 
@@ -534,6 +548,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it { should_not contain_file('step-tickers') }
 
@@ -582,6 +598,8 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
     it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
     it { should_not contain_file('step-tickers') }
 
@@ -742,4 +760,30 @@ describe 'ntp' do
       end
     end
   end
+
+  describe 'with restrict_options set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to <default kod notrap>' do
+      let(:params) { { :restrict_options => 'default kod notrap' } }
+
+      it { should compile.with_all_deps }
+      it { should contain_class('ntp') }
+
+      it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap$/) }
+      it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap$/) }
+    end
+
+    context 'to invalid type' do
+      let(:params) { { :restrict_options => [ 'i', 'dont', 'like', 'hashes' ] } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+
 end

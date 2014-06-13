@@ -43,8 +43,8 @@ server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><%
 # up blocking replies from your own upstream servers.
 
 # By default, exchange time with everybody, but don't allow configuration.
-restrict -4 default kod notrap nomodify nopeer noquery
-restrict -6 default kod notrap nomodify nopeer noquery
+restrict -4 <%= @restrict_options %>
+restrict -6 <%= @restrict_options %>
 
 # Local users may interrogate the ntp server more closely.
 restrict 127.0.0.1

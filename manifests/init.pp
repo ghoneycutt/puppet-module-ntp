@@ -22,6 +22,7 @@ class ntp (
                           '1.us.pool.ntp.org',
                           '2.us.pool.ntp.org'],
   $server_options      = 'UNSET',
+  $restrict_options    = 'default kod notrap nomodify nopeer noquery',
   $step_tickers_ensure = 'USE_DEFAULTS',
   $step_tickers_path   = '/etc/ntp/step-tickers',
   $step_tickers_owner  = 'root',
@@ -224,6 +225,8 @@ class ntp (
   if $keys_real != undef {
     validate_absolute_path($keys_real)
   }
+
+  validate_string($restrict_options)
 
   # validate $my_enable_stats - must be true or false
   case $my_enable_stats {

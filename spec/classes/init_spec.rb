@@ -626,7 +626,7 @@ describe 'ntp' do
     it do
       expect {
         should contain_class('ntp')
-      }.to raise_error(Puppet::Error,/The ntp module is supported by release 9, 10 and 11 of the Suse OS Family./)
+      }.to raise_error(Puppet::Error,/The ntp module is supported by release 9, 10, 11 and 12 of the Suse OS Family./)
     end
   end
 

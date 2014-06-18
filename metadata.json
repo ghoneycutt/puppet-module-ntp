@@ -70,10 +70,22 @@
       ]
     },
     {
-      "operatingsystem": "SLES"
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
     },
     {
-      "operatingsystem": "SLED"
+      "operatingsystem": "SLED",
+      "operatingsystemrelease": [
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
     },
     {
       "operatingsystem": "Ubuntu",

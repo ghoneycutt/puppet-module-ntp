@@ -126,11 +126,11 @@ class ntp (
         '9','10': {
           $default_package_name     = [ 'xntp' ]
         }
-        '11': {
+        '11','12': {
           $default_package_name     = [ 'ntp' ]
         }
         default: {
-          fail("The ntp module is supported by release 9, 10 and 11 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")
+          fail("The ntp module is supported by release 9, 10, 11 and 12 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")
         }
       }
     }

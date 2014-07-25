@@ -9,7 +9,7 @@
 # it to the file.
 driftfile <%= @driftfile_real %>
 
-<% if @enable_stats == 'true' %>
+<% if @my_enable_stats == true %>
 # Statistics are being logged
 statsdir <%= @statsdir %>
 <% else %>
@@ -90,3 +90,8 @@ keys <%= @keys_real %>
 
 # Accept any offset - useful for VM's or suspended systems
 tinker panic 0
+<% if @my_disable_monitor == true -%>
+
+# Disabling monitor - https://isc.sans.edu/diary/NTP+reflection+attack/17300
+disable monitor
+<% end -%>

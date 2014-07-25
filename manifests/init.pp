@@ -33,6 +33,7 @@ class ntp (
   $enable_stats        = false,
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
+  $disable_monitor     = false,
 ) {
 
   # validate type and convert string to boolean if necessary
@@ -74,6 +75,15 @@ class ntp (
   } else {
     $my_enable_stats = $enable_stats
   }
+
+  # validate type and convert string to boolean if necessary
+  $disable_monitor_type = type($disable_monitor)
+  if $disable_monitor_type == 'string' {
+    $my_disable_monitor = str2bool($disable_monitor)
+  } else {
+    $my_disable_monitor = $disable_monitor
+  }
+
 
   if $my_package_latest == true {
     $package_ensure = latest
@@ -237,6 +247,17 @@ class ntp (
       fail("enable_stats must be true or false and is ${my_enable_stats}")
     }
   }
+
+  # validate $my_disable_monitor - must be true or false
+  case $my_disable_monitor {
+    true,false: {
+      # noop - accepting values
+    }
+    default: {
+      fail("disable_monitor must be true or false and is ${my_disable_monitor}")
+    }
+  }
+
 
   if $package_adminfile_real != undef {
 

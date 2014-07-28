@@ -147,3 +147,10 @@ logfile
 Log file name
 
 - *Default*: none
+
+disable_monitor
+-------
+Adds 'disable monitor' line - disables NTP Monlist command, useful to prevent NTP reflection attack https://isc.sans.edu/forums/diary/NTP+reflection+attack/17300 
+
+- *Default*: false
+

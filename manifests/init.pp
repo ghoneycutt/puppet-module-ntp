@@ -119,7 +119,7 @@ class ntp (
       $default_step_tickers_ensure = 'absent'
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
-      $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
       $default_keys                = undef
 
       case $::lsbmajdistrelease {

@@ -497,7 +497,7 @@ describe 'ntp' do
           })
         }
 
-        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/drift\/ntp.drift/) }
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
         it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
@@ -551,7 +551,7 @@ describe 'ntp' do
           })
         }
 
-        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
+        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/drift\/ntp.drift/) }
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
         it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }

@@ -33,6 +33,7 @@ class ntp (
   $enable_stats        = false,
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
+  $ignore_local_clock  = false,
 ) {
 
   # validate type and convert string to boolean if necessary
@@ -88,6 +89,13 @@ class ntp (
     $service_ensure = stopped
     $service_enable = false
   }
+
+  if type($ignore_local_clock) == 'string' {
+    $my_ignore_local_clock = str2bool($ignore_local_clock)
+  } else {
+    $my_ignore_local_clock = $ignore_local_clock
+  }
+  validate_bool($my_ignore_local_clock)
 
   case $::osfamily {
     'Debian': {

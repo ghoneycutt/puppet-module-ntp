@@ -14,6 +14,7 @@ This module is supported on the following systems with Puppet v3 and Ruby 1.8.7,
  * Debian 6
  * EL 5
  * EL 6
+ * EL 7
  * Solaris 9
  * Solaris 10
  * Solaris 11

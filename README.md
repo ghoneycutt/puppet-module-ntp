@@ -148,3 +148,9 @@ logfile
 Log file name
 
 - *Default*: none
+
+ignore_local_clock
+------------------
+Boolean to ignore the local clock. By setting this to true it ensures local clock is not referenced, useful if local clock drifts.
+
+- *Default*: false

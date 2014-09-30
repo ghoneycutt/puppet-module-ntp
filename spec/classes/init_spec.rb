@@ -29,7 +29,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -81,7 +81,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -126,7 +126,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -213,7 +213,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -277,7 +277,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -335,7 +335,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
     it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -395,7 +395,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
 
     it { should_not contain_file('admin_file') }
 
@@ -445,7 +445,7 @@ describe 'ntp' do
     it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
     it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
     it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+    it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('admin_file').with({
@@ -501,7 +501,7 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
         it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-        it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+        it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
         it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
         it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -555,7 +555,7 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
         it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-        it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
+        it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
         it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
         it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
@@ -747,5 +747,20 @@ describe 'ntp' do
     end
   end
 
+  describe 'with ignore_local_clock set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to true' do
+      let(:params) { { :ignore_local_clock => true } }
+
+      it { should contain_file('ntp_conf').with_content(/^#fudge  127.127.1.0 stratum 10/) }
+    end
+
+    context 'to false' do
+      let(:params) { { :ignore_local_clock => false } }
+
+      it { should contain_file('ntp_conf').with_content(/^fudge  127.127.1.0 stratum 10/) }
+    end
+  end
 
 end

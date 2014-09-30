@@ -66,8 +66,13 @@ restrict ::1
 
 # Undisciplined Local Clock. This is a fake driver intended for backup
 # and when no outside source of synchronized time is available.
+<% if @my_ignore_local_clock == true -%>
+#server  127.127.1.0  # local clock
+#fudge  127.127.1.0 stratum <%= @fudge_stratum %>
+<% else %>
 server  127.127.1.0  # local clock
 fudge  127.127.1.0 stratum <%= @fudge_stratum %>
+<% end -%>
 
 <% if @keys_real -%>
 # Key file containing the keys and key identifiers used when operating

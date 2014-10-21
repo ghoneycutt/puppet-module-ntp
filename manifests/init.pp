@@ -109,8 +109,12 @@ class ntp (
       $default_step_tickers_ensure = 'present'
       $default_service_name        = 'ntpd'
       $default_config_file         = '/etc/ntp.conf'
-      $default_driftfile           = '/var/lib/ntp/ntp.drift'
       $default_keys                = '/etc/ntp/keys'
+      if $::operatingsystemmajrelease == '7' or $::lsbmajdistrelease == '7' {
+        $default_driftfile           = '/var/lib/ntp/drift'
+      } else {
+        $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      }
     }
     'Suse': {
       $default_package_noop        = false

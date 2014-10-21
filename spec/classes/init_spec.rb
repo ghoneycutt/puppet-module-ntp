@@ -1,363 +1,373 @@
 require 'spec_helper'
 
 describe 'ntp' do
-  context 'on osfamily Debian with default class options' do
-    let :facts do
-      { :osfamily => 'Debian' }
+
+  platforms = {
+    'debian6' =>
+      { :osfamily            => 'Debian',
+        :operatingsystem     => 'Debian',
+        :release             => '6',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/ntp.drift',
+        :keys                => '/etc/ntp/keys',
+      },
+    'el5' =>
+      { :osfamily            => 'RedHat',
+        :operatingsystem     => 'RedHat',
+        :release             => '5',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'present',
+        :service_name        => 'ntpd',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/ntp.drift',
+        :keys                => '/etc/ntp/keys',
+      },
+    'el6' =>
+      { :osfamily            => 'RedHat',
+        :operatingsystem     => 'RedHat',
+        :release             => '6',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'present',
+        :service_name        => 'ntpd',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/ntp.drift',
+        :keys                => '/etc/ntp/keys',
+      },
+    'el7' =>
+      { :osfamily            => 'RedHat',
+        :operatingsystem     => 'RedHat',
+        :release             => '7',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'present',
+        :service_name        => 'ntpd',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/drift',
+        :keys                => '/etc/ntp/keys',
+      },
+    'suse9' =>
+      { :osfamily            => 'Suse',
+        :operatingsystem     => 'SLES',
+        :release             => '9',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['xntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/drift/ntp.drift',
+        :keys                => nil,
+      },
+    'suse10' =>
+      { :osfamily            => 'Suse',
+        :operatingsystem     => 'SLES',
+        :release             => '10',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['xntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/drift/ntp.drift',
+        :keys                => nil,
+      },
+    'suse11' =>
+      { :osfamily            => 'Suse',
+        :operatingsystem     => 'SLES',
+        :release             => '11',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/drift/ntp.drift',
+        :keys                => nil,
+      },
+    'suse12' =>
+      { :osfamily            => 'Suse',
+        :operatingsystem     => 'SLES',
+        :release             => '12',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/drift/ntp.drift',
+        :keys                => nil,
+      },
+    'solaris9' =>
+      { :osfamily            => 'Solaris',
+        :operatingsystem     => 'Solaris',
+        :release             => '5.9',
+        :kernel              => 'SunOS',
+        :virtual             => 'physical',
+        :package_name        => ['SUNWntp4r','SUNWntp4u'],
+        :package_noop        => true,
+        :package_source      => '/var/spool/pkg',
+        :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp4',
+        :config_file         => '/etc/inet/ntp.conf',
+        :driftfile           => '/var/ntp/ntp.drift',
+        :keys                => '/etc/inet/ntp.keys',
+      },
+    'solaris10' =>
+      { :osfamily            => 'Solaris',
+        :operatingsystem     => 'Solaris',
+        :release             => '5.10',
+        :kernel              => 'SunOS',
+        :virtual             => 'physical',
+        :package_name        => ['SUNWntp4r','SUNWntp4u'],
+        :package_noop        => true,
+        :package_source      => '/var/spool/pkg',
+        :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp4',
+        :config_file         => '/etc/inet/ntp.conf',
+        :driftfile           => '/var/ntp/ntp.drift',
+        :keys                => '/etc/inet/ntp.keys',
+      },
+    'solaris11' =>
+      { :osfamily            => 'Solaris',
+        :operatingsystem     => 'Solaris',
+        :release             => '5.11',
+        :kernel              => 'SunOS',
+        :virtual             => 'physical',
+        :package_name        => ['network/ntp'],
+        :package_noop        => true,
+        :package_source      => '/var/spool/pkg',
+        :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp4',
+        :config_file         => '/etc/inet/ntp.conf',
+        :driftfile           => '/var/ntp/ntp.drift',
+        :keys                => '/etc/inet/ntp.keys',
+      },
+    'ubuntu1204' =>
+      { :osfamily            => 'Debian',
+        :operatingsystem     => 'Ubuntu',
+        :release             => '12.04',
+        :kernel              => 'Linux',
+        :virtual             => 'physical',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'absent',
+        :service_name        => 'ntp',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/ntp.drift',
+        :keys                => '/etc/ntp/keys',
+      },
+    'xenu' =>
+      { :osfamily            => 'RedHat',
+        :operatingsystem     => 'RedHat',
+        :release             => '5',
+        :kernel              => 'Linux',
+        :virtual             => 'xenu',
+        :package_name        => ['ntp'],
+        :package_noop        => false,
+        :package_source      => nil,
+        :package_adminfile   => nil,
+        :step_tickers_ensure => 'present',
+        :service_name        => 'ntpd',
+        :config_file         => '/etc/ntp.conf',
+        :driftfile           => '/var/lib/ntp/ntp.drift',
+        :keys                => '/etc/ntp/keys',
+      },
+  }
+
+  describe 'with default values for parameters on' do
+    platforms.sort.each do |k,v|
+      context "#{k}" do
+        if v[:osfamily] == 'Solaris'
+          let :facts do
+            { :osfamily        => v[:osfamily],
+              :operatingsystem => v[:operatingsystem],
+              :kernelrelease   => v[:release],
+              :kernel          => v[:kernel],
+              :virtual         => v[:virtual],
+            }
+          end
+        else
+          let :facts do
+            { :osfamily          => v[:osfamily],
+              :operatingsystem   => v[:operatingsystem],
+              :lsbmajdistrelease => v[:release],
+              :kernel            => v[:kernel],
+              :virtual           => v[:virtual],
+            }
+          end
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ntp')}
+
+        if v[:package_name].class == Array
+          package_require = Array.new
+
+          v[:package_name].each do |pkg|
+            it {
+              should contain_package(pkg).with({
+                'ensure'    => 'present',
+                'noop'      => v[:package_noop],
+                'source'    => v[:package_source],
+                'adminfile' => v[:package_adminfile],
+              })
+            }
+            package_require << "Package[#{pkg}]"
+          end
+        else
+          it {
+            should contain_package(v[:package_name]).with({
+              'ensure'   => 'present',
+              'noop'      => v[:package_noop],
+              'source'    => v[:package_source],
+              'adminfile' => v[:package_adminfile],
+            })
+          }
+
+          package_require = "Package[#{v[:package_name]}]"
+        end
+
+        it {
+          should contain_file('ntp_conf').with({
+            'ensure' => 'file',
+            'path'   => v[:config_file],
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0644',
+            'require' => package_require,
+          })
+        }
+
+        it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(v[:driftfile])}/) }
+        it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged$/) }
+        it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+        if v[:keys]
+          it { should contain_file('ntp_conf').with_content(/^keys #{Regexp.escape(v[:keys])}$/) }
+        else
+          it { should_not contain_file('ntp_conf').with_content(/^\s*keys /) }
+        end
+        it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10$/) }
+        it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
+        it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
+
+        if v[:step_tickers_ensure] == 'present'
+
+          it {
+            should contain_exec('mkdir_p-/etc/ntp').with({
+              'command' => 'mkdir -p /etc/ntp',
+              'unless'  => 'test -d /etc/ntp',
+            })
+          }
+
+          it {
+            should contain_file('step_tickers_dir').with({
+              'ensure' => 'directory',
+              'path'   => '/etc/ntp',
+              'owner'  => 'root',
+              'group'  => 'root',
+              'mode'   => '0644',
+              'require' => 'Common::Mkdir_p[/etc/ntp]',
+            })
+          }
+
+          it {
+            should contain_file('step-tickers').with({
+              'ensure' => 'present',
+              'path'   => '/etc/ntp/step-tickers',
+              'owner'  => 'root',
+              'group'  => 'root',
+              'mode'   => '0644',
+              'require' => ['Package[ntp]', 'File[step_tickers_dir]'],
+            })
+          }
+
+          it { should contain_file('step-tickers').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+
+        elsif v[:step_tickers_ensure] == 'absent'
+
+          it { should_not contain_exec('mkdir_p-/etc/ntp') }
+
+          it { should_not contain_file('step_tickers_dir') }
+
+          it { should_not contain_file('step-tickers') }
+        end
+
+        if v[:package_adminfile]
+          it {
+            should contain_file('admin_file').with({
+              'ensure' => 'present',
+              'path'   => v[:package_adminfile],
+              'owner'  => 'root',
+              'group'  => 'root',
+              'mode'   => '0644',
+            })
+          }
+        else
+          it { should_not contain_file('admin_file') }
+        end
+
+        it {
+          should contain_service('ntp_service').with({
+            'ensure' => 'running',
+            'name'   => v[:service_name],
+            'enable' => 'true',
+          })
+        }
+
+        if v[:virtual] == 'xenu' and v[:kernel] == 'Linux'
+          it {
+            should contain_exec('xen_independent_wallclock').with({
+              'path'    => '/bin:/usr/bin',
+              'command' => 'echo 1 > /proc/sys/xen/independent_wallclock',
+              'unless'  => 'grep ^1 /proc/sys/xen/independent_wallclock',
+              'onlyif'  => 'test -f /proc/sys/xen/independent_wallclock',
+            })
+          }
+        else
+          it { should_not contain_exec('xen_independent_wallclock') }
+        end
+      end
     end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('ntp').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it { should_not contain_file('step-tickers') }
-
-    it { should_not contain_file('admin_file') }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on Ubuntu with default class options' do
-    let :facts do
-    {
-      :osfamily        => 'Debian',
-      :operatingsystem => 'Ubuntu',
-    }
-    end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('ntp').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it { should_not contain_file('admin_file') }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on osfamily EL with default class options' do
-    let :facts do
-      { :osfamily => 'RedHat' }
-    end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('ntp').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it {
-      should contain_exec('mkdir_p-/etc/ntp').with({
-        'command' => 'mkdir -p /etc/ntp',
-        'unless'  => 'test -d /etc/ntp',
-      })
-    }
-
-    it {
-      should contain_file('step_tickers_dir').with({
-        'ensure' => 'directory',
-        'path'   => '/etc/ntp',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Common::Mkdir_p[/etc/ntp]',
-      })
-    }
-
-    it {
-      should contain_file('step-tickers').with({
-        'ensure' => 'present',
-        'path'   => '/etc/ntp/step-tickers',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => ['Package[ntp]', 'File[step_tickers_dir]'],
-      })
-    }
-
-    it { should contain_file('step-tickers').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-
-    it { should_not contain_file('admin_file') }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntpd',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on osfamily Solaris release 9 with default class options' do
-    let :facts do
-    {
-      :osfamily      => 'Solaris',
-      :kernelrelease => '5.9',
-    }
-    end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('SUNWntp4r').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it {
-      should contain_package('SUNWntp4u').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/inet/ntp.conf',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => ['Package[SUNWntp4r]', 'Package[SUNWntp4u]'],
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it {
-      should contain_file('admin_file').with({
-        'ensure' => 'present',
-        'path'   => '/var/sadm/install/admin/puppet-ntp',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp4',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on osfamily Solaris release 10 with default class options' do
-    let :facts do
-    {
-      :osfamily      => 'Solaris',
-      :kernelrelease => '5.10',
-    }
-    end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('SUNWntp4r').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it {
-      should contain_package('SUNWntp4u').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/inet/ntp.conf',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => ['Package[SUNWntp4r]', 'Package[SUNWntp4u]'],
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it {
-      should contain_file('admin_file').with({
-        'ensure' => 'present',
-        'path'   => '/var/sadm/install/admin/puppet-ntp',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp4',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on osfamily Solaris release 11 with default class options' do
-    let :facts do
-    {
-      :osfamily      => 'Solaris',
-      :kernelrelease => '5.11',
-    }
-    end
-
-    it { should contain_class('ntp')}
-
-    it {
-      should contain_package('network/ntp').with({
-        'ensure' => 'present',
-      })
-    }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/inet/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[network/ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-    it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-    it {
-      should contain_file('admin_file').with({
-        'ensure' => 'present',
-        'path'   => '/var/sadm/install/admin/puppet-ntp',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp4',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 11 with no package_adminfile' do
@@ -374,40 +384,12 @@ describe 'ntp' do
 
     it {
       should contain_package('network/ntp').with({
-        'ensure' => 'present',
+        'ensure'    => 'present',
+        'adminfile' => '',
       })
     }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/inet/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[network/ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it { should_not contain_file('admin_file') }
-
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp4',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
   end
 
   context 'on osfamily Solaris release 11 with package_adminfile specified' do
@@ -420,32 +402,12 @@ describe 'ntp' do
 
     let(:params) { { :package_adminfile => '/tmp/admin' } }
 
-    it { should contain_class('ntp')}
-
     it {
       should contain_package('network/ntp').with({
-        'ensure' => 'present',
+        'ensure'    => 'present',
+        'adminfile' => '/tmp/admin',
       })
     }
-
-    it { should_not contain_file('step-tickers') }
-
-    it {
-      should contain_file('ntp_conf').with({
-        'ensure' => 'file',
-        'path'   => '/etc/inet/ntp.conf',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-        'require' => 'Package[network/ntp]',
-      })
-    }
-
-    it { should contain_file('ntp_conf').with_content(/driftfile \/var\/ntp\/ntp.drift/) }
-    it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-    it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-    it { should contain_file('ntp_conf').with_content(/^keys \/etc\/inet\/ntp.keys$/) }
-    it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
 
     it {
       should contain_file('admin_file').with({
@@ -457,125 +419,6 @@ describe 'ntp' do
       })
     }
 
-    it {
-      should contain_service('ntp_service').with({
-        'ensure' => 'running',
-        'name'   => 'ntp4',
-        'enable' => 'true',
-      })
-    }
-
-    it { should_not contain_exec('xen_independent_wallclock') }
-  end
-
-  context 'on Suse with default class options' do
-    ['9','10'].each do |osversion|
-      context "with lsbmajdistrelease set to #{osversion}" do
-        let (:facts) do
-          {
-            :osfamily => 'Suse',
-            :lsbmajdistrelease => osversion,
-          }
-        end
-
-        it { should contain_class('ntp')}
-
-        it {
-          should contain_package('xntp').with({
-            'ensure' => 'present',
-          })
-        }
-
-        it {
-          should contain_file('ntp_conf').with({
-            'ensure' => 'file',
-            'path'   => '/etc/ntp.conf',
-            'owner'  => 'root',
-            'group'  => 'root',
-            'mode'   => '0644',
-            'require' => 'Package[xntp]',
-          })
-        }
-
-        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/drift\/ntp.drift/) }
-        it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-        it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-        it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-        it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-        it { should_not contain_file('step-tickers') }
-
-        it { should_not contain_file('admin_file') }
-
-        it {
-          should contain_service('ntp_service').with({
-            'ensure' => 'running',
-            'ensure' => 'running',
-            'name'   => 'ntp',
-            'enable' => 'true',
-          })
-        }
-
-        it { should_not contain_exec('xen_independent_wallclock') }
-
-      end
-    end
-
-    ['11','12'].each do |osversion|
-      context "with lsbmajdistrelease set to #{osversion}" do
-        let (:facts) do
-          {
-            :osfamily => 'Suse',
-            :lsbmajdistrelease => osversion,
-          }
-        end
-
-        it { should contain_class('ntp')}
-
-        it {
-          should contain_package('ntp').with({
-            'ensure' => 'present',
-          })
-        }
-
-        it {
-          should contain_file('ntp_conf').with({
-            'ensure' => 'file',
-            'path'   => '/etc/ntp.conf',
-            'owner'  => 'root',
-            'group'  => 'root',
-            'mode'   => '0644',
-            'require' => 'Package[ntp]',
-          })
-        }
-
-        it { should contain_file('ntp_conf').with_content(/driftfile \/var\/lib\/ntp\/drift\/ntp.drift/) }
-        it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged/) }
-        it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
-        it { should_not contain_file('ntp_conf').with_content(/^keys \/etc\/ntp\/keys$/) }
-        it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
-
-        it { should_not contain_file('step-tickers') }
-
-        it { should_not contain_file('admin_file') }
-
-        it {
-          should contain_service('ntp_service').with({
-            'ensure' => 'running',
-            'ensure' => 'running',
-            'name'   => 'ntp',
-            'enable' => 'true',
-          })
-        }
-
-        it { should_not contain_exec('xen_independent_wallclock') }
-
-      end
-    end
   end
 
   context 'on unsupported SuSE platform should fail' do
@@ -726,7 +569,7 @@ describe 'ntp' do
   describe 'with restrict_options set' do
     let(:facts) { { :osfamily => 'RedHat' } }
 
-    context 'to <default kod notrap>' do
+    context 'to \'default kod notrap\'' do
       let(:params) { { :restrict_options => 'default kod notrap' } }
 
       it { should compile.with_all_deps }
@@ -746,6 +589,4 @@ describe 'ntp' do
       end
     end
   end
-
-
 end

@@ -22,6 +22,7 @@ class ntp (
                           '1.us.pool.ntp.org',
                           '2.us.pool.ntp.org'],
   $server_options      = 'UNSET',
+  $peers               = 'UNSET',
   $restrict_options    = 'default kod notrap nomodify nopeer noquery',
   $step_tickers_ensure = 'USE_DEFAULTS',
   $step_tickers_path   = '/etc/ntp/step-tickers',
@@ -65,6 +66,25 @@ class ntp (
     $my_service_hasrestart = str2bool($service_hasrestart)
   } else {
     $my_service_hasrestart = $service_hasrestart
+  }
+
+  $peers_type = type($peers)
+  case $peers_type {
+    'string': {
+      $my_peers = any2array($peers)
+      validate_array($my_peers)
+    }
+    'array': {
+      $my_peers = $peers
+      validate_array($my_peers)
+    }
+    'hash': {
+      $my_peers = $peers
+      validate_hash($my_peers)
+    }
+    default: {
+      fail("ntp::peers must be a string or an array or an hash. Detected type is <$peers_type>.")
+    }
   }
 
   # validate type and convert string to boolean if necessary

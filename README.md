@@ -113,6 +113,21 @@ Extra options to provide to ntp servers
 
 - *Default*: none
 
+peers
+-----
+String or Array or Hash of peer servers.
+
+For the Hash, the following keys can be set: host and comment. See example below.
+
+<pre>
+ntp::peers:
+  'ntp1':
+    host: 'x.x.x.x'
+    comment: 'ntp1'
+</pre>
+
+- *Default*: 'UNSET'
+
 restrict_options
 ----------------
 String with options to provide to access control configuration (restrict) in ntp.conf

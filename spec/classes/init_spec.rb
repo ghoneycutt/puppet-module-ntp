@@ -213,6 +213,15 @@ describe 'ntp' do
       },
   }
 
+  peers = {
+    'ntp1' => { 'host'    => 'ntp1.example.com',
+                'options' => 'true',
+                'comment' => 'ntp1' },
+    'ntp2' => { 'host'    => 'ntp2.example.com',
+                'options' => 'true',
+                'comment' => 'ntp2' },
+  }
+
   describe 'with default values for parameters on' do
     platforms.sort.each do |k,v|
       context "#{k}" do
@@ -370,55 +379,96 @@ describe 'ntp' do
     end
   end
 
-  context 'on osfamily Solaris release 11 with no package_adminfile' do
-    let :facts do
-      {
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.11',
-      }
+  describe 'with peers param set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to a hash' do
+      let(:params) { { :peers => peers } }
+
+      it { should contain_class('ntp')}
+
+      it { should contain_file('ntp_conf').with_content(/^peer ntp1.example.com true # ntp1$/) }
+      it { should contain_file('ntp_conf').with_content(/^peer ntp2.example.com true # ntp2$/) }
     end
 
-    let(:params) { { :package_adminfile => '' } }
+    context 'to an array' do
+      let(:params) { { :peers => [ 'ntp1.example.com', 'ntp2.example.com' ] } }
 
-    it { should contain_class('ntp')}
+      it { should contain_class('ntp')}
 
-    it {
-      should contain_package('network/ntp').with({
-        'ensure'    => 'present',
-        'adminfile' => '',
-      })
-    }
+      it { should contain_file('ntp_conf').with_content(/^peer ntp1.example.com$/) }
+      it { should contain_file('ntp_conf').with_content(/^peer ntp2.example.com$/) }
+    end
 
-    it { should_not contain_file('admin_file') }
+    context 'to a string' do
+      let(:params) { { :peers => 'ntp1.example.com' } }
+
+      it { should contain_class('ntp')}
+
+      it { should contain_file('ntp_conf').with_content(/^peer ntp1.example.com$/) }
+    end
+
+    context 'to an invalid type (boolean)' do
+      let(:params) { { :peers => true } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error, /ntp::peers must be a string or an array or an hash. Detected type is <boolean>./)
+      end
+    end
   end
 
-  context 'on osfamily Solaris release 11 with package_adminfile specified' do
-    let :facts do
-      {
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.11',
+  describe 'on osfamily Solaris release 11' do
+    context 'with no package_adminfile' do
+      let :facts do
+        {
+          :osfamily      => 'Solaris',
+          :kernelrelease => '5.11',
+        }
+      end
+
+      let(:params) { { :package_adminfile => '' } }
+
+      it { should contain_class('ntp')}
+
+      it {
+        should contain_package('network/ntp').with({
+          'ensure'    => 'present',
+          'adminfile' => '',
+        })
       }
+
+      it { should_not contain_file('admin_file') }
     end
 
-    let(:params) { { :package_adminfile => '/tmp/admin' } }
+    context 'with package_adminfile specified' do
+      let :facts do
+        {
+          :osfamily      => 'Solaris',
+          :kernelrelease => '5.11',
+        }
+      end
 
-    it {
-      should contain_package('network/ntp').with({
-        'ensure'    => 'present',
-        'adminfile' => '/tmp/admin',
-      })
-    }
+      let(:params) { { :package_adminfile => '/tmp/admin' } }
 
-    it {
-      should contain_file('admin_file').with({
-        'ensure' => 'present',
-        'path'   => '/tmp/admin',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
+      it {
+        should contain_package('network/ntp').with({
+          'ensure'    => 'present',
+          'adminfile' => '/tmp/admin',
+        })
+      }
 
+      it {
+        should contain_file('admin_file').with({
+          'ensure' => 'present',
+          'path'   => '/tmp/admin',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+    end
   end
 
   context 'on unsupported SuSE platform should fail' do

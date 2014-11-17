@@ -34,6 +34,20 @@ filegen clockstats file clockstats type day enable
 server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><% end %>
 <% end -%>
 
+<% if @my_peers != 'UNSET' -%>
+# Peers
+<%   if @peers_type == 'string' or @peers_type == 'array' -%>
+<%     @my_peers.each do |peer| -%>
+peer <%= peer %>
+<%     end -%>
+<%   end -%>
+<%   if @peers_type == 'hash' -%>
+<%     @my_peers.each do |k, v| -%>
+peer <%= v['host'] %><% if v['options'] %> <%= v['options'] %><% end %><% if v['comment'] %> # <%= v['comment'] %><% end %>
+<%     end -%>
+<%   end -%>
+<% end -%>
+
 # Access control configuration; see /usr/share/doc/ntp-doc/html/accopt.html for
 # details.  The web page <http://support.ntp.org/bin/view/Support/AccessRestrictions>
 # might also be helpful.

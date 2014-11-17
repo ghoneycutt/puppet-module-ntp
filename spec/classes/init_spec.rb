@@ -290,6 +290,7 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(v[:driftfile])}/) }
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged$/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+        it { should contain_file('ntp_conf').without_content(/^\s*peer/) }
         if v[:keys]
           it { should contain_file('ntp_conf').with_content(/^keys #{Regexp.escape(v[:keys])}$/) }
         else

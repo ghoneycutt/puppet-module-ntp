@@ -68,22 +68,24 @@ class ntp (
     $my_service_hasrestart = $service_hasrestart
   }
 
-  $peers_type = type($peers)
-  case $peers_type {
-    'string': {
-      $my_peers = any2array($peers)
-      validate_array($my_peers)
-    }
-    'array': {
-      $my_peers = $peers
-      validate_array($my_peers)
-    }
-    'hash': {
-      $my_peers = $peers
-      validate_hash($my_peers)
-    }
-    default: {
-      fail("ntp::peers must be a string or an array or an hash. Detected type is <$peers_type>.")
+  if $peers != 'UNSET' {
+    $peers_type = type($peers)
+    case $peers_type {
+      'string': {
+        $my_peers = any2array($peers)
+        validate_array($my_peers)
+      }
+      'array': {
+        $my_peers = $peers
+        validate_array($my_peers)
+      }
+      'hash': {
+        $my_peers = $peers
+        validate_hash($my_peers)
+      }
+      default: {
+        fail("ntp::peers must be a string or an array or an hash. Detected type is <$peers_type>.")
+      }
     }
   }
 

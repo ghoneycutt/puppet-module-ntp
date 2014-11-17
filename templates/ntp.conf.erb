@@ -34,7 +34,7 @@ filegen clockstats file clockstats type day enable
 server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><% end %>
 <% end -%>
 
-<% if @my_peers != 'UNSET' -%>
+<% if @my_peers != ['UNSET'] -%>
 # Peers
 <%   if @peers_type == 'string' or @peers_type == 'array' -%>
 <%     @my_peers.each do |peer| -%>

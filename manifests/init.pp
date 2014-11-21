@@ -3,37 +3,38 @@
 # This module manages the ntp service.
 #
 class ntp (
-  $config_file_owner   = 'root',
-  $config_file_group   = 'root',
-  $config_file_mode    = '0644',
-  $package_latest      = false,
-  $package_name        = 'USE_DEFAULTS',
-  $package_noop        = 'USE_DEFAULTS',
-  $package_source      = 'USE_DEFAULTS',
-  $package_adminfile   = 'USE_DEFAULTS',
-  $service_name        = 'USE_DEFAULTS',
-  $config_file         = 'USE_DEFAULTS',
-  $driftfile           = 'USE_DEFAULTS',
-  $service_running     = true,
-  $service_hasstatus   = true,
-  $service_hasrestart  = true,
-  $keys                = 'USE_DEFAULTS',
-  $servers             = ['0.us.pool.ntp.org',
-                          '1.us.pool.ntp.org',
-                          '2.us.pool.ntp.org'],
-  $server_options      = 'UNSET',
-  $peers               = 'UNSET',
-  $restrict_options    = 'default kod notrap nomodify nopeer noquery',
-  $step_tickers_ensure = 'USE_DEFAULTS',
-  $step_tickers_path   = '/etc/ntp/step-tickers',
-  $step_tickers_owner  = 'root',
-  $step_tickers_group  = 'root',
-  $step_tickers_mode   = '0644',
-  $orphan_mode_stratum = 'UNSET',
-  $fudge_stratum       = '10',
-  $enable_stats        = false,
-  $statsdir            = '/var/log/ntpstats/',
-  $logfile             = 'UNSET',
+  $config_file_owner    = 'root',
+  $config_file_group    = 'root',
+  $config_file_mode     = '0644',
+  $package_latest       = false,
+  $package_name         = 'USE_DEFAULTS',
+  $package_noop         = 'USE_DEFAULTS',
+  $package_source       = 'USE_DEFAULTS',
+  $package_adminfile    = 'USE_DEFAULTS',
+  $service_name         = 'USE_DEFAULTS',
+  $config_file          = 'USE_DEFAULTS',
+  $driftfile            = 'USE_DEFAULTS',
+  $service_running      = true,
+  $service_hasstatus    = true,
+  $service_hasrestart   = true,
+  $enable_tinker_for_vm = false,
+  $keys                 = 'USE_DEFAULTS',
+  $servers              = [ '0.us.pool.ntp.org',
+                            '1.us.pool.ntp.org',
+                            '2.us.pool.ntp.org' ],
+  $server_options       = 'UNSET',
+  $peers                = 'UNSET',
+  $restrict_options     = 'default kod notrap nomodify nopeer noquery',
+  $step_tickers_ensure  = 'USE_DEFAULTS',
+  $step_tickers_path    = '/etc/ntp/step-tickers',
+  $step_tickers_owner   = 'root',
+  $step_tickers_group   = 'root',
+  $step_tickers_mode    = '0644',
+  $orphan_mode_stratum  = 'UNSET',
+  $fudge_stratum        = '10',
+  $enable_stats         = false,
+  $statsdir             = '/var/log/ntpstats/',
+  $logfile              = 'UNSET',
 ) {
 
   # validate type and convert string to boolean if necessary
@@ -67,6 +68,14 @@ class ntp (
   } else {
     $my_service_hasrestart = $service_hasrestart
   }
+
+  $enable_tinker_for_vm_type = type($enable_tinker_for_vm)
+  if $enable_tinker_for_vm_type == 'string' {
+    $my_enable_tinker_for_vm = str2bool($enable_tinker_for_vm)
+  } else {
+    $my_enable_tinker_for_vm = $enable_tinker_for_vm
+  }
+  validate_bool($my_enable_tinker_for_vm)
 
   if $peers != 'UNSET' {
     $peers_type = type($peers)

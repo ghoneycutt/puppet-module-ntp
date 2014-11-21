@@ -3,6 +3,11 @@
 #
 # /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
 
+# Accept any offset - useful for VM's or suspended systems
+<% if @my_enable_tinker_for_vm -%>
+tinker panic 0
+<% end -%>
+
 # Drift file.  Put this in a directory which the daemon can write to.
 # No symbolic links allowed, either, since the daemon updates the file
 # by creating a temporary in the same directory and then rename()'ing
@@ -101,6 +106,3 @@ keys <%= @keys_real %>
 # Orphan mode
 # http://support.ntp.org/bin/view/Support/OrphanMode
 <% if @orphan_mode_stratum != 'UNSET' %>tos orphan <%= @orphan_mode_stratum %><% end %>
-
-# Accept any offset - useful for VM's or suspended systems
-tinker panic 0

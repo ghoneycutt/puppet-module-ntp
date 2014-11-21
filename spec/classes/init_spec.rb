@@ -287,6 +287,7 @@ describe 'ntp' do
           })
         }
 
+        it { should contain_file('ntp_conf').without_content(/tinker panic 0/) }
         it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(v[:driftfile])}/) }
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged$/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
@@ -376,6 +377,28 @@ describe 'ntp' do
         else
           it { should_not contain_exec('xen_independent_wallclock') }
         end
+      end
+    end
+  end
+
+  describe 'with enable_tinker_for_vm param set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to true' do
+      let(:params) { { :enable_tinker_for_vm => true } }
+
+      it { should contain_class('ntp')}
+
+      it { should contain_file('ntp_conf').with_content(/^tinker panic 0$/) }
+    end
+
+    context 'to an invalid value' do
+      let(:params) { { :enable_tinker_for_vm => 'invalid' } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error)
       end
     end
   end

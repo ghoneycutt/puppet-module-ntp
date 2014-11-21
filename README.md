@@ -95,6 +95,12 @@ Service has a restart option
 
 - *Default*: true
 
+enable_tinker_for_vm
+--------------------
+If tinker panic should be disabled for VM.
+
+- *Default*: false
+
 keys
 ----
 Path of the symmetric key file. See ntpd(1).

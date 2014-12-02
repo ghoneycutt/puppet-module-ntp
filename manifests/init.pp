@@ -25,7 +25,7 @@ class ntp (
   $peers               = 'UNSET',
   $restrict_options    = 'default kod notrap nomodify nopeer noquery',
   $step_tickers_ensure = 'USE_DEFAULTS',
-  $step_tickers_path   = '/etc/ntp/step-tickers',
+  $step_tickers_file   = '/etc/ntp/step-tickers',
   $step_tickers_owner  = 'root',
   $step_tickers_group  = 'root',
   $step_tickers_mode   = '0644',
@@ -84,7 +84,7 @@ class ntp (
         validate_hash($my_peers)
       }
       default: {
-        fail("ntp::peers must be a string or an array or an hash. Detected type is <$peers_type>.")
+        fail("ntp::peers must be a string or an array or an hash. Detected type is <${peers_type}>.")
       }
     }
   }
@@ -163,10 +163,10 @@ class ntp (
     'Solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
-          $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
+          $default_package_name = [ 'SUNWntp4r', 'SUNWntp4u' ]
         }
         '5.11': {
-          $default_package_name     = [ 'network/ntp' ]
+          $default_package_name = [ 'network/ntp' ]
         }
         default: {
           fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
@@ -240,8 +240,6 @@ class ntp (
   validate_re($step_tickers_ensure_real, '^(present)|(absent)$',
     "ntp::step_tickers_ensure must be 'present' or 'absent'. Detected value is <${step_tickers_ensure_real}>.")
 
-  validate_absolute_path($step_tickers_path)
-
   if $keys == 'USE_DEFAULTS' {
     $keys_real = $default_keys
   } else {
@@ -294,31 +292,14 @@ class ntp (
   }
 
   if $step_tickers_ensure_real == 'present' {
-
-    $step_tickers_dir = dirname($step_tickers_path)
-    validate_absolute_path($step_tickers_dir)
-
-    common::mkdir_p { $step_tickers_dir: }
-
-    file { 'step_tickers_dir':
-      ensure  => directory,
-      path    => $step_tickers_dir,
-      owner   => $step_tickers_owner,
-      group   => $step_tickers_group,
-      mode    => $step_tickers_mode,
-      require => Common::Mkdir_p[$step_tickers_dir],
-    }
-
     file { 'step-tickers':
-      ensure  => $step_tickers_ensure_real,
-      path    => $step_tickers_path,
+      ensure  => file,
+      path    => $step_tickers_file,
       owner   => $step_tickers_owner,
       group   => $step_tickers_group,
       mode    => $step_tickers_mode,
       content => template('ntp/step-tickers.erb'),
-      require => [ Package[$package_name_real],
-                  File['step_tickers_dir'],
-                  ],
+      require => Package[$package_name_real],
     }
   }
 

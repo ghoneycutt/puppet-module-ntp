@@ -301,44 +301,20 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
 
         if v[:step_tickers_ensure] == 'present'
-
-          it {
-            should contain_exec('mkdir_p-/etc/ntp').with({
-              'command' => 'mkdir -p /etc/ntp',
-              'unless'  => 'test -d /etc/ntp',
-            })
-          }
-
-          it {
-            should contain_file('step_tickers_dir').with({
-              'ensure' => 'directory',
-              'path'   => '/etc/ntp',
-              'owner'  => 'root',
-              'group'  => 'root',
-              'mode'   => '0644',
-              'require' => 'Common::Mkdir_p[/etc/ntp]',
-            })
-          }
-
           it {
             should contain_file('step-tickers').with({
-              'ensure' => 'present',
+              'ensure' => 'file',
               'path'   => '/etc/ntp/step-tickers',
               'owner'  => 'root',
               'group'  => 'root',
               'mode'   => '0644',
-              'require' => ['Package[ntp]', 'File[step_tickers_dir]'],
+              'require' => 'Package[ntp]',
             })
           }
 
           it { should contain_file('step-tickers').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
 
         elsif v[:step_tickers_ensure] == 'absent'
-
-          it { should_not contain_exec('mkdir_p-/etc/ntp') }
-
-          it { should_not contain_file('step_tickers_dir') }
-
           it { should_not contain_file('step-tickers') }
         end
 
@@ -512,17 +488,6 @@ describe 'ntp' do
       expect {
         should contain_class('ntp')
       }.to raise_error(Puppet::Error,/ntp::step_tickers_ensure must be 'present' or 'absent'. Detected value is <invalid>./)
-    end
-  end
-
-  context 'with invalid path for step_tickers_path param' do
-    let(:params) { { :step_tickers_path => 'invalid/path' } }
-    let(:facts) { { :osfamily => 'RedHat' } }
-
-    it do
-      expect {
-        should contain_class('ntp')
-      }.to raise_error(Puppet::Error)
     end
   end
 

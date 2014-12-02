@@ -43,39 +43,87 @@ Use the latest version of the package.
 
 - *Default*: false
 
+package_noop
+------------
+
+- *Default*: 'USE_DEFAULTS'
+
 package_source
 --------------
 The source for packages on Solaris 5.10 and earlier.
 
-- *Default*: /var/spool/pkg
+- *Default*: 'USE_DEFAULTS'
 
 package_adminfile
 -----------------
 Path to the admin file used for installation on Solaris 5.10 and earlier.
 
+- *Default*: 'USE_DEFAULTS'
+
+service_name
+------------
+ntp service name
+
+- *Default*: 'USE_DEFAULTS'
+
+driftfile
+---------
+
+- *Default*: 'USE_DEFAULTS'
+
+config_file
+-----------
+ntp.conf's file path
+
+- *Default*: 'USE_DEFAULTS'
+
 config_file_owner
 -----------------
 ntp.conf's owner
 
-- *Default*: root
+- *Default*: 'root'
 
 config_file_group
 -----------------
 ntp.conf's group
 
-- *Default*: root
+- *Default*: 'root'
 
 config_file_mode
 ----------------
 ntp.conf's mode
 
-- *Default*: 0644
+- *Default*: '0644'
 
 step_tickers_ensure
 -------------------
 Ensure step tickers file. Valid values are 'present' and 'absent'.
 
-- *Default*: based on OS
+- *Default*: 'USE_DEFAULTS'
+
+step_tickers_file
+-----------------
+step-tickers' file path
+
+- *Default*: '/etc/ntp/step-tickers'
+
+step_tickers_owner
+-------------------
+step-tickers' owner
+
+- *Default*: 'root'
+
+step_tickers_group
+------------------
+step-tickers' group
+
+- *Default*: 'root'
+
+step_tickers_mode
+-----------------
+step-tickers' mode
+
+- *Default*: '0644'
 
 service_running
 ---------------
@@ -99,7 +147,7 @@ keys
 ----
 Path of the symmetric key file. See ntpd(1).
 
-- *Default*: based on OS
+- *Default*: 'USE_DEFAULTS'
 
 servers
 -------
@@ -111,7 +159,7 @@ server_options
 --------------
 Extra options to provide to ntp servers
 
-- *Default*: none
+- *Default*: 'UNSET'
 
 peers
 -----
@@ -138,7 +186,7 @@ orphan_mode_stratum
 -------------------
 Orphan stratum configuration
 
-- *Default*: none
+- *Default*: 'UNSET'
 
 fudge_stratum
 -------------
@@ -162,4 +210,4 @@ logfile
 -------
 Log file name
 
-- *Default*: none
+- *Default*: 'UNSET'

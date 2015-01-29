@@ -77,13 +77,15 @@ restrict ::1
 # next lines.  Please do this only if you trust everybody on the network!
 #disable auth
 #broadcastclient
+<% if @ignore_local_clock_real == false -%>
 
 # Undisciplined Local Clock. This is a fake driver intended for backup
 # and when no outside source of synchronized time is available.
 server  127.127.1.0  # local clock
 fudge  127.127.1.0 stratum <%= @fudge_stratum %>
-
+<% end -%>
 <% if @keys_real -%>
+
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
 keys <%= @keys_real %>

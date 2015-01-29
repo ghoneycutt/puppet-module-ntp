@@ -3,7 +3,7 @@
   "version": "3.3.1",
   "author": "ghoneycutt",
   "summary": "Manage NTP",
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "source": "git://github.com/ghoneycutt/puppet-module-ntp.git",
   "project_page": "https://github.com/ghoneycutt/puppet-module-ntp",
   "issues_url": "https://github.com/ghoneycutt/puppet-module-ntp/issues",

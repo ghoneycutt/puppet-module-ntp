@@ -537,6 +537,38 @@ describe 'ntp' do
     end
   end
 
+  [true,'true'].each do |value|
+    context "with ignore_local_clock set to #{value}" do
+      let(:params) { { :ignore_local_clock => value } }
+      let(:facts) { { :osfamily => 'RedHat' } }
+
+      it { should contain_file('ntp_conf').without_content(/^server\s+127.127.1.0/) }
+      it { should contain_file('ntp_conf').without_content(/^fudge\s+127.127.1.0 stratum 10/) }
+    end
+  end
+
+  context 'with invalid ignore_local_clock 1' do
+    let(:params) { { :ignore_local_clock => ['bad','input'] } }
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    it do
+      expect {
+        should contain_class('ntp')
+      }.to raise_error(Puppet::Error)
+    end
+  end
+
+  context 'with invalid ignore_local_clock 2' do
+    let(:params) { { :ignore_local_clock => 'nottrue' } }
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    it do
+      expect {
+        should contain_class('ntp')
+      }.to raise_error(Puppet::Error)
+    end
+  end
+
   context 'on Linux physical machine' do
     let :facts do
       { :osfamily => 'RedHat',

@@ -672,4 +672,34 @@ describe 'ntp' do
       end
     end
   end
+
+  describe 'with disable_monitor set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    [true,'true',false,'false'].each do |value|
+      context "to #{value} as #{value.class}" do
+        let(:params) { { :disable_monitor => value } }
+
+        it { should compile.with_all_deps }
+        it { should contain_class('ntp') }
+
+        if value == true or value == 'true'
+          it { should contain_file('ntp_conf').with_content(/^disable monitor$/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/^disable monitor$/) }
+        end
+
+      end
+    end
+
+    context 'to invalid type' do
+      let(:params) { { :disable_monitor => [ 'invalid', 'type' ] } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/str2bool/)
+      end
+    end
+  end
 end

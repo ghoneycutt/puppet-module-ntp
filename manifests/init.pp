@@ -35,6 +35,7 @@ class ntp (
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
   $ignore_local_clock  = false,
+  $disable_monitor     = false,
 ) {
 
   # validate type and convert string to boolean if necessary
@@ -118,6 +119,13 @@ class ntp (
     $ignore_local_clock_real = $ignore_local_clock
   }
   validate_bool($ignore_local_clock_real)
+
+  if is_bool($disable_monitor) == true {
+    $disable_monitor_real = $disable_monitor
+  } else {
+    $disable_monitor_real = str2bool($disable_monitor)
+  }
+  validate_bool($disable_monitor_real)
 
   case $::osfamily {
     'Debian': {

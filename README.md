@@ -169,3 +169,9 @@ ignore_local_clock
 Boolean to ignore the local clock. By setting this to true it ensures local clock is not referenced, useful if local clock drifts.
 
 - *Default*: false
+
+disable_monitor
+---------------
+Adds 'disable monitor' line - disables NTP Monlist command, useful to prevent NTP reflection attack https://isc.sans.edu/forums/diary/NTP+reflection+attack/17300
+
+- *Default*: false

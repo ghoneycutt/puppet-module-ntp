@@ -68,17 +68,14 @@ class ntp (
 
   if $peers != 'UNSET' {
     if is_array($peers) == true {
-      $peers_type = 'array'
       $my_peers = $peers
       validate_array($my_peers)
     }
     elsif is_hash($peers) == true {
-      $peers_type = 'hash'
       $my_peers = $peers
       validate_hash($my_peers)
     }
     elsif is_string($peers) == true {
-      $peers_type = 'string'
       $my_peers = any2array($peers)
       validate_array($my_peers)
     }

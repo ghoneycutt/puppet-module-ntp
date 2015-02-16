@@ -36,12 +36,12 @@ server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><%
 
 <% if @my_peers != ['UNSET'] -%>
 # Peers
-<%   if @peers_type == 'string' or @peers_type == 'array' -%>
+<%   if @my_peers.is_a?(Array) -%>
 <%     @my_peers.each do |peer| -%>
 peer <%= peer %>
 <%     end -%>
 <%   end -%>
-<%   if @peers_type == 'hash' -%>
+<%   if @my_peers.is_a?(Hash) -%>
 <%     @my_peers.each do |k, v| -%>
 peer <%= v['host'] %><% if v['options'] %> <%= v['options'] %><% end %><% if v['comment'] %> # <%= v['comment'] %><% end %>
 <%     end -%>

@@ -39,61 +39,56 @@ class ntp (
 ) {
 
   # validate type and convert string to boolean if necessary
-  $package_latest_type = type($package_latest)
-  if $package_latest_type == 'string' {
+  if is_string($package_latest) == true {
     $my_package_latest = str2bool($package_latest)
   } else {
     $my_package_latest = $package_latest
   }
 
   # validate type and convert string to boolean if necessary
-  $service_running_type = type($service_running)
-  if $service_running_type == 'string' {
+  if is_string($service_running) == true {
     $my_service_running = str2bool($service_running)
   } else {
     $my_service_running = $service_running
   }
 
   # validate type and convert string to boolean if necessary
-  $service_hasstatus_type = type($service_hasstatus)
-  if $service_hasstatus_type == 'string' {
+  if is_string($service_hasstatus) == true {
     $my_service_hasstatus = str2bool($service_hasstatus)
   } else {
     $my_service_hasstatus = $service_hasstatus
   }
 
   # validate type and convert string to boolean if necessary
-  $service_hasrestart_type = type($service_hasrestart)
-  if $service_hasrestart_type == 'string' {
+  if is_string($service_hasrestart) == true {
     $my_service_hasrestart = str2bool($service_hasrestart)
   } else {
     $my_service_hasrestart = $service_hasrestart
   }
 
   if $peers != 'UNSET' {
-    $peers_type = type($peers)
-    case $peers_type {
-      'string': {
-        $my_peers = any2array($peers)
-        validate_array($my_peers)
-      }
-      'array': {
-        $my_peers = $peers
-        validate_array($my_peers)
-      }
-      'hash': {
-        $my_peers = $peers
-        validate_hash($my_peers)
-      }
-      default: {
-        fail("ntp::peers must be a string or an array or an hash. Detected type is <$peers_type>.")
-      }
+    if is_array($peers) == true {
+      $peers_type = 'array'
+      $my_peers = $peers
+      validate_array($my_peers)
+    }
+    elsif is_hash($peers) == true {
+      $peers_type = 'hash'
+      $my_peers = $peers
+      validate_hash($my_peers)
+    }
+    elsif is_string($peers) == true {
+      $peers_type = 'string'
+      $my_peers = any2array($peers)
+      validate_array($my_peers)
+    }
+    else {
+      fail("ntp::peers must be a string or an array or an hash.")
     }
   }
 
   # validate type and convert string to boolean if necessary
-  $enable_stats_type = type($enable_stats)
-  if $enable_stats_type == 'string' {
+  if is_string($enable_stats) == true {
     $my_enable_stats = str2bool($enable_stats)
   } else {
     $my_enable_stats = $enable_stats
@@ -113,7 +108,7 @@ class ntp (
     $service_enable = false
   }
 
-  if type($ignore_local_clock) == 'string' {
+  if is_string($ignore_local_clock) == true {
     $ignore_local_clock_real = str2bool($ignore_local_clock)
   } else {
     $ignore_local_clock_real = $ignore_local_clock
@@ -208,7 +203,7 @@ class ntp (
     $package_name_real = $package_name
   }
 
-  if type($package_name_real) != 'String' and type($package_name_real) != 'Array' {
+  if !is_string($package_name_real) and !is_array($package_name_real) {
     fail('ntp::package_name must be a string or an array.')
   }
 

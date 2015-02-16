@@ -415,7 +415,7 @@ describe 'ntp' do
       it do
         expect {
           should contain_class('ntp')
-        }.to raise_error(Puppet::Error, /ntp::peers must be a string or an array or an hash. Detected type is <boolean>./)
+        }.to raise_error(Puppet::Error, /ntp::peers must be a string or an array or an hash./)
       end
     end
   end

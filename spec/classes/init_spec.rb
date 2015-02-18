@@ -13,6 +13,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -29,6 +31,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
@@ -45,6 +49,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
@@ -61,6 +67,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
@@ -77,6 +85,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -93,6 +103,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -109,6 +121,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -125,6 +139,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -141,6 +157,8 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default noserve noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
@@ -157,6 +175,8 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default noserve noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
@@ -173,6 +193,8 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
@@ -189,6 +211,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
@@ -205,6 +229,8 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
@@ -297,8 +323,12 @@ describe 'ntp' do
           it { should_not contain_file('ntp_conf').with_content(/^\s*keys /) }
         end
         it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
+        v[:restrict_options].each do |restrict_options|
+          it { should contain_file('ntp_conf').with_content(/^restrict #{restrict_options}$/) }
+        end
+        v[:restrict_localhost].each do |restrict_localhost|
+          it { should contain_file('ntp_conf').with_content(/^restrict #{restrict_localhost}$/) }
+        end
 
         if v[:step_tickers_ensure] == 'present'
 
@@ -662,13 +692,41 @@ describe 'ntp' do
       it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap$/) }
     end
 
-    context 'to invalid type' do
-      let(:params) { { :restrict_options => [ 'i', 'dont', 'like', 'hashes' ] } }
+    [true,false,1,2.42,h = { 'a' => 'sh' }].each do |value|
+      context "to invalid type as #{value.class}" do
+        let(:params) { { :restrict_options => value } }
 
-      it do
-        expect {
-          should contain_class('ntp')
-        }.to raise_error(Puppet::Error)
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/restrict_options must be an array \(prefered\) or a string \(will be deprecated\)/)
+        end
+      end
+    end
+  end
+
+  describe 'with restrict_localhost set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to [ \'10.0.0.0\', \'127.0.0.2\', ]' do
+      let(:params) { { :restrict_options => [ '10.0.0.0', '127.0.0.2', ] } }
+
+      it { should compile.with_all_deps }
+      it { should contain_class('ntp') }
+
+      it { should contain_file('ntp_conf').with_content(/^restrict 10.0.0.0$/) }
+      it { should contain_file('ntp_conf').with_content(/^restrict 127.0.0.2$/) }
+    end
+
+    ['true',true,false,1,2.42,h = { 'a' => 'sh' }].each do |value|
+      context "to invalid type as #{value.class}" do
+        let(:params) { { :restrict_localhost => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/restrict_localhost must be an array or the string \'USE_DEFAULTS\'./)
+        end
       end
     end
   end

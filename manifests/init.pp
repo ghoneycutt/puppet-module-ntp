@@ -23,7 +23,8 @@ class ntp (
                           '2.us.pool.ntp.org'],
   $server_options      = 'UNSET',
   $peers               = 'UNSET',
-  $restrict_options    = 'default kod notrap nomodify nopeer noquery',
+  $restrict_options    = 'USE_DEFAULTS',
+  $restrict_localhost  = 'USE_DEFAULTS',
   $step_tickers_ensure = 'USE_DEFAULTS',
   $step_tickers_path   = '/etc/ntp/step-tickers',
   $step_tickers_owner  = 'root',
@@ -125,6 +126,8 @@ class ntp (
       $default_package_noop        = false
       $default_package_source      = undef
       $default_package_adminfile   = undef
+      $default_restrict_options    = [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ]
+      $default_restrict_localhost  = [ '127.0.0.1', '::1', ]
       $default_step_tickers_ensure = 'absent'
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
@@ -136,6 +139,8 @@ class ntp (
       $default_package_noop        = false
       $default_package_source      = undef
       $default_package_adminfile   = undef
+      $default_restrict_options    = [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ]
+      $default_restrict_localhost  = [ '127.0.0.1', '::1', ]
       $default_step_tickers_ensure = 'present'
       $default_service_name        = 'ntpd'
       $default_config_file         = '/etc/ntp.conf'
@@ -150,6 +155,8 @@ class ntp (
       $default_package_noop        = false
       $default_package_source      = undef
       $default_package_adminfile   = undef
+      $default_restrict_options    = [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ]
+      $default_restrict_localhost  = [ '127.0.0.1', '::1', ]
       $default_step_tickers_ensure = 'absent'
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
@@ -171,10 +178,14 @@ class ntp (
     'Solaris': {
       case $::kernelrelease {
         '5.9','5.10': {
-          $default_package_name     = [ 'SUNWntp4r', 'SUNWntp4u' ]
+          $default_package_name       = [ 'SUNWntp4r', 'SUNWntp4u' ]
+          $default_restrict_options   = [ 'default noserve noquery', ]
+          $default_restrict_localhost = [ '127.0.0.1', ]
         }
         '5.11': {
-          $default_package_name     = [ 'network/ntp' ]
+          $default_package_name       = [ 'network/ntp' ]
+          $default_restrict_options   = [ 'default kod notrap nomodify nopeer noquery', ]
+          $default_restrict_localhost = [ '127.0.0.1', '::1', ]
         }
         default: {
           fail("The ntp module supports Solaris kernel release 5.9, 5.10 and 5.11. You are running ${::kernelrelease}.")
@@ -260,7 +271,29 @@ class ntp (
     validate_absolute_path($keys_real)
   }
 
-  validate_string($restrict_options)
+  if is_array($restrict_options) == true {
+    $restrict_options_real = $restrict_options
+  }
+  # needed for backward compatibility
+  elsif is_string($restrict_options) == true {
+    $restrict_options_real = $restrict_options ? {
+      'USE_DEFAULTS' => $default_restrict_options,
+      default        => [ "-4 $restrict_options", "-6 $restrict_options", ]
+    }
+  }
+  else {
+    fail("restrict_options must be an array (prefered) or a string (will be deprecated).")
+  }
+
+  if is_array($restrict_localhost) == true {
+    $restrict_localhost_real = $restrict_localhost
+  }
+  elsif $restrict_localhost == 'USE_DEFAULTS' {
+    $restrict_localhost_real = $default_restrict_localhost
+  }
+  else {
+    fail("restrict_localhost must be an array or the string 'USE_DEFAULTS'.")
+  }
 
   # validate $my_enable_stats - must be true or false
   case $my_enable_stats {

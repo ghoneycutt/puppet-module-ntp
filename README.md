@@ -130,9 +130,12 @@ ntp::peers:
 
 restrict_options
 ----------------
-String with options to provide to access control configuration (restrict) in ntp.conf
+Array with options to provide to access control configuration (restrict) in ntp.conf.
+'USE_DEFAULTS' will choose the appropriate default for the system.
 
-- *Default*: 'default kod notrap nomodify nopeer noquery'
+For backward compatibility a string can still be used here. It will be used for IPv4 and IPv6 configuration.
+
+- *Default*: 'USE_DEFAULTS'
 
 orphan_mode_stratum
 -------------------

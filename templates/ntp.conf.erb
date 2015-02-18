@@ -57,12 +57,14 @@ peer <%= v['host'] %><% if v['options'] %> <%= v['options'] %><% end %><% if v['
 # up blocking replies from your own upstream servers.
 
 # By default, exchange time with everybody, but don't allow configuration.
-restrict -4 <%= @restrict_options %>
-restrict -6 <%= @restrict_options %>
+<% @restrict_options_real.each do |value| -%>
+restrict <%= value %>
+<% end -%>
 
 # Local users may interrogate the ntp server more closely.
-restrict 127.0.0.1
-restrict ::1
+<% @restrict_localhost_real.each do |value| -%>
+restrict <%= value %>
+<% end -%>
 
 # Clients from this (example!) subnet have unlimited access, but only if
 # cryptographically authenticated.

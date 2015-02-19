@@ -33,6 +33,7 @@ class ntp (
   $orphan_mode_stratum = 'UNSET',
   $fudge_stratum       = '10',
   $enable_stats        = false,
+  $enable_tinker       = 'USE_DEFAULTS',
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
   $ignore_local_clock  = false,
@@ -133,6 +134,7 @@ class ntp (
       $default_config_file         = '/etc/ntp.conf'
       $default_driftfile           = '/var/lib/ntp/ntp.drift'
       $default_keys                = '/etc/ntp/keys'
+      $default_enable_tinker       = true
     }
     'RedHat': {
       $default_package_name        = [ 'ntp' ]
@@ -145,6 +147,7 @@ class ntp (
       $default_service_name        = 'ntpd'
       $default_config_file         = '/etc/ntp.conf'
       $default_keys                = '/etc/ntp/keys'
+      $default_enable_tinker       = true
       if $::operatingsystemmajrelease == '7' or $::lsbmajdistrelease == '7' {
         $default_driftfile           = '/var/lib/ntp/drift'
       } else {
@@ -161,7 +164,8 @@ class ntp (
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
       $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
-      $default_keys                = undef
+      $default_keys                = ''
+      $default_enable_tinker       = true
 
       case $::lsbmajdistrelease {
         '9','10': {
@@ -199,6 +203,7 @@ class ntp (
       $default_config_file         = '/etc/inet/ntp.conf'
       $default_driftfile           = '/var/ntp/ntp.drift'
       $default_keys                = '/etc/inet/ntp.keys'
+      $default_enable_tinker       = false
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
@@ -251,6 +256,10 @@ class ntp (
     $driftfile_real = $driftfile
   }
 
+  if $driftfile_real {
+    validate_absolute_path($driftfile_real)
+  }
+
   if $step_tickers_ensure == 'USE_DEFAULTS' {
     $step_tickers_ensure_real = $default_step_tickers_ensure
   } else {
@@ -267,8 +276,17 @@ class ntp (
     $keys_real = $keys
   }
 
-  if $keys_real != undef {
+  if $keys_real {
     validate_absolute_path($keys_real)
+  }
+
+  if is_bool($enable_tinker) == true {
+    $enable_tinker_real = $enable_tinker
+  } else {
+    $enable_tinker_real = $enable_tinker ? {
+      'USE_DEFAULTS' => $default_enable_tinker,
+      default        => str2bool($enable_tinker)
+    }
   }
 
   if is_array($restrict_options) == true {

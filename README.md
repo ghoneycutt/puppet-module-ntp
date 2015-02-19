@@ -77,6 +77,12 @@ Ensure step tickers file. Valid values are 'present' and 'absent'.
 
 - *Default*: based on OS
 
+driftfile
+---------
+Path of the drift file. String with absolute path. Set to '' to disable drift file usage. 'USE_DEFAULTS' will choose the appropriate default for the system.
+
+- *Default*: 'USE_DEFAULTS'
+
 service_running
 ---------------
 If service should be running
@@ -97,9 +103,9 @@ Service has a restart option
 
 keys
 ----
-Path of the symmetric key file. See ntpd(1).
+Path of the symmetric key file. See ntpd(1). Set to '' to disable drift file usage. 'USE_DEFAULTS' will choose the appropriate default for the system.
 
-- *Default*: based on OS
+- *Default*: 'USE_DEFAULTS'
 
 servers
 -------
@@ -128,6 +134,13 @@ ntp::peers:
 
 - *Default*: 'UNSET'
 
+restrict_localhost
+------------------
+Array with options to provide to access control configuration (restrict) in ntp.conf.
+'USE_DEFAULTS' will choose the appropriate default for the system to allow localhost access only.
+
+- *Default*: 'USE_DEFAULTS'
+
 restrict_options
 ----------------
 Array with options to provide to access control configuration (restrict) in ntp.conf.
@@ -154,6 +167,12 @@ enable_stats
 If statistics should be enabled.
 
 - *Default*: false
+
+enable_tinker
+----------------
+If tinker should be enabled (boolean).
+
+- *Default*: true
 
 statdir
 -------

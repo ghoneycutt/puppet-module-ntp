@@ -13,11 +13,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/ntp.drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
     'el5' =>
       { :osfamily            => 'RedHat',
@@ -29,11 +32,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/ntp.drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
     'el6' =>
       { :osfamily            => 'RedHat',
@@ -45,11 +51,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/ntp.drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
     'el7' =>
       { :osfamily            => 'RedHat',
@@ -61,11 +70,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
     'suse9' =>
       { :osfamily            => 'Suse',
@@ -77,11 +89,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift/ntp.drift',
-        :keys                => nil,
+        :keys                => '',
+        :enable_tinker       => true,
       },
     'suse10' =>
       { :osfamily            => 'Suse',
@@ -93,11 +108,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift/ntp.drift',
-        :keys                => nil,
+        :keys                => '',
+        :enable_tinker       => true,
       },
     'suse11' =>
       { :osfamily            => 'Suse',
@@ -109,11 +127,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift/ntp.drift',
-        :keys                => nil,
+        :keys                => '',
+        :enable_tinker       => true,
       },
     'suse12' =>
       { :osfamily            => 'Suse',
@@ -125,11 +146,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift/ntp.drift',
-        :keys                => nil,
+        :keys                => '',
+        :enable_tinker       => true,
       },
     'solaris9' =>
       { :osfamily            => 'Solaris',
@@ -141,11 +165,14 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default noserve noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
         :driftfile           => '/var/ntp/ntp.drift',
         :keys                => '/etc/inet/ntp.keys',
+        :enable_tinker       => false,
       },
     'solaris10' =>
       { :osfamily            => 'Solaris',
@@ -157,11 +184,14 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default noserve noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
         :driftfile           => '/var/ntp/ntp.drift',
         :keys                => '/etc/inet/ntp.keys',
+        :enable_tinker       => false,
       },
     'solaris11' =>
       { :osfamily            => 'Solaris',
@@ -173,11 +203,14 @@ describe 'ntp' do
         :package_noop        => true,
         :package_source      => '/var/spool/pkg',
         :package_adminfile   => '/var/sadm/install/admin/puppet-ntp',
+        :restrict_options    => [ 'default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp4',
         :config_file         => '/etc/inet/ntp.conf',
         :driftfile           => '/var/ntp/ntp.drift',
         :keys                => '/etc/inet/ntp.keys',
+        :enable_tinker       => false,
       },
     'ubuntu1204' =>
       { :osfamily            => 'Debian',
@@ -189,11 +222,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
         :service_name        => 'ntp',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/ntp.drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
     'xenu' =>
       { :osfamily            => 'RedHat',
@@ -205,11 +241,14 @@ describe 'ntp' do
         :package_noop        => false,
         :package_source      => nil,
         :package_adminfile   => nil,
+        :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
+        :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'present',
         :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/ntp.drift',
         :keys                => '/etc/ntp/keys',
+        :enable_tinker       => true,
       },
   }
 
@@ -287,18 +326,31 @@ describe 'ntp' do
           })
         }
 
-        it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(v[:driftfile])}/) }
+        if v[:driftfile] != ''
+          it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(v[:driftfile])}/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/driftfile/) }
+        end
+        if v[:enable_tinker]
+          it { should contain_file('ntp_conf').with_content(/^tinker panic 0$/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/^tinker panic 0$/) }
+        end
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged$/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
         it { should contain_file('ntp_conf').without_content(/^\s*peer/) }
-        if v[:keys]
+        if v[:keys] != ''
           it { should contain_file('ntp_conf').with_content(/^keys #{Regexp.escape(v[:keys])}$/) }
         else
-          it { should_not contain_file('ntp_conf').with_content(/^\s*keys /) }
+          it { should contain_file('ntp_conf').without_content(/^\s*keys /) }
         end
         it { should contain_file('ntp_conf').with_content(/fudge  127.127.1.0 stratum 10$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap nomodify nopeer noquery$/) }
-        it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap nomodify nopeer noquery$/) }
+        v[:restrict_options].each do |restrict_options|
+          it { should contain_file('ntp_conf').with_content(/^restrict #{restrict_options}$/) }
+        end
+        v[:restrict_localhost].each do |restrict_localhost|
+          it { should contain_file('ntp_conf').with_content(/^restrict #{restrict_localhost}$/) }
+        end
 
         if v[:step_tickers_ensure] == 'present'
 
@@ -375,6 +427,62 @@ describe 'ntp' do
           }
         else
           it { should_not contain_exec('xen_independent_wallclock') }
+        end
+      end
+    end
+  end
+
+  describe 'with driftfile set to' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    [ '', '/var/lib/ntp/ntp.drift','/etc/ntp/drift'].each do |value|
+      context "valid #{value} as #{value.class}" do
+        let(:params) { { :driftfile => value } }
+
+        if value != ''
+          it { should contain_file('ntp_conf').with_content(/driftfile #{Regexp.escape(value)}/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/driftfile/) }
+        end
+      end
+    end
+
+    ['../invalid/path',3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "invalid #{value} as #{value.class}" do
+        let(:params) { { :driftfile => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/is not an absolute path/)
+        end
+      end
+    end
+  end
+
+  describe 'with keys set to' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    [ '', '/var/lib/ntp/keys','/etc/ntp/keysfile'].each do |value|
+      context "valid #{value} as #{value.class}" do
+        let(:params) { { :keys => value } }
+
+        if value != ''
+          it { should contain_file('ntp_conf').with_content(/keys #{Regexp.escape(value)}/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/keys/) }
+        end
+      end
+    end
+
+    ['../invalid/path',3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "invalid #{value} as #{value.class}" do
+        let(:params) { { :keys => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/is not an absolute path/)
         end
       end
     end
@@ -526,17 +634,6 @@ describe 'ntp' do
     end
   end
 
-  context 'with invalid path for keys param' do
-    let(:params) { { :keys => 'invalid/path' } }
-    let(:facts) { { :osfamily => 'RedHat' } }
-
-    it do
-      expect {
-        should contain_class('ntp')
-      }.to raise_error(Puppet::Error)
-    end
-  end
-
   [true,'true'].each do |value|
     context "with ignore_local_clock set to #{value}" do
       let(:params) { { :ignore_local_clock => value } }
@@ -652,23 +749,57 @@ describe 'ntp' do
   describe 'with restrict_options set' do
     let(:facts) { { :osfamily => 'RedHat' } }
 
-    context 'to \'default kod notrap\'' do
+    context 'to valid \'default kod notrap\'' do
       let(:params) { { :restrict_options => 'default kod notrap' } }
-
-      it { should compile.with_all_deps }
-      it { should contain_class('ntp') }
 
       it { should contain_file('ntp_conf').with_content(/^restrict -4 default kod notrap$/) }
       it { should contain_file('ntp_conf').with_content(/^restrict -6 default kod notrap$/) }
     end
 
-    context 'to invalid type' do
-      let(:params) { { :restrict_options => [ 'i', 'dont', 'like', 'hashes' ] } }
+    context 'to valid [ \'\', ]' do
+      let(:params) { { :restrict_options => [ '', ] } }
 
-      it do
-        expect {
-          should contain_class('ntp')
-        }.to raise_error(Puppet::Error)
+      it { should contain_file('ntp_conf').without_content(/^restrict$/) }
+    end
+
+    [true,false,3,2.42,a = { 'ha' => 'sh' }].each do |value|
+      context "to invalid #{value} as #{value.class}" do
+        let(:params) { { :restrict_options => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/restrict_options must be an array \(prefered\) or a string \(will be deprecated\)/)
+        end
+      end
+    end
+  end
+
+  describe 'with restrict_localhost set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to valid [ \'10.0.0.0\', \'127.0.0.2\', ]' do
+      let(:params) { { :restrict_localhost => [ '10.0.0.0', '127.0.0.2', ] } }
+
+      it { should contain_file('ntp_conf').with_content(/^restrict 10.0.0.0$/) }
+      it { should contain_file('ntp_conf').with_content(/^restrict 127.0.0.2$/) }
+    end
+
+    context 'to valid [ \'\', ]' do
+      let(:params) { { :restrict_localhost => [ '', ] } }
+
+      it { should contain_file('ntp_conf').without_content(/^restrict$/) }
+    end
+
+    ['true',true,false,1,2.42,h = { 'a' => 'sh' }].each do |value|
+      context "to invalid #{value} as #{value.class}" do
+        let(:params) { { :restrict_localhost => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/restrict_localhost must be an array or the string \'USE_DEFAULTS\'./)
+        end
       end
     end
   end
@@ -702,4 +833,34 @@ describe 'ntp' do
       end
     end
   end
+
+  describe 'with enable_tinker set to' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    [true,'true',false,'false'].each do |value|
+      context "valid #{value} as #{value.class}" do
+        let(:params) { { :enable_tinker => value } }
+
+        if value == true or value == 'true'
+          it { should contain_file('ntp_conf').with_content(/^tinker panic 0$/) }
+        else
+          it { should contain_file('ntp_conf').without_content(/^tinker panic 0$/) }
+        end
+
+      end
+    end
+
+    ['invalid',3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "invalid #{value} as #{value.class}" do
+        let(:params) { { :enable_tinker => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/str2bool/)
+        end
+      end
+    end
+  end
+
 end

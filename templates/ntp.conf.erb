@@ -2,12 +2,14 @@
 # DO NOT EDIT
 #
 # /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
+<% if @driftfile_real != '' -%>
 
 # Drift file.  Put this in a directory which the daemon can write to.
 # No symbolic links allowed, either, since the daemon updates the file
 # by creating a temporary in the same directory and then rename()'ing
 # it to the file.
 driftfile <%= @driftfile_real %>
+<% end -%>
 
 <% if @enable_stats == 'true' %>
 # Statistics are being logged
@@ -57,12 +59,14 @@ peer <%= v['host'] %><% if v['options'] %> <%= v['options'] %><% end %><% if v['
 # up blocking replies from your own upstream servers.
 
 # By default, exchange time with everybody, but don't allow configuration.
-restrict -4 <%= @restrict_options %>
-restrict -6 <%= @restrict_options %>
+<% @restrict_options_real.each do |value| -%>
+restrict <%= value %>
+<% end -%>
 
 # Local users may interrogate the ntp server more closely.
-restrict 127.0.0.1
-restrict ::1
+<% @restrict_localhost_real.each do |value| -%>
+restrict <%= value %>
+<% end -%>
 
 # Clients from this (example!) subnet have unlimited access, but only if
 # cryptographically authenticated.
@@ -84,7 +88,7 @@ restrict ::1
 server  127.127.1.0  # local clock
 fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 <% end -%>
-<% if @keys_real -%>
+<% if @keys_real != '' -%>
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.
@@ -103,9 +107,11 @@ keys <%= @keys_real %>
 # Orphan mode
 # http://support.ntp.org/bin/view/Support/OrphanMode
 <% if @orphan_mode_stratum != 'UNSET' %>tos orphan <%= @orphan_mode_stratum %><% end %>
+<% if @enable_tinker_real == true -%>
 
 # Accept any offset - useful for VM's or suspended systems
 tinker panic 0
+<% end -%>
 <% if @disable_monitor_real == true -%>
 
 # Disabling monitor - https://isc.sans.edu/diary/NTP+reflection+attack/17300

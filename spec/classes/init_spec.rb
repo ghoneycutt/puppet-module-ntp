@@ -289,7 +289,6 @@ describe 'ntp' do
         it { should contain_class('ntp')}
 
         if v[:package_name].class == Array
-          package_require = Array.new
 
           v[:package_name].each do |pkg|
             it {
@@ -298,9 +297,10 @@ describe 'ntp' do
                 'noop'      => v[:package_noop],
                 'source'    => v[:package_source],
                 'adminfile' => v[:package_adminfile],
+                'before'    => 'File[ntp_conf]',
+                'notify'    => 'Service[ntp_service]',
               })
             }
-            package_require << "Package[#{pkg}]"
           end
         else
           it {
@@ -312,7 +312,6 @@ describe 'ntp' do
             })
           }
 
-          package_require = "Package[#{v[:package_name]}]"
         end
 
         it {
@@ -322,7 +321,6 @@ describe 'ntp' do
             'owner'  => 'root',
             'group'  => 'root',
             'mode'   => '0644',
-            'require' => package_require,
           })
         }
 
@@ -379,7 +377,7 @@ describe 'ntp' do
               'owner'  => 'root',
               'group'  => 'root',
               'mode'   => '0644',
-              'require' => ['Package[ntp]', 'File[step_tickers_dir]'],
+              'require' => ['File[step_tickers_dir]'],
             })
           }
 
@@ -863,4 +861,43 @@ describe 'ntp' do
     end
   end
 
+  describe 'with package_manage set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+    [true,'true',false,'false'].each do |value|
+      context "to valid #{value} (as #{value.class})" do
+        let(:params) { { :package_manage => value } }
+
+        if value.to_s == 'true'
+          it {
+            should contain_package('ntp').with({
+              'ensure'    => 'present',
+              'noop'      => 'false',
+              'source'    => nil,
+              'adminfile' => nil,
+              'before'    => [ 'File[ntp_conf]', ],
+              'notify'    => [ 'Service[ntp_service]', ], 
+            })
+          }
+        end
+
+        if value.to_s == 'false'
+          it { should_not contain_package('ntp') }
+        end
+      end
+    end
+
+    ['invalid',3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "to invalid #{value} (as #{value.class})" do
+        let(:params) { { :package_manage => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error)
+        end
+
+      end
+    end
+
+  end
 end

@@ -92,6 +92,7 @@ class ntp (
   } else {
     $my_enable_stats = $enable_stats
   }
+  validate_bool($my_enable_stats)
 
   if $my_package_latest == true {
     $package_ensure = latest
@@ -311,16 +312,6 @@ class ntp (
   }
   else {
     fail("restrict_localhost must be an array or the string 'USE_DEFAULTS'.")
-  }
-
-  # validate $my_enable_stats - must be true or false
-  case $my_enable_stats {
-    true,false: {
-      # noop - accepting values
-    }
-    default: {
-      fail("enable_stats must be true or false and is ${my_enable_stats}")
-    }
   }
 
   if $package_adminfile_real != undef {

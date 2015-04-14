@@ -470,11 +470,23 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/^statsdir \/var\/log\/ntpstats\/$/) }
       end
     end
+
     ['false',false].each do |value|
       context "specified as #{value}" do
         let(:params) { { :enable_stats => value } }
 
         it { should_not contain_file('ntp_conf').with_content(/^\s*statsdir/) }
+      end
+    end
+
+    context 'as an invalid type (non-boolean)' do
+      let(:facts) { { :osfamily => 'RedHat' } }
+      let(:params) { { :enable_stats => ['not','a','boolean'] } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/\["not", "a", "boolean"\] is not a boolean/)
       end
     end
   end

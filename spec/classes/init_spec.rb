@@ -460,6 +460,25 @@ describe 'ntp' do
     end
   end
 
+  describe 'with enable_stats' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    ['true',true].each do |value|
+      context "specified as #{value}" do
+        let(:params) { { :enable_stats => value } }
+
+        it { should contain_file('ntp_conf').with_content(/^statsdir \/var\/log\/ntpstats\/$/) }
+      end
+    end
+    ['false',false].each do |value|
+      context "specified as #{value}" do
+        let(:params) { { :enable_stats => value } }
+
+        it { should_not contain_file('ntp_conf').with_content(/^\s*statsdir/) }
+      end
+    end
+  end
+
   describe 'with keys set to' do
     let(:facts) { { :osfamily => 'RedHat' } }
 

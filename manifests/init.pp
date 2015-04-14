@@ -290,6 +290,8 @@ class ntp (
     }
   }
 
+  validate_absolute_path($statsdir)
+
   if is_array($restrict_options) == true {
     $restrict_options_real = $restrict_options
   }

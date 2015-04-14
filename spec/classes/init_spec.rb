@@ -491,6 +491,45 @@ describe 'ntp' do
     end
   end
 
+  describe 'with statsdir' do
+    context 'specified as a valid path' do
+      context 'with enable_stats as true' do
+        let(:facts) { { :osfamily => 'RedHat' } }
+        let(:params) do
+          {
+            :enable_stats => true,
+            :statsdir     => '/path/to/statsdir',
+          }
+        end
+
+        it { should contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir$/) }
+      end
+
+      context 'with enable_stats as false' do
+        let(:facts) { { :osfamily => 'RedHat' } }
+        let(:params) do
+          {
+            :enable_stats => false,
+            :statsdir     => '/path/to/statsdir',
+          }
+        end
+
+        it { should_not contain_file('ntp_conf').with_content(/^\s*statsdir/) }
+      end
+    end
+
+    context 'specified as an invalid path' do
+      let(:facts) { { :osfamily => 'RedHat' } }
+      let(:params) { { :statsdir => 'invalid/path' } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
+      end
+    end
+  end
+
   describe 'with keys set to' do
     let(:facts) { { :osfamily => 'RedHat' } }
 

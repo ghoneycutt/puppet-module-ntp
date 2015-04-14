@@ -82,7 +82,7 @@ class ntp (
       validate_array($my_peers)
     }
     else {
-      fail("ntp::peers must be a string or an array or an hash.")
+      fail('ntp::peers must be a string or an array or an hash.')
     }
   }
 
@@ -296,11 +296,11 @@ class ntp (
   elsif is_string($restrict_options) == true {
     $restrict_options_real = $restrict_options ? {
       'USE_DEFAULTS' => $default_restrict_options,
-      default        => [ "-4 $restrict_options", "-6 $restrict_options", ]
+      default        => [ "-4 ${restrict_options}", "-6 ${restrict_options}", ]
     }
   }
   else {
-    fail("restrict_options must be an array (prefered) or a string (will be deprecated).")
+    fail('restrict_options must be an array (prefered) or a string (will be deprecated).')
   }
 
   if is_array($restrict_localhost) == true {
@@ -310,7 +310,7 @@ class ntp (
     $restrict_localhost_real = $default_restrict_localhost
   }
   else {
-    fail("restrict_localhost must be an array or the string 'USE_DEFAULTS'.")
+    fail('restrict_localhost must be an array or the string \'USE_DEFAULTS\'.')
   }
 
   # validate $my_enable_stats - must be true or false

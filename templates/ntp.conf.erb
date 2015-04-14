@@ -11,7 +11,7 @@
 driftfile <%= @driftfile_real %>
 <% end -%>
 
-<% if @enable_stats == 'true' %>
+<% if @my_enable_stats == true %>
 # Statistics are being logged
 statsdir <%= @statsdir %>
 <% else %>

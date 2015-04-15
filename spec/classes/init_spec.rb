@@ -470,11 +470,62 @@ describe 'ntp' do
         it { should contain_file('ntp_conf').with_content(/^statsdir \/var\/log\/ntpstats\/$/) }
       end
     end
+
     ['false',false].each do |value|
       context "specified as #{value}" do
         let(:params) { { :enable_stats => value } }
 
         it { should_not contain_file('ntp_conf').with_content(/^\s*statsdir/) }
+      end
+    end
+
+    context 'as an invalid type (non-boolean)' do
+      let(:facts) { { :osfamily => 'RedHat' } }
+      let(:params) { { :enable_stats => ['not','a','boolean'] } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/\["not", "a", "boolean"\] is not a boolean/)
+      end
+    end
+  end
+
+  describe 'with statsdir' do
+    context 'specified as a valid path' do
+      context 'with enable_stats as true' do
+        let(:facts) { { :osfamily => 'RedHat' } }
+        let(:params) do
+          {
+            :enable_stats => true,
+            :statsdir     => '/path/to/statsdir',
+          }
+        end
+
+        it { should contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir$/) }
+      end
+
+      context 'with enable_stats as false' do
+        let(:facts) { { :osfamily => 'RedHat' } }
+        let(:params) do
+          {
+            :enable_stats => false,
+            :statsdir     => '/path/to/statsdir',
+          }
+        end
+
+        it { should_not contain_file('ntp_conf').with_content(/^\s*statsdir/) }
+      end
+    end
+
+    context 'specified as an invalid path' do
+      let(:facts) { { :osfamily => 'RedHat' } }
+      let(:params) { { :statsdir => 'invalid/path' } }
+
+      it do
+        expect {
+          should contain_class('ntp')
+        }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
       end
     end
   end

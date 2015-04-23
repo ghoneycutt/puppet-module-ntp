@@ -9,7 +9,7 @@ Puppet module to manage NTP
 
 # Compatibility
 
-This module is supported on the following systems with Puppet v3 and Ruby 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
+This module is supported on the following systems with Puppet v3 and v4 with Ruby versions 1.8.7 (Puppet v3 only), 1.9.3, 2.0.0 and 2.1.0.
 
  * Debian 6
  * EL 5

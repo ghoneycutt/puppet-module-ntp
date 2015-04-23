@@ -14,7 +14,7 @@ if ENV['PUPPET_GEM_GEMVERSION'] < 4
   gem 'facter', '>= 1.7.0'
   gem 'rspec-puppet', '~>1.0'
 else
-  gem 'facter', '>= 2.4.0'
+  gem 'facter', '>= 2.4.3'
   gem 'rspec-puppet'
 end
 

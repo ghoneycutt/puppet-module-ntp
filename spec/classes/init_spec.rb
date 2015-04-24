@@ -874,6 +874,35 @@ describe 'ntp' do
     end
   end
 
+  describe 'with servers set' do
+    let(:facts) { { :osfamily => 'RedHat' } }
+
+    context 'to valid [ \'ntp1.example.com\', \'ntp2.example.com\', ]' do
+      let(:params) { { :servers => [ 'ntp1.example.com', 'ntp2.example.com', ] } }
+
+      it { should contain_file('ntp_conf').with_content(/^server ntp1.example.com$/) }
+      it { should contain_file('ntp_conf').with_content(/^server ntp2.example.com$/) }
+    end
+
+    context 'to valid [ \'\', ]' do
+      let(:params) { { :servers => [ '', ] } }
+
+      it { should contain_file('ntp_conf').without_content(/^server$/) }
+    end
+
+    ['true',true,false,1,2.42,h = { 'a' => 'sh' }].each do |value|
+      context "to invalid #{value} as #{value.class}" do
+        let(:params) { { :servers => value } }
+
+        it do
+          expect {
+            should contain_class('ntp')
+          }.to raise_error(Puppet::Error,/is not an Array./)
+        end
+      end
+    end
+  end
+
   describe 'with disable_monitor set' do
     let(:facts) { { :osfamily => 'RedHat' } }
 

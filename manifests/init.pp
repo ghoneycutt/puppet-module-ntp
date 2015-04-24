@@ -40,6 +40,9 @@ class ntp (
   $disable_monitor     = false,
 ) {
 
+  # validate type as array or fail
+  validate_array($servers)
+
   # validate type and convert string to boolean if necessary
   if is_string($package_latest) == true {
     $my_package_latest = str2bool($package_latest)

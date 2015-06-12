@@ -149,7 +149,7 @@ describe 'ntp' do
         :restrict_options    => [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ],
         :restrict_localhost  => [ '127.0.0.1', '::1', ],
         :step_tickers_ensure => 'absent',
-        :service_name        => 'ntp',
+        :service_name        => 'ntpd',
         :config_file         => '/etc/ntp.conf',
         :driftfile           => '/var/lib/ntp/drift/ntp.drift',
         :keys                => '',

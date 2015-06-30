@@ -71,6 +71,18 @@ ntp.conf's mode
 
 - *Default*: 0644
 
+sysconfig_path
+--------------
+Path to the ntp sysconfig config file.
+
+- *Default*: 'USE_DEFAULTS'
+
+sysconfig_options
+-----------------
+String with startup options to pass to ntp.
+
+- *Default*: 'USE_DEFAULTS'
+
 step_tickers_ensure
 -------------------
 Ensure step tickers file. Valid values are 'present' and 'absent'.

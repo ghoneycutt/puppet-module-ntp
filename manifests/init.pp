@@ -38,6 +38,8 @@ class ntp (
   $logfile             = 'UNSET',
   $ignore_local_clock  = false,
   $disable_monitor     = false,
+  $sysconfig_path      = 'USE_DEFAULTS',
+  $sysconfig_options   = 'USE_DEFAULTS',
 ) {
 
   # validate type as array or fail
@@ -139,6 +141,9 @@ class ntp (
       $default_driftfile           = '/var/lib/ntp/ntp.drift'
       $default_keys                = '/etc/ntp/keys'
       $default_enable_tinker       = true
+      $default_sysconfig_path      = '/etc/default/ntp'
+      $sysconfig_erb               = 'sysconfig.debian.erb'
+      $default_sysconfig_options   = '-g'
     }
     'RedHat': {
       $default_package_name        = [ 'ntp' ]
@@ -152,11 +157,28 @@ class ntp (
       $default_config_file         = '/etc/ntp.conf'
       $default_keys                = '/etc/ntp/keys'
       $default_enable_tinker       = true
-      if $::operatingsystemmajrelease == '7' or $::lsbmajdistrelease == '7' {
-        $default_driftfile           = '/var/lib/ntp/drift'
-      } else {
-        $default_driftfile           = '/var/lib/ntp/ntp.drift'
+      $default_sysconfig_path      = '/etc/sysconfig/ntpd'
+      case $::operatingsystemrelease {
+        /^5/: {
+          $default_driftfile           = '/var/lib/ntp/ntp.drift'
+          $sysconfig_erb               = 'sysconfig.rhel5.erb'
+          $default_sysconfig_options   = '-u ntp:ntp -p /var/run/ntpd.pid'
+        }
+        /^6/: {
+          $default_driftfile           = '/var/lib/ntp/ntp.drift'
+          $sysconfig_erb               = 'sysconfig.rhel6.erb'
+          $default_sysconfig_options   = '-u ntp:ntp -p /var/run/ntpd.pid -g'
+        }
+        /^7/: {
+          $default_driftfile           = '/var/lib/ntp/drift'
+          $sysconfig_erb               = 'sysconfig.rhel7.erb'
+          $default_sysconfig_options   = '-g'
+        }
+        default: {
+          fail("The ntp module supports RedHat like systems with major releases 5, 6, and 7 and you have ${::operatingsystemrelease}")
+        }
       }
+
     }
     'Suse': {
       $default_package_noop        = false
@@ -169,18 +191,31 @@ class ntp (
       $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
       $default_keys                = undef
       $default_enable_tinker       = true
+      $default_sysconfig_path      = '/etc/sysconfig/ntp'
 
-      case $::lsbmajdistrelease {
-        '9','10': {
-          $default_package_name     = [ 'xntp' ]
-          $default_service_name     = 'ntp'
+      case $::operatingsystemrelease {
+        /^9/: {
+          $default_package_name       = [ 'xntp' ]
+          $default_service_name       = 'ntp'
+          $default_sysconfig_options  = '-u ntp'
+          $sysconfig_erb              = 'sysconfig.suse9.erb'
         }
-        '11': {
-          $default_package_name     = [ 'ntp' ]
-          $default_service_name     = 'ntp'
+        /^10/: {
+          $default_package_name       = [ 'xntp' ]
+          $default_service_name       = 'ntp'
+          $default_sysconfig_options  = '-u ntp'
+          $sysconfig_erb              = 'sysconfig.suse10.erb'
         }
-        '12': {
-          $default_package_name     = [ 'ntp' ]
+        /^11/: {
+          $default_package_name       = [ 'ntp' ]
+          $default_service_name       = 'ntp'
+          $default_sysconfig_options  = '-g -u ntp:ntp'
+          $sysconfig_erb              = 'sysconfig.suse11.erb'
+        }
+        /^12/: {
+          $default_package_name       = [ 'ntp' ]
+          $default_sysconfig_options  = '-g -u ntp:ntp'
+          $sysconfig_erb              = 'sysconfig.suse12.erb'
           if $::operatingsystem == 'OpenSuSE' {
             $default_service_name = 'ntp'
           } else {
@@ -188,7 +223,7 @@ class ntp (
           }
         }
         default: {
-          fail("The ntp module is supported by release 9, 10, 11 and 12 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")
+          fail("The ntp module supports Suse like systems with major releases 9, 10, 11, and 12 and you have ${::operatingsystemrelease}")
         }
       }
     }
@@ -328,6 +363,18 @@ class ntp (
     fail('restrict_localhost must be an array or the string \'USE_DEFAULTS\'.')
   }
 
+  if $sysconfig_path == 'USE_DEFAULTS' {
+    $sysconfig_path_real = $default_sysconfig_path
+  } else {
+    $sysconfig_path_real = $sysconfig_path
+  }
+
+  if $sysconfig_options == 'USE_DEFAULTS' {
+    $sysconfig_options_real = $default_sysconfig_options
+  } else {
+    $sysconfig_options_real = $sysconfig_options
+  }
+
   if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {
 
     file { 'admin_file':
@@ -346,6 +393,19 @@ class ntp (
     source    => $package_source_real,
     adminfile => $package_adminfile_real,
     before    => File['ntp_conf'],
+  }
+
+  if $::kernel == 'Linux' {
+    file { 'ntp_sysconfig':
+      ensure  => file,
+      path    => $sysconfig_path_real,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template("ntp/${ntp::sysconfig_erb}"),
+      notify  => Service['ntp_service'],
+      require => Package[$package_name_real],
+    }
   }
 
   file { 'ntp_conf':

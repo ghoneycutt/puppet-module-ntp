@@ -1,0 +1,11 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+# Drop root to id 'ntp:ntp' by default.
+OPTIONS="<%= @sysconfig_options_real %>"
+
+# Set to 'yes' to sync hw clock after successful ntpdate
+SYNC_HWCLOCK=no
+
+# Additional options for ntpdate
+NTPDATE_OPTIONS=""

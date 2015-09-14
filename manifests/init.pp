@@ -178,7 +178,11 @@ class ntp (
         }
         '12': {
           $default_package_name     = [ 'ntp' ]
-          $default_service_name     = 'ntpd'
+          if $::operatingsystem == 'OpenSuSE' {
+            $default_service_name = 'ntp'
+          } else {
+            $default_service_name = 'ntpd'
+          }
         }
         default: {
           fail("The ntp module is supported by release 9, 10, 11 and 12 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")

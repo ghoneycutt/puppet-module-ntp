@@ -168,7 +168,7 @@ class ntp (
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
       $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
-      $default_keys                = ''
+      $default_keys                = undef
       $default_enable_tinker       = true
 
       case $::lsbmajdistrelease {
@@ -260,7 +260,7 @@ class ntp (
     $driftfile_real = $driftfile
   }
 
-  if $driftfile_real {
+  if ($driftfile_real != '') and ($driftfile != undef) {
     validate_absolute_path($driftfile_real)
   }
 
@@ -280,7 +280,7 @@ class ntp (
     $keys_real = $keys
   }
 
-  if $keys_real {
+  if ($keys_real != '') and ($keys_real != undef) {
     validate_absolute_path($keys_real)
   }
 

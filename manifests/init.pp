@@ -319,7 +319,7 @@ class ntp (
     fail('restrict_localhost must be an array or the string \'USE_DEFAULTS\'.')
   }
 
-  if $package_adminfile_real != undef {
+  if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {
 
     file { 'admin_file':
       ensure  => 'present',

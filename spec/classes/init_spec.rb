@@ -525,7 +525,7 @@ describe 'ntp' do
       it do
         expect {
           should contain_class('ntp')
-        }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
+        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
       end
     end
   end

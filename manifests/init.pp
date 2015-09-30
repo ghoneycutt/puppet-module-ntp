@@ -336,6 +336,7 @@ class ntp (
     noop      => $package_noop_real,
     source    => $package_source_real,
     adminfile => $package_adminfile_real,
+    before    => File['ntp_conf'],
   }
 
   file { 'ntp_conf':
@@ -345,7 +346,6 @@ class ntp (
     group   => $config_file_group,
     mode    => $config_file_mode,
     content => template('ntp/ntp.conf.erb'),
-    require => Package[$package_name_real],
   }
 
   if $step_tickers_ensure_real == 'present' {

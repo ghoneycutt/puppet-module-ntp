@@ -2,7 +2,7 @@
 # DO NOT EDIT
 #
 # /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
-<% if @driftfile_real != '' -%>
+<% if @driftfile_real != '' and @driftfile_real != nil -%>
 
 # Drift file.  Put this in a directory which the daemon can write to.
 # No symbolic links allowed, either, since the daemon updates the file
@@ -88,7 +88,7 @@ restrict <%= value %>
 server  127.127.1.0  # local clock
 fudge  127.127.1.0 stratum <%= @fudge_stratum %>
 <% end -%>
-<% if @keys_real != '' -%>
+<% if @keys_real != '' and @keys_real != nil -%>
 
 # Key file containing the keys and key identifiers used when operating
 # with symmetric key cryptography.

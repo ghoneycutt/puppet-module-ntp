@@ -288,31 +288,16 @@ describe 'ntp' do
 
         it { should contain_class('ntp')}
 
-        if v[:package_name].class == Array
-          package_require = Array.new
-
-          v[:package_name].each do |pkg|
-            it {
-              should contain_package(pkg).with({
-                'ensure'    => 'present',
-                'noop'      => v[:package_noop],
-                'source'    => v[:package_source],
-                'adminfile' => v[:package_adminfile],
-              })
-            }
-            package_require << "Package[#{pkg}]"
-          end
-        else
+        v[:package_name].each do |pkg|
           it {
-            should contain_package(v[:package_name]).with({
-              'ensure'   => 'present',
+            should contain_package(pkg).with({
+              'ensure'    => 'present',
               'noop'      => v[:package_noop],
               'source'    => v[:package_source],
               'adminfile' => v[:package_adminfile],
+              'before'    => 'File[ntp_conf]',
             })
           }
-
-          package_require = "Package[#{v[:package_name]}]"
         end
 
         it {
@@ -322,7 +307,6 @@ describe 'ntp' do
             'owner'  => 'root',
             'group'  => 'root',
             'mode'   => '0644',
-            'require' => package_require,
           })
         }
 
@@ -525,7 +509,7 @@ describe 'ntp' do
       it do
         expect {
           should contain_class('ntp')
-        }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
+        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
       end
     end
   end

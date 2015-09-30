@@ -168,7 +168,7 @@ class ntp (
       $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
       $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
-      $default_keys                = ''
+      $default_keys                = undef
       $default_enable_tinker       = true
 
       case $::lsbmajdistrelease {
@@ -260,7 +260,7 @@ class ntp (
     $driftfile_real = $driftfile
   }
 
-  if $driftfile_real {
+  if ($driftfile_real != '') and ($driftfile != undef) {
     validate_absolute_path($driftfile_real)
   }
 
@@ -280,7 +280,7 @@ class ntp (
     $keys_real = $keys
   }
 
-  if $keys_real {
+  if ($keys_real != '') and ($keys_real != undef) {
     validate_absolute_path($keys_real)
   }
 
@@ -319,7 +319,7 @@ class ntp (
     fail('restrict_localhost must be an array or the string \'USE_DEFAULTS\'.')
   }
 
-  if $package_adminfile_real != undef {
+  if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {
 
     file { 'admin_file':
       ensure  => 'present',
@@ -336,6 +336,7 @@ class ntp (
     noop      => $package_noop_real,
     source    => $package_source_real,
     adminfile => $package_adminfile_real,
+    before    => File['ntp_conf'],
   }
 
   file { 'ntp_conf':
@@ -345,7 +346,6 @@ class ntp (
     group   => $config_file_group,
     mode    => $config_file_mode,
     content => template('ntp/ntp.conf.erb'),
-    require => Package[$package_name_real],
   }
 
   if $step_tickers_ensure_real == 'present' {

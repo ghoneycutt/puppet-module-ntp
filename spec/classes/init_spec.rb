@@ -451,7 +451,7 @@ describe 'ntp' do
       context "specified as #{value}" do
         let(:params) { { :enable_stats => value } }
 
-        it { should contain_file('ntp_conf').with_content(/^statsdir \/var\/log\/ntpstats\/.statistics loopstats peerstats clockstats.filegen loopstats file loopstats type day enable.filegen peerstats file peerstats type day enable.filegen clockstats file clockstats type day enable$/m) }
+        it { should contain_file('ntp_conf').with_content(/^statsdir \/var\/log\/ntpstats\/\nstatistics loopstats peerstats clockstats\nfilegen loopstats file loopstats type day enable\nfilegen peerstats file peerstats type day enable\nfilegen clockstats file clockstats type day enable$/) }
       end
     end
 
@@ -459,7 +459,7 @@ describe 'ntp' do
       context "specified as #{value}" do
         let(:params) { { :enable_stats => value } }
 
-        it { should_not contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir.statistics loopstats peerstats clockstats.filegen loopstats file loopstats type day enable.filegen peerstats file peerstats type day enable.filegen clockstats file clockstats type day enable$/m) }
+        it { should contain_file('ntp_conf').without_content(/^statsdir \/var\/log\/ntpstats\/\nstatistics loopstats peerstats clockstats\nfilegen loopstats file loopstats type day enable\nfilegen peerstats file peerstats type day enable\nfilegen clockstats file clockstats type day enable$/) }
       end
     end
 
@@ -486,7 +486,7 @@ describe 'ntp' do
           }
         end
 
-        it { should contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir.statistics loopstats peerstats clockstats.filegen loopstats file loopstats type day enable.filegen peerstats file peerstats type day enable.filegen clockstats file clockstats type day enable$/m) }
+        it { should contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir\nstatistics loopstats peerstats clockstats\nfilegen loopstats file loopstats type day enable\nfilegen peerstats file peerstats type day enable\nfilegen clockstats file clockstats type day enable$/) }
       end
 
       context 'with enable_stats as false' do
@@ -498,7 +498,7 @@ describe 'ntp' do
           }
         end
 
-        it { should_not contain_file('ntp_conf').with_content(/^statsdir \/path\/to\/statsdir.statistics loopstats peerstats clockstats.filegen loopstats file loopstats type day enable.filegen peerstats file peerstats type day enable.filegen clockstats file clockstats type day enable$/m) }
+        it { should contain_file('ntp_conf').without_content(/^statsdir \/path\/to\/statsdir\/\nstatistics loopstats peerstats clockstats\nfilegen loopstats file loopstats type day enable\nfilegen peerstats file peerstats type day enable\nfilegen clockstats file clockstats type day enable$/) }
       end
     end
 

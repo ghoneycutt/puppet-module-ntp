@@ -165,7 +165,6 @@ class ntp (
       $default_restrict_options    = [ '-4 default kod notrap nomodify nopeer noquery', '-6 default kod notrap nomodify nopeer noquery', ]
       $default_restrict_localhost  = [ '127.0.0.1', '::1', ]
       $default_step_tickers_ensure = 'absent'
-      $default_service_name        = 'ntp'
       $default_config_file         = '/etc/ntp.conf'
       $default_driftfile           = '/var/lib/ntp/drift/ntp.drift'
       $default_keys                = undef
@@ -174,9 +173,19 @@ class ntp (
       case $::lsbmajdistrelease {
         '9','10': {
           $default_package_name     = [ 'xntp' ]
+          $default_service_name     = 'ntp'
         }
-        '11','12': {
+        '11': {
           $default_package_name     = [ 'ntp' ]
+          $default_service_name     = 'ntp'
+        }
+        '12': {
+          $default_package_name     = [ 'ntp' ]
+          if $::operatingsystem == 'OpenSuSE' {
+            $default_service_name = 'ntp'
+          } else {
+            $default_service_name = 'ntpd'
+          }
         }
         default: {
           fail("The ntp module is supported by release 9, 10, 11 and 12 of the Suse OS Family. Your release is ${::lsbmajdistrelease}")

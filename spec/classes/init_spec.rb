@@ -341,6 +341,7 @@ describe 'ntp' do
         end
         it { should contain_file('ntp_conf').with_content(/# Statistics are not being logged$/) }
         it { should contain_file('ntp_conf').with_content(/server 0.us.pool.ntp.org\nserver 1.us.pool.ntp.org\nserver 2.us.pool.ntp.org/) }
+        it { should contain_file('ntp_conf').with_content(/^disable monitor$/) }
         it { should contain_file('ntp_conf').without_content(/^\s*peer/) }
         if v[:keys] != ''
           it { should contain_file('ntp_conf').with_content(/^keys #{Regexp.escape(v[:keys])}$/) }
@@ -1002,7 +1003,6 @@ describe 'ntp' do
         else
           it { should contain_file('ntp_conf').without_content(/^disable monitor$/) }
         end
-
       end
     end
 

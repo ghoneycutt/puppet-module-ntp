@@ -37,7 +37,7 @@ class ntp (
   $statsdir            = '/var/log/ntpstats/',
   $logfile             = 'UNSET',
   $ignore_local_clock  = false,
-  $disable_monitor     = false,
+  $disable_monitor     = true,
   $sysconfig_path      = 'USE_DEFAULTS',
   $sysconfig_options   = 'USE_DEFAULTS',
 ) {

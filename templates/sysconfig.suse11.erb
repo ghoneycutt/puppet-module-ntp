@@ -12,7 +12,6 @@ NTP_PARSE_LINK=""
 NTP_PARSE_DEVICE=""
 <% if @operatingsystemrelease != '11.0' %>
 NTPD_FORCE_SYNC_ON_STARTUP="no"
-<% end -%>
-<% if @operatingsystemrelease == '11.1' %>
+
 NTPD_FORCE_SYNC_HWCLOCK_ON_STARTUP="no"
 <% end -%>

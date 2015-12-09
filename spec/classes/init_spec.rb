@@ -1121,6 +1121,13 @@ describe 'ntp' do
         :sysconffixture         => 'sysconfig.suse11.3',
         :sysconfig_options      => '-g -u ntp:ntp -x'
       },
+    'suse11.4' =>
+      { :kernel                 => 'Linux',
+        :osfamily               => 'Suse',
+        :operatingsystemrelease => '11.4',
+        :sysconffixture         => 'sysconfig.suse11.4',
+        :sysconfig_options      => '-g -u ntp:ntp -x'
+      },
     'suse12' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',

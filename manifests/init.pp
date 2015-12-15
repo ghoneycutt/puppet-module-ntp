@@ -378,7 +378,7 @@ class ntp (
   if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {
 
     file { 'admin_file':
-      ensure  => 'present',
+      ensure  => 'present', # lint:ignore:file_ensure - this could be a symlink or a file
       path    => $package_adminfile_real,
       owner   => 'root',
       group   => 'root',

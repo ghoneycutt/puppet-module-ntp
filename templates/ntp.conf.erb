@@ -117,7 +117,7 @@ tinker panic 0
 disable monitor
 <% end -%>
 
-# Interface configuration, see man ntp_misc
 <% if @interface =! 'UNSET' %> <% @interface.each do |value| -%>
+# Interface configuration
 interface <%= value %>
 <% end -%>

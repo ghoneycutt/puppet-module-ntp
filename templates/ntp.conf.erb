@@ -116,3 +116,8 @@ tinker panic 0
 # Disabling monitor - https://isc.sans.edu/diary/NTP+reflection+attack/17300
 disable monitor
 <% end -%>
+
+# Interface configuration, see man ntp_misc
+<% if @interface =! 'UNSET' %> <% @interface.each do |value| -%>
+interface <%= value %>
+<% end -%>

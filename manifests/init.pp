@@ -40,6 +40,7 @@ class ntp (
   $disable_monitor     = true,
   $sysconfig_path      = 'USE_DEFAULTS',
   $sysconfig_options   = 'USE_DEFAULTS',
+  $interface           = 'UNSET',
 ) {
 
   # validate type as array or fail

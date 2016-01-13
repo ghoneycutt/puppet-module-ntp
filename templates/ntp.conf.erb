@@ -117,8 +117,8 @@ tinker panic 0
 disable monitor
 <% end -%>
 
-<% if @interface != 'UNSET' %> <% @interface.each do |value| -%>
-
+<% if @interface != 'UNSET' %> 
 # Interface configuration
+<% @interface.each do |value| -%>
 interface <%= value %><% end %>
 <% end -%>

@@ -117,7 +117,11 @@ tinker panic 0
 disable monitor
 <% end -%>
 
-<% if @interface != 'UNSET' %> <% @interface.each do |value| -%><% end %>
+
+
+<% if @logfile != 'UNSET' %>logfile <%= @logfile %><% end %>
+
+<% if @interface != 'UNSET' %> <% @interface.each do |value| -%>
 # Interface configuration
-interface <%= value %>
+interface <%= value %><% end %>
 <% end -%>

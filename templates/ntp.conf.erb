@@ -118,7 +118,6 @@ disable monitor
 <% end -%>
 
 <% if @interface != 'UNSET' %> 
-# Interface configuration
-<% @interface.each do |value| %>
+# Interface configuration <% @interface.each do |value| %>
 interface <%= value %><% end %>
-<% end -%>
+<% end %>

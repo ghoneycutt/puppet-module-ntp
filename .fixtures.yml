@@ -1,0 +1,10 @@
+fixtures:
+  repositories:
+    common:
+      repo: 'https://github.com/ghoneycutt/puppet-module-common.git'
+      ref: 'v1.4.1'
+    stdlib:
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+      ref: '4.6.0'
+  symlinks:
+    ntp: "#{source_dir}"

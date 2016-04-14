@@ -15,15 +15,7 @@ NTP_PARSE_LINK=""
 
 NTP_PARSE_DEVICE=""
 <% if @operatingsystemrelease != '11.0' %>
-<% if @sysconfig_force_sync_on_startup != 'UNSET' -%>
-NTPD_FORCE_SYNC_ON_STARTUP="<%= @sysconfig_force_sync_on_startup %>"
-<% else -%>
-NTPD_FORCE_SYNC_ON_STARTUP="no"
-<% end -%>
+NTPD_FORCE_SYNC_ON_STARTUP="<%= @sysconfig_force_sync_on_startup_real %>"
 
-<% if @sysconfig_force_sync_hwclock_on_startup != 'UNSET' -%>
-NTPD_FORCE_SYNC_HWCLOCK_ON_STARTUP="<%= @sysconfig_force_sync_hwclock_on_startup %>"
-<% else -%>
-NTPD_FORCE_SYNC_HWCLOCK_ON_STARTUP="no"
-<% end -%>
+NTPD_FORCE_SYNC_HWCLOCK_ON_STARTUP="<%= @sysconfig_force_sync_hwclock_on_startup_real %>"
 <% end -%>

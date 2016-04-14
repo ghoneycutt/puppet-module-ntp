@@ -40,8 +40,8 @@ class ntp (
   $disable_monitor                         = true,
   $sysconfig_path                          = 'USE_DEFAULTS',
   $sysconfig_options                       = 'USE_DEFAULTS',
-  $sysconfig_force_sync_on_startup         = 'UNSET',
-  $sysconfig_force_sync_hwclock_on_startup = 'UNSET',
+  $sysconfig_force_sync_on_startup         = 'USE_DEFAULTS',
+  $sysconfig_force_sync_hwclock_on_startup = 'USE_DEFAULTS',
 ) {
 
   # validate type as array or fail
@@ -212,11 +212,15 @@ class ntp (
           $default_package_name       = [ 'ntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-g -u ntp:ntp'
+          $default_sysconfig_force_sync_on_startup = 'no'
+          $default_sysconfig_force_sync_hwclock_on_startup = 'no'
           $sysconfig_erb              = 'sysconfig.suse11.erb'
         }
         /^12/: {
           $default_package_name       = [ 'ntp' ]
           $default_sysconfig_options  = '-g -u ntp:ntp'
+          $default_sysconfig_force_sync_on_startup = 'no'
+          $default_sysconfig_force_sync_hwclock_on_startup = 'yes'
           $sysconfig_erb              = 'sysconfig.suse12.erb'
           if $::operatingsystem == 'OpenSuSE' {
             $default_service_name = 'ntp'
@@ -375,6 +379,18 @@ class ntp (
     $sysconfig_options_real = $default_sysconfig_options
   } else {
     $sysconfig_options_real = $sysconfig_options
+  }
+
+  if $sysconfig_force_sync_on_startup == 'USE_DEFAULTS' and $default_sysconfig_force_sync_on_startup != undef {
+    $sysconfig_force_sync_on_startup_real = $default_sysconfig_force_sync_on_startup
+  } else {
+    $sysconfig_force_sync_on_startup_real = $sysconfig_force_sync_on_startup
+  }
+
+  if $sysconfig_force_sync_hwclock_on_startup == 'USE_DEFAULTS' and $default_sysconfig_force_sync_hwclock_on_startup != undef {
+    $sysconfig_force_sync_hwclock_on_startup_real = $default_sysconfig_force_sync_hwclock_on_startup
+  } else {
+    $sysconfig_force_sync_hwclock_on_startup_real = $sysconfig_force_sync_hwclock_on_startup
   }
 
   if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {

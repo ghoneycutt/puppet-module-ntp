@@ -1053,87 +1053,123 @@ describe 'ntp' do
 
   platforms = {
     'debian' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Debian',
-        :sysconffixture         => 'sysconfig.debian',
-        :sysconfig_options      => '-g -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Debian',
+        :sysconffixture                          => 'sysconfig.debian',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.debian',
+        :sysconfig_options                       => '-g -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'rhel5' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'RedHat',
-        :operatingsystemrelease => '5.0',
-        :sysconffixture         => 'sysconfig.rhel5',
-        :sysconfig_options      => '-u ntp:ntp -p /var/run/ntpd.pid -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'RedHat',
+        :operatingsystemrelease                  => '5.0',
+        :sysconffixture                          => 'sysconfig.rhel5',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel5',
+        :sysconfig_options                       => '-u ntp:ntp -p /var/run/ntpd.pid -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'rhel6' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'RedHat',
-        :operatingsystemrelease => '6.0',
-        :sysconffixture         => 'sysconfig.rhel6',
-        :sysconfig_options      => '-u ntp:ntp -p /var/run/ntpd.pid -g -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'RedHat',
+        :operatingsystemrelease                  => '6.0',
+        :sysconffixture                          => 'sysconfig.rhel6',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel6',
+        :sysconfig_options                       => '-u ntp:ntp -p /var/run/ntpd.pid -g -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'rhel7' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'RedHat',
-        :operatingsystemrelease => '7.0',
-        :sysconffixture         => 'sysconfig.rhel7',
-        :sysconfig_options      => '-g -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'RedHat',
+        :operatingsystemrelease                  => '7.0',
+        :sysconffixture                          => 'sysconfig.rhel7',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel7',
+        :sysconfig_options                       => '-g -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'suse9' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '9.0',
-        :sysconffixture         => 'sysconfig.suse9',
-        :sysconfig_options      => ''
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '9.0',
+        :sysconffixture                          => 'sysconfig.suse9',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse9',
+        :sysconfig_options                       => '',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'suse10' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '10.0',
-        :sysconffixture         => 'sysconfig.suse10',
-        :sysconfig_options      => '-u ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '10.0',
+        :sysconffixture                          => 'sysconfig.suse10',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse10',
+        :sysconfig_options                       => '-u ntp -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'suse11.0' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '11.0',
-        :sysconffixture         => 'sysconfig.suse11.0',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '11.0',
+        :sysconffixture                          => 'sysconfig.suse11.0',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.0',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'UNSET',
+        :sysconfig_force_sync_hwclock_on_startup => 'UNSET'
       },
     'suse11.1' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '11.1',
-        :sysconffixture         => 'sysconfig.suse11.1',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '11.1',
+        :sysconffixture                          => 'sysconfig.suse11.1',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.1',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'yes',
+        :sysconfig_force_sync_hwclock_on_startup => 'yes'
       },
     'suse11.2' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '11.2',
-        :sysconffixture         => 'sysconfig.suse11.2',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '11.2',
+        :sysconffixture                          => 'sysconfig.suse11.2',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.2',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'yes',
+        :sysconfig_force_sync_hwclock_on_startup => 'yes'
       },
     'suse11.3' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '11.3',
-        :sysconffixture         => 'sysconfig.suse11.3',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '11.3',
+        :sysconffixture                          => 'sysconfig.suse11.3',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.3',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'yes',
+        :sysconfig_force_sync_hwclock_on_startup => 'yes'
       },
     'suse11.4' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '11.4',
-        :sysconffixture         => 'sysconfig.suse11.4',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '11.4',
+        :sysconffixture                          => 'sysconfig.suse11.4',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.4',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'yes',
+        :sysconfig_force_sync_hwclock_on_startup => 'yes'
       },
     'suse12' =>
-      { :kernel                 => 'Linux',
-        :osfamily               => 'Suse',
-        :operatingsystemrelease => '12.0',
-        :sysconffixture         => 'sysconfig.suse12',
-        :sysconfig_options      => '-g -u ntp:ntp -x'
+      { :kernel                                  => 'Linux',
+        :osfamily                                => 'Suse',
+        :operatingsystemrelease                  => '12.0',
+        :sysconffixture                          => 'sysconfig.suse12',
+        :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse12',
+        :sysconfig_options                       => '-g -u ntp:ntp -x',
+        :sysconfig_force_sync_on_startup         => 'yes',
+        :sysconfig_force_sync_hwclock_on_startup => 'no'
       },
   }
 
@@ -1164,13 +1200,15 @@ describe 'ntp' do
           }
         end
         let :params do
-          { :sysconfig_options        => v[:sysconfig_options],
+          { :sysconfig_options                       => v[:sysconfig_options],
+            :sysconfig_force_sync_on_startup         => v[:sysconfig_force_sync_on_startup],
+            :sysconfig_force_sync_hwclock_on_startup => v[:sysconfig_force_sync_hwclock_on_startup],
           }
         end
 
-        sysconfig_fixture = File.read(fixtures("#{v[:sysconffixture]}"))
+        sysconfig_nondefault_fixture  = File.read(fixtures("#{v[:sysconfnondefaultfixture]}"))
         it {
-          should contain_file('ntp_sysconfig').with_content(/#{v[:sysconfig_options]}/)
+          should contain_file('ntp_sysconfig').with_content(sysconfig_nondefault_fixture)
         }
       end
     end

@@ -650,7 +650,8 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
-          :kernel         => 'SunOS',
+          :kernel        => 'SunOS',
+          :virtual       => 'physical',
         }
       end
 
@@ -673,7 +674,8 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
-          :kernel         => 'SunOS',
+          :kernel        => 'SunOS',
+          :virtual       => 'physical',
         }
       end
 
@@ -1104,6 +1106,7 @@ describe 'ntp' do
     'debian' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Debian',
+        :operatingsystem                         => 'Debian',
         :sysconffixture                          => 'sysconfig.debian',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.debian',
         :sysconfig_options                       => '-g -x',
@@ -1113,6 +1116,7 @@ describe 'ntp' do
     'rhel5' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'RedHat',
+        :operatingsystem                         => 'RedHat',
         :operatingsystemrelease                  => '5.0',
         :sysconffixture                          => 'sysconfig.rhel5',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel5',
@@ -1123,6 +1127,7 @@ describe 'ntp' do
     'rhel6' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'RedHat',
+        :operatingsystem                         => 'RedHat',
         :operatingsystemrelease                  => '6.0',
         :sysconffixture                          => 'sysconfig.rhel6',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel6',
@@ -1133,6 +1138,7 @@ describe 'ntp' do
     'rhel7' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'RedHat',
+        :operatingsystem                         => 'RedHat',
         :operatingsystemrelease                  => '7.0',
         :sysconffixture                          => 'sysconfig.rhel7',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.rhel7',
@@ -1143,6 +1149,7 @@ describe 'ntp' do
     'suse9' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '9.0',
         :sysconffixture                          => 'sysconfig.suse9',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse9',
@@ -1153,6 +1160,7 @@ describe 'ntp' do
     'suse10' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '10.0',
         :sysconffixture                          => 'sysconfig.suse10',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse10',
@@ -1163,6 +1171,7 @@ describe 'ntp' do
     'suse11.0' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '11.0',
         :sysconffixture                          => 'sysconfig.suse11.0',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.0',
@@ -1173,6 +1182,7 @@ describe 'ntp' do
     'suse11.1' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '11.1',
         :sysconffixture                          => 'sysconfig.suse11.1',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.1',
@@ -1183,6 +1193,7 @@ describe 'ntp' do
     'suse11.2' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '11.2',
         :sysconffixture                          => 'sysconfig.suse11.2',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.2',
@@ -1193,6 +1204,7 @@ describe 'ntp' do
     'suse11.3' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '11.3',
         :sysconffixture                          => 'sysconfig.suse11.3',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.3',
@@ -1203,6 +1215,7 @@ describe 'ntp' do
     'suse11.4' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '11.4',
         :sysconffixture                          => 'sysconfig.suse11.4',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse11.4',
@@ -1213,6 +1226,7 @@ describe 'ntp' do
     'suse12' =>
       { :kernel                                  => 'Linux',
         :osfamily                                => 'Suse',
+        :operatingsystem                         => 'SLES',
         :operatingsystemrelease                  => '12.0',
         :sysconffixture                          => 'sysconfig.suse12',
         :sysconfnondefaultfixture                => 'sysconfig.nondefault.suse12',
@@ -1228,6 +1242,7 @@ describe 'ntp' do
         let :facts do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
+            :operatingsystem          => v[:operatingsystem],
             :operatingsystemrelease   => v[:operatingsystemrelease],
             :virtual                  => 'physical',
           }

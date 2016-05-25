@@ -963,6 +963,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6',
+        :virtual                => 'physical',
+        :kernel                 => 'Linux'
       }
     end
 

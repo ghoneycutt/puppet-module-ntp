@@ -442,6 +442,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -476,6 +477,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -501,6 +503,7 @@ describe 'ntp' do
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
           :kernel                 => 'Linux',
+          :virtual                => 'physical',
         }
       end
       let(:params) { { :enable_stats => ['not','a','boolean'] } }
@@ -519,6 +522,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -564,6 +568,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -598,6 +603,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -729,6 +735,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -746,6 +753,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -764,6 +772,7 @@ describe 'ntp' do
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
           :kernel                 => 'Linux',
+          :virtual                => 'physical',
         }
       end
 
@@ -779,6 +788,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -796,6 +806,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
        }
     end
 
@@ -848,6 +859,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -900,6 +912,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -935,6 +948,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -969,6 +983,7 @@ describe 'ntp' do
       {:osfamily                => 'RedHat',
        :operatingsystemrelease  => '6.0',
        :kernel                 => 'Linux',
+       :virtual                => 'physical',
       }
     }
 
@@ -1004,6 +1019,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -1039,6 +1055,7 @@ describe 'ntp' do
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
         :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 

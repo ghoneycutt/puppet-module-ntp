@@ -702,7 +702,7 @@ describe 'ntp' do
     let :facts do
       { 
         :osfamily               => 'Suse',
-        :operatingsystemrelease => '12',
+        :operatingsystemrelease => '7',
 
       }
     end
@@ -718,8 +718,8 @@ describe 'ntp' do
     let :facts do
       {
         :osfamily               => 'Solaris',
-        :operatingsystemrelease => '5.11',
-        :kernelrelease => '5.11',
+        :operatingsystemrelease => '5.7',
+        :kernelrelease => '5.7',
       }
     end
 

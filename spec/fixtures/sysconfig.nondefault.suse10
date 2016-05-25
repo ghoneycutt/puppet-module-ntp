@@ -1,0 +1,18 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+NTPD_INITIAL_NTPDATE=" "
+
+NTPD_ADJUST_CMOS_CLOCK="no"
+
+NTPD_OPTIONS="-u ntp -x"
+
+NTPD_RUN_CHROOTED="yes"
+
+NTPD_CHROOT_FILES=""
+
+NTP_PARSE_LINK=""
+
+NTP_PARSE_DEVICE=""
+
+NTPD_START="yes"

@@ -1261,6 +1261,7 @@ describe 'ntp' do
         let :facts do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
+            :operatingsystem          => v[:operatingsystem],
             :operatingsystemrelease   => v[:operatingsystemrelease],
             :virtual                  => 'physical',
           }

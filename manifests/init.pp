@@ -146,6 +146,8 @@ class ntp (
       $default_sysconfig_path      = '/etc/default/ntp'
       $sysconfig_erb               = 'sysconfig.debian.erb'
       $default_sysconfig_options   = '-g'
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
     }
     'RedHat': {
       $default_package_name        = [ 'ntp' ]
@@ -160,6 +162,8 @@ class ntp (
       $default_keys                = '/etc/ntp/keys'
       $default_enable_tinker       = true
       $default_sysconfig_path      = '/etc/sysconfig/ntpd'
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
       case $::operatingsystemrelease {
         /^5/: {
           $default_driftfile           = '/var/lib/ntp/ntp.drift'
@@ -200,12 +204,16 @@ class ntp (
           $default_package_name       = [ 'xntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-u ntp'
+          $default_sysconfig_force_sync_on_startup = undef
+          $default_sysconfig_force_sync_hwclock_on_startup = undef
           $sysconfig_erb              = 'sysconfig.suse9.erb'
         }
         /^10/: {
           $default_package_name       = [ 'xntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-u ntp'
+          $default_sysconfig_force_sync_on_startup = undef
+          $default_sysconfig_force_sync_hwclock_on_startup = undef
           $sysconfig_erb              = 'sysconfig.suse10.erb'
         }
         /^11/: {
@@ -258,6 +266,9 @@ class ntp (
       $default_driftfile           = '/var/ntp/ntp.drift'
       $default_keys                = '/etc/inet/ntp.keys'
       $default_enable_tinker       = false
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
+      $default_sysconfig_path      = undef
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your are running ${::osfamily}")

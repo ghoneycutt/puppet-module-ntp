@@ -441,6 +441,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -474,6 +476,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -498,6 +502,8 @@ describe 'ntp' do
         {
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
+          :kernel                 => 'Linux',
+          :virtual                => 'physical',
         }
       end
       let(:params) { { :enable_stats => ['not','a','boolean'] } }
@@ -515,6 +521,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -559,6 +567,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -592,6 +602,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -638,6 +650,8 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
+          :kernel        => 'SunOS',
+          :virtual       => 'physical',
         }
       end
 
@@ -660,6 +674,8 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
+          :kernel        => 'SunOS',
+          :virtual       => 'physical',
         }
       end
 
@@ -686,7 +702,10 @@ describe 'ntp' do
 
   context 'on unsupported SuSE platform should fail' do
     let :facts do
-      { :osfamily => 'Suse' }
+      {
+        :osfamily => 'Suse',
+        :operatingsystemrelease => '0',
+      }
     end
 
     it do
@@ -698,7 +717,11 @@ describe 'ntp' do
 
   context 'on unsupported Solaris platform should fail' do
     let :facts do
-      { :osfamily => 'Solaris' }
+      {
+        :osfamily => 'Solaris',
+        :operatingsystemrelease => '0.0',
+        :kernelrelease => '0.0',
+      }
     end
 
     it do
@@ -709,6 +732,11 @@ describe 'ntp' do
   end
 
   context 'on unsupported platform should fail' do
+    let :facts do
+      {
+        :osfamily => 'unsupportedOS',
+      }
+    end
     it do
       expect {
         should contain_class('ntp')
@@ -722,6 +750,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -738,6 +768,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -755,6 +787,8 @@ describe 'ntp' do
         {
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
+          :kernel                 => 'Linux',
+          :virtual                => 'physical',
         }
       end
 
@@ -769,6 +803,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -785,6 +821,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
+        :virtual                => 'physical',
       }
     end
 
@@ -836,6 +874,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :virtual                => 'physical',
+        :kernel                 => 'Linux'
       }
     end
 
@@ -887,6 +927,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :virtual                => 'physical',
+        :kernel                 => 'Linux'
       }
     end
 
@@ -953,7 +995,9 @@ describe 'ntp' do
   describe 'with servers set' do
     let(:facts) {
       {:osfamily                => 'RedHat',
-       :operatingsystemrelease  => '6.0'
+       :operatingsystemrelease  => '6.0',
+       :virtual                => 'physical',
+       :kernel                 => 'Linux'
       }
     }
 
@@ -988,6 +1032,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :virtual                => 'physical',
+        :kernel                 => 'Linux'
       }
     end
 
@@ -1022,6 +1068,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :virtual                => 'physical',
+        :kernel                 => 'Linux'
       }
     end
 
@@ -1055,12 +1103,14 @@ describe 'ntp' do
     'debian' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Debian',
+        :operatingsystem        => 'Debian',
         :sysconffixture         => 'sysconfig.debian',
         :sysconfig_options      => '-g -x'
       },
     'rhel5' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'RedHat',
+        :operatingsystem        => 'RedHat',
         :operatingsystemrelease => '5.0',
         :sysconffixture         => 'sysconfig.rhel5',
         :sysconfig_options      => '-u ntp:ntp -p /var/run/ntpd.pid -x'
@@ -1068,6 +1118,7 @@ describe 'ntp' do
     'rhel6' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'RedHat',
+        :operatingsystem        => 'RedHat',
         :operatingsystemrelease => '6.0',
         :sysconffixture         => 'sysconfig.rhel6',
         :sysconfig_options      => '-u ntp:ntp -p /var/run/ntpd.pid -g -x'
@@ -1075,6 +1126,7 @@ describe 'ntp' do
     'rhel7' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'RedHat',
+        :operatingsystem        => 'RedHat',
         :operatingsystemrelease => '7.0',
         :sysconffixture         => 'sysconfig.rhel7',
         :sysconfig_options      => '-g -x'
@@ -1082,6 +1134,7 @@ describe 'ntp' do
     'suse9' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '9.0',
         :sysconffixture         => 'sysconfig.suse9',
         :sysconfig_options      => ''
@@ -1089,6 +1142,7 @@ describe 'ntp' do
     'suse10' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '10.0',
         :sysconffixture         => 'sysconfig.suse10',
         :sysconfig_options      => '-u ntp -x'
@@ -1096,6 +1150,7 @@ describe 'ntp' do
     'suse11.0' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '11.0',
         :sysconffixture         => 'sysconfig.suse11.0',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1103,6 +1158,7 @@ describe 'ntp' do
     'suse11.1' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '11.1',
         :sysconffixture         => 'sysconfig.suse11.1',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1110,6 +1166,7 @@ describe 'ntp' do
     'suse11.2' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '11.2',
         :sysconffixture         => 'sysconfig.suse11.2',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1117,6 +1174,7 @@ describe 'ntp' do
     'suse11.3' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '11.3',
         :sysconffixture         => 'sysconfig.suse11.3',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1124,6 +1182,7 @@ describe 'ntp' do
     'suse11.4' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '11.4',
         :sysconffixture         => 'sysconfig.suse11.4',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1131,6 +1190,7 @@ describe 'ntp' do
     'suse12' =>
       { :kernel                 => 'Linux',
         :osfamily               => 'Suse',
+        :operatingsystem        => 'SLES',
         :operatingsystemrelease => '12.0',
         :sysconffixture         => 'sysconfig.suse12',
         :sysconfig_options      => '-g -u ntp:ntp -x'
@@ -1143,7 +1203,9 @@ describe 'ntp' do
         let :facts do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
+            :operatingsystem          => v[:operatingsystem],
             :operatingsystemrelease   => v[:operatingsystemrelease],
+            :virtual                  => 'physical',
           }
         end
 
@@ -1160,7 +1222,9 @@ describe 'ntp' do
         let :facts do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
+            :operatingsystem          => v[:operatingsystem],
             :operatingsystemrelease   => v[:operatingsystemrelease],
+            :virtual                  => 'physical',
           }
         end
         let :params do

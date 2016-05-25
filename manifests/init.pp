@@ -252,9 +252,11 @@ class ntp (
       $default_driftfile           = '/var/ntp/ntp.drift'
       $default_keys                = '/etc/inet/ntp.keys'
       $default_enable_tinker       = false
+      $default_sysconfig_path      = undef
+      $default_sysconfig_options   = undef
     }
     default: {
-      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your are running ${::osfamily}")
     }
   }
 

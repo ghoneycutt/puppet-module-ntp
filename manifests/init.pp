@@ -269,6 +269,7 @@ class ntp (
       $default_sysconfig_force_sync_on_startup = undef
       $default_sysconfig_force_sync_hwclock_on_startup = undef
       $default_sysconfig_path      = undef
+      $default_sysconfig_options   = undef
     }
     default: {
       fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your are running ${::osfamily}")

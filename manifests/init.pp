@@ -260,7 +260,7 @@ class ntp (
       $default_enable_tinker       = false
     }
     default: {
-      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your are running ${::osfamily}")
     }
   }
 

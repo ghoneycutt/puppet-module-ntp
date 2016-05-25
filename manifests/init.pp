@@ -381,13 +381,13 @@ class ntp (
     $sysconfig_options_real = $sysconfig_options
   }
 
-  if $sysconfig_force_sync_on_startup == 'USE_DEFAULTS' and $default_sysconfig_force_sync_on_startup != undef {
+  if $sysconfig_force_sync_on_startup == 'USE_DEFAULTS' {
     $sysconfig_force_sync_on_startup_real = $default_sysconfig_force_sync_on_startup
   } else {
     $sysconfig_force_sync_on_startup_real = $sysconfig_force_sync_on_startup
   }
 
-  if $sysconfig_force_sync_hwclock_on_startup == 'USE_DEFAULTS' and $default_sysconfig_force_sync_hwclock_on_startup != undef {
+  if $sysconfig_force_sync_hwclock_on_startup == 'USE_DEFAULTS' {
     $sysconfig_force_sync_hwclock_on_startup_real = $default_sysconfig_force_sync_hwclock_on_startup
   } else {
     $sysconfig_force_sync_hwclock_on_startup_real = $sysconfig_force_sync_hwclock_on_startup

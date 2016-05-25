@@ -441,6 +441,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -474,6 +475,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -498,6 +500,7 @@ describe 'ntp' do
         {
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
+          :kernel                 => 'Linux',
         }
       end
       let(:params) { { :enable_stats => ['not','a','boolean'] } }
@@ -515,6 +518,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -559,6 +563,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -592,6 +597,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -722,6 +728,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -738,6 +745,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -755,6 +763,7 @@ describe 'ntp' do
         {
           :osfamily               => 'RedHat',
           :operatingsystemrelease => '6.0',
+          :kernel                 => 'Linux',
         }
       end
 
@@ -769,6 +778,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -785,7 +795,8 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
-      }
+        :kernel                 => 'Linux',
+       }
     end
 
     it do
@@ -836,6 +847,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -887,6 +899,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -921,6 +934,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -953,7 +967,8 @@ describe 'ntp' do
   describe 'with servers set' do
     let(:facts) {
       {:osfamily                => 'RedHat',
-       :operatingsystemrelease  => '6.0'
+       :operatingsystemrelease  => '6.0',
+       :kernel                 => 'Linux',
       }
     }
 
@@ -988,6 +1003,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 
@@ -1022,6 +1038,7 @@ describe 'ntp' do
       {
         :osfamily               => 'RedHat',
         :operatingsystemrelease => '6.0',
+        :kernel                 => 'Linux',
       }
     end
 

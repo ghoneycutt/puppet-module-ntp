@@ -650,6 +650,7 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
+          :kernel         => 'SunOS',
         }
       end
 
@@ -672,6 +673,7 @@ describe 'ntp' do
         {
           :osfamily      => 'Solaris',
           :kernelrelease => '5.11',
+          :kernel         => 'SunOS',
         }
       end
 
@@ -698,7 +700,11 @@ describe 'ntp' do
 
   context 'on unsupported SuSE platform should fail' do
     let :facts do
-      { :osfamily => 'Suse' }
+      { 
+        :osfamily               => 'Suse',
+        :operatingsystemrelease => '12',
+
+      }
     end
 
     it do
@@ -710,7 +716,11 @@ describe 'ntp' do
 
   context 'on unsupported Solaris platform should fail' do
     let :facts do
-      { :osfamily => 'Solaris' }
+      {
+        :osfamily               => 'Solaris',
+        :operatingsystemrelease => '5.11',
+        :kernelrelease => '5.11',
+      }
     end
 
     it do
@@ -721,6 +731,11 @@ describe 'ntp' do
   end
 
   context 'on unsupported platform should fail' do
+    let :facts do
+      {
+        :osfamily => 'unsupportedOS',
+      }
+    end
     it do
       expect {
         should contain_class('ntp')
@@ -1214,6 +1229,7 @@ describe 'ntp' do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
             :operatingsystemrelease   => v[:operatingsystemrelease],
+            :virtual                  => 'physical',
           }
         end
 
@@ -1231,6 +1247,7 @@ describe 'ntp' do
           { :kernel                   => v[:kernel],
             :osfamily                 => v[:osfamily],
             :operatingsystemrelease   => v[:operatingsystemrelease],
+            :virtual                  => 'physical',
           }
         end
         let :params do

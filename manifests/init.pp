@@ -3,43 +3,45 @@
 # This module manages the ntp service.
 #
 class ntp (
-  $config_file_owner   = 'root',
-  $config_file_group   = 'root',
-  $config_file_mode    = '0644',
-  $package_latest      = false,
-  $package_name        = 'USE_DEFAULTS',
-  $package_noop        = 'USE_DEFAULTS',
-  $package_source      = 'USE_DEFAULTS',
-  $package_adminfile   = 'USE_DEFAULTS',
-  $service_name        = 'USE_DEFAULTS',
-  $config_file         = 'USE_DEFAULTS',
-  $driftfile           = 'USE_DEFAULTS',
-  $service_running     = true,
-  $service_hasstatus   = true,
-  $service_hasrestart  = true,
-  $keys                = 'USE_DEFAULTS',
-  $servers             = ['0.us.pool.ntp.org',
-                          '1.us.pool.ntp.org',
-                          '2.us.pool.ntp.org'],
-  $server_options      = 'UNSET',
-  $peers               = 'UNSET',
-  $restrict_options    = 'USE_DEFAULTS',
-  $restrict_localhost  = 'USE_DEFAULTS',
-  $step_tickers_ensure = 'USE_DEFAULTS',
-  $step_tickers_path   = '/etc/ntp/step-tickers',
-  $step_tickers_owner  = 'root',
-  $step_tickers_group  = 'root',
-  $step_tickers_mode   = '0644',
-  $orphan_mode_stratum = 'UNSET',
-  $fudge_stratum       = '10',
-  $enable_stats        = false,
-  $enable_tinker       = 'USE_DEFAULTS',
-  $statsdir            = '/var/log/ntpstats/',
-  $logfile             = 'UNSET',
-  $ignore_local_clock  = false,
-  $disable_monitor     = true,
-  $sysconfig_path      = 'USE_DEFAULTS',
-  $sysconfig_options   = 'USE_DEFAULTS',
+  $config_file_owner                       = 'root',
+  $config_file_group                       = 'root',
+  $config_file_mode                        = '0644',
+  $package_latest                          = false,
+  $package_name                            = 'USE_DEFAULTS',
+  $package_noop                            = 'USE_DEFAULTS',
+  $package_source                          = 'USE_DEFAULTS',
+  $package_adminfile                       = 'USE_DEFAULTS',
+  $service_name                            = 'USE_DEFAULTS',
+  $config_file                             = 'USE_DEFAULTS',
+  $driftfile                               = 'USE_DEFAULTS',
+  $service_running                         = true,
+  $service_hasstatus                       = true,
+  $service_hasrestart                      = true,
+  $keys                                    = 'USE_DEFAULTS',
+  $servers                                 = ['0.us.pool.ntp.org',
+                                              '1.us.pool.ntp.org',
+                                              '2.us.pool.ntp.org'],
+  $server_options                          = 'UNSET',
+  $peers                                   = 'UNSET',
+  $restrict_options                        = 'USE_DEFAULTS',
+  $restrict_localhost                      = 'USE_DEFAULTS',
+  $step_tickers_ensure                     = 'USE_DEFAULTS',
+  $step_tickers_path                       = '/etc/ntp/step-tickers',
+  $step_tickers_owner                      = 'root',
+  $step_tickers_group                      = 'root',
+  $step_tickers_mode                       = '0644',
+  $orphan_mode_stratum                     = 'UNSET',
+  $fudge_stratum                           = '10',
+  $enable_stats                            = false,
+  $enable_tinker                           = 'USE_DEFAULTS',
+  $statsdir                                = '/var/log/ntpstats/',
+  $logfile                                 = 'UNSET',
+  $ignore_local_clock                      = false,
+  $disable_monitor                         = true,
+  $sysconfig_path                          = 'USE_DEFAULTS',
+  $sysconfig_options                       = 'USE_DEFAULTS',
+  $sysconfig_force_sync_on_startup         = 'USE_DEFAULTS',
+  $sysconfig_force_sync_hwclock_on_startup = 'USE_DEFAULTS',
 ) {
 
   # validate type as array or fail
@@ -144,6 +146,8 @@ class ntp (
       $default_sysconfig_path      = '/etc/default/ntp'
       $sysconfig_erb               = 'sysconfig.debian.erb'
       $default_sysconfig_options   = '-g'
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
     }
     'RedHat': {
       $default_package_name        = [ 'ntp' ]
@@ -158,6 +162,8 @@ class ntp (
       $default_keys                = '/etc/ntp/keys'
       $default_enable_tinker       = true
       $default_sysconfig_path      = '/etc/sysconfig/ntpd'
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
       case $::operatingsystemrelease {
         /^5/: {
           $default_driftfile           = '/var/lib/ntp/ntp.drift'
@@ -198,23 +204,31 @@ class ntp (
           $default_package_name       = [ 'xntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-u ntp'
+          $default_sysconfig_force_sync_on_startup = undef
+          $default_sysconfig_force_sync_hwclock_on_startup = undef
           $sysconfig_erb              = 'sysconfig.suse9.erb'
         }
         /^10/: {
           $default_package_name       = [ 'xntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-u ntp'
+          $default_sysconfig_force_sync_on_startup = undef
+          $default_sysconfig_force_sync_hwclock_on_startup = undef
           $sysconfig_erb              = 'sysconfig.suse10.erb'
         }
         /^11/: {
           $default_package_name       = [ 'ntp' ]
           $default_service_name       = 'ntp'
           $default_sysconfig_options  = '-g -u ntp:ntp'
+          $default_sysconfig_force_sync_on_startup = 'no'
+          $default_sysconfig_force_sync_hwclock_on_startup = 'no'
           $sysconfig_erb              = 'sysconfig.suse11.erb'
         }
         /^12/: {
           $default_package_name       = [ 'ntp' ]
           $default_sysconfig_options  = '-g -u ntp:ntp'
+          $default_sysconfig_force_sync_on_startup = 'no'
+          $default_sysconfig_force_sync_hwclock_on_startup = 'yes'
           $sysconfig_erb              = 'sysconfig.suse12.erb'
           if $::operatingsystem == 'OpenSuSE' {
             $default_service_name = 'ntp'
@@ -252,9 +266,13 @@ class ntp (
       $default_driftfile           = '/var/ntp/ntp.drift'
       $default_keys                = '/etc/inet/ntp.keys'
       $default_enable_tinker       = false
+      $default_sysconfig_force_sync_on_startup = undef
+      $default_sysconfig_force_sync_hwclock_on_startup = undef
+      $default_sysconfig_path      = undef
+      $default_sysconfig_options   = undef
     }
     default: {
-      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your operatingsystem, ${::operatingsystem}, is part of the osfamily, ${::osfamily}")
+      fail("The ntp module is supported by OS Families Debian, RedHat, Suse, and Solaris. Your are running ${::osfamily}")
     }
   }
 
@@ -373,6 +391,18 @@ class ntp (
     $sysconfig_options_real = $default_sysconfig_options
   } else {
     $sysconfig_options_real = $sysconfig_options
+  }
+
+  if $sysconfig_force_sync_on_startup == 'USE_DEFAULTS' {
+    $sysconfig_force_sync_on_startup_real = $default_sysconfig_force_sync_on_startup
+  } else {
+    $sysconfig_force_sync_on_startup_real = $sysconfig_force_sync_on_startup
+  }
+
+  if $sysconfig_force_sync_hwclock_on_startup == 'USE_DEFAULTS' {
+    $sysconfig_force_sync_hwclock_on_startup_real = $default_sysconfig_force_sync_hwclock_on_startup
+  } else {
+    $sysconfig_force_sync_hwclock_on_startup_real = $sysconfig_force_sync_hwclock_on_startup
   }
 
   if ($package_adminfile_real != '') and ($package_adminfile_real != undef) {

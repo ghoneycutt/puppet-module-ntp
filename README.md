@@ -83,6 +83,18 @@ String with startup options to pass to ntp.
 
 - *Default*: 'USE_DEFAULTS'
 
+sysconfig_force_sync_on_startup
+-----------------
+Set NTPD_FORCE_SYNC_ON_STARTUP on SLES11 and SLES12. Valid values are 'yes' and 'no'.
+
+- *Default*: 'UNSET'
+
+sysconfig_force_sync_hwclock_on_startup
+-----------------
+Set NTPD_FORCE_SYNC_HWCLACK_ON_STARTUP on SLES11 and SLES12. Valid values are 'yes' and 'no'.
+
+- *Default*: 'UNSET'
+
 step_tickers_ensure
 -------------------
 Ensure step tickers file. Valid values are 'present' and 'absent'.

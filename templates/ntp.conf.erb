@@ -32,7 +32,7 @@ filegen clockstats file clockstats type day enable
 # pool: <http://www.pool.ntp.org/join.html>
 
 <% @servers.each do |server| -%>
-server <%= server %><% if @server_options != 'UNSET' %> <%= @server_options %><% end %>
+server <%= server %><% if @server_options != 'UNSET' %> <% @server_options.each do |option| -%><%= option %><% end -%><% end %>
 <% end -%>
 
 <% if @my_peers != ['UNSET'] -%>
@@ -116,3 +116,8 @@ tinker panic 0
 # Disabling monitor - https://isc.sans.edu/diary/NTP+reflection+attack/17300
 disable monitor
 <% end -%>
+
+<% if @interface != 'UNSET' %>
+# Interface configuration <% @interface.each do |value| %>
+interface <%= value %><% end %>
+<% end %>

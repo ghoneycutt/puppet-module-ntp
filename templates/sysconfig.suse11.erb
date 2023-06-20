@@ -3,7 +3,7 @@
 
 NTPD_OPTIONS="<%= @sysconfig_options_real %>"
 
-<% if @operatingsystemrelease == '11.4' -%>
+<% if @facts['os']['release']['full'] == '11.4' -%>
 NTPD_RUN_CHROOTED="no"
 <% else -%>
 NTPD_RUN_CHROOTED="yes"
@@ -14,7 +14,7 @@ NTPD_CHROOT_FILES=""
 NTP_PARSE_LINK=""
 
 NTP_PARSE_DEVICE=""
-<% if @operatingsystemrelease != '11.0' %>
+<% if @facts['os']['release']['full'] != '11.0' %>
 NTPD_FORCE_SYNC_ON_STARTUP="no"
 
 NTPD_FORCE_SYNC_HWCLOCK_ON_STARTUP="no"

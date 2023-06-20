@@ -305,8 +305,14 @@ describe 'ntp' do
         if v[:osfamily] == 'Solaris'
           let :facts do
             {
-              osfamily:        v[:osfamily],
-              operatingsystem: v[:operatingsystem],
+
+              os: {
+                family:  v[:osfamily],
+                name:    v[:operatingsystem],
+                release: {
+                  full:  v[:release],
+                },
+              },
               kernelrelease:   v[:release],
               kernel:          v[:kernel],
               virtual:         v[:virtual],
@@ -315,9 +321,13 @@ describe 'ntp' do
         else
           let :facts do
             {
-              osfamily:               v[:osfamily],
-              operatingsystem:        v[:operatingsystem],
-              operatingsystemrelease: v[:release],
+              os: {
+                family:  v[:osfamily],
+                name:    v[:operatingsystem],
+                release: {
+                  full:  v[:release],
+                },
+              },
               kernel:                 v[:kernel],
               virtual:                v[:virtual],
             }
@@ -469,11 +479,15 @@ describe 'ntp' do
   describe 'with driftfile set to' do
     let :facts do
       {
-        osfamily:               'RedHat',
-        kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         virtual:                'physical',
+        kernel:                 'Linux',
       }
     end
 
@@ -496,7 +510,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{is not an absolute path})
+          }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -505,10 +519,14 @@ describe 'ntp' do
   describe 'with enable_stats' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -521,31 +539,31 @@ describe 'ntp' do
       |filegen clockstats file clockstats type day enable
     END
 
-    ['true', true].each do |value|
-      context "specified as #{value}" do
-        let(:params) { { enable_stats: value } }
+    context 'specified as true' do
+      let(:params) { { enable_stats: true } }
 
-        regex_content = Regexp.new(Regexp.escape(content.strip), Regexp::MULTILINE)
-        it { is_expected.to contain_file('ntp_conf').with_content(regex_content) }
-      end
+      regex_content = Regexp.new(Regexp.escape(content.strip), Regexp::MULTILINE)
+      it { is_expected.to contain_file('ntp_conf').with_content(regex_content) }
     end
 
-    ['false', false].each do |value|
-      context "specified as #{value}" do
-        let(:params) { { enable_stats: value } }
+    context 'specified as false' do
+      let(:params) { { enable_stats: false } }
 
-        regex_content = Regexp.new(Regexp.escape(content.strip), Regexp::MULTILINE)
-        it { is_expected.to contain_file('ntp_conf').without_content(regex_content) }
-      end
+      regex_content = Regexp.new(Regexp.escape(content.strip), Regexp::MULTILINE)
+      it { is_expected.to contain_file('ntp_conf').without_content(regex_content) }
     end
 
     context 'as an invalid type (non-boolean)' do
       let :facts do
         {
-          osfamily:               'RedHat',
+          os: {
+            family:  'RedHat',
+            name:    'RedHat',
+            release: {
+              full:  '6.0',
+            },
+          },
           kernel:                 'Linux',
-          operatingsystem:        'RedHat',
-          operatingsystemrelease: '6.0',
           virtual:                'physical',
         }
       end
@@ -554,7 +572,7 @@ describe 'ntp' do
       it do
         expect {
           is_expected.to contain_class('ntp')
-        }.to raise_error(Puppet::Error, %r{\["not", "a", "boolean"\] is not a boolean})
+        }.to raise_error(Puppet::Error, %r{expects a Boolean})
       end
     end
   end
@@ -562,10 +580,14 @@ describe 'ntp' do
   describe 'with statsdir' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -600,7 +622,7 @@ describe 'ntp' do
       it do
         expect {
           is_expected.to contain_class('ntp')
-        }.to raise_error(Puppet::Error, %r{"invalid\/path" is not an absolute path})
+        }.to raise_error(Puppet::Error, %r{expects a Stdlib::Absolutepath})
       end
     end
   end
@@ -608,10 +630,14 @@ describe 'ntp' do
   describe 'with keys set to' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -635,7 +661,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{is not an absolute path})
+          }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -644,10 +670,14 @@ describe 'ntp' do
   describe 'with peers param set' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -684,7 +714,7 @@ describe 'ntp' do
       it do
         expect {
           is_expected.to contain_class('ntp')
-        }.to raise_error(Puppet::Error, %r{ntp::peers must be a string or an array or an hash.})
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -693,7 +723,9 @@ describe 'ntp' do
     context 'with no package_adminfile' do
       let :facts do
         {
-          osfamily:      'Solaris',
+          os: {
+            family:  'Solaris',
+          },
           kernel:        'SunOS',
           kernelrelease: '5.11',
           virtual:       'physical',
@@ -719,7 +751,9 @@ describe 'ntp' do
     context 'with package_adminfile specified' do
       let :facts do
         {
-          osfamily:      'Solaris',
+          os: {
+            family:  'Solaris',
+          },
           kernel:        'SunOS',
           kernelrelease: '5.11',
           virtual:       'physical',
@@ -754,10 +788,14 @@ describe 'ntp' do
   context 'on unsupported SuSE platform is_expected.to fail' do
     let :facts do
       {
-        osfamily:               'Suse',
+        os: {
+          family:  'Suse',
+          name:    'Suse',
+          release: {
+            full:  '1.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'Suse',
-        operatingsystemrelease: '1.0',
         virtual:                'physical',
       }
     end
@@ -765,14 +803,16 @@ describe 'ntp' do
     it do
       expect {
         is_expected.to contain_class('ntp')
-      }.to raise_error(Puppet::Error, %r{The ntp module supports Suse like systems with major releases 9, 10, 11, and 12 and you have.})
+      }.to raise_error(Puppet::Error, %r{The ntp module supports Suse like systems with major releases 9 to 12 and you have.})
     end
   end
 
   context 'on unsupported Solaris platform is_expected.to fail' do
     let :facts do
       {
-        osfamily:        'Solaris',
+        os: {
+          family:  'Solaris',
+        },
         operatingsystem: 'Solaris',
         kernelrelease:   '5.8',
         kernel:          'SunOS',
@@ -790,10 +830,14 @@ describe 'ntp' do
   context 'on unsupported platform is_expected.to fail' do
     let :facts do
       {
-        osfamily:               'Slackware',
+        os: {
+          family:  'Slackware',
+          name:    'Slackware',
+          release: {
+            full:  '1.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'Slackware',
-        operatingsystemrelease: '1.0',
         virtual:                'physical',
       }
     end
@@ -809,10 +853,14 @@ describe 'ntp' do
     let(:params) { { step_tickers_ensure: 'invalid' } }
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -828,10 +876,14 @@ describe 'ntp' do
     let(:params) { { step_tickers_path: 'invalid/path' } }
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -843,32 +895,38 @@ describe 'ntp' do
     end
   end
 
-  [true, 'true'].each do |value|
-    context "with ignore_local_clock set to #{value}" do
-      let(:params) { { ignore_local_clock: value } }
-      let :facts do
-        {
-          osfamily:               'RedHat',
-          kernel:                 'Linux',
-          operatingsystem:        'RedHat',
-          operatingsystemrelease: '6.0',
-          virtual:                'physical',
-        }
-      end
-
-      it { is_expected.to contain_file('ntp_conf').without_content(%r{^server\s+127.127.1.0}) }
-      it { is_expected.to contain_file('ntp_conf').without_content(%r{^fudge\s+127.127.1.0 stratum 10}) }
+  context 'with ignore_local_clock set to valid true' do
+    let(:params) { { ignore_local_clock: true } }
+    let :facts do
+      {
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
+        kernel:                 'Linux',
+        virtual:                'physical',
+      }
     end
+
+    it { is_expected.to contain_file('ntp_conf').without_content(%r{^server\s+127.127.1.0}) }
+    it { is_expected.to contain_file('ntp_conf').without_content(%r{^fudge\s+127.127.1.0 stratum 10}) }
   end
 
   context 'with invalid ignore_local_clock 1' do
     let(:params) { { ignore_local_clock: ['bad', 'input'] } }
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -884,10 +942,14 @@ describe 'ntp' do
     let(:params) { { ignore_local_clock: 'nottrue' } }
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -902,11 +964,15 @@ describe 'ntp' do
   context 'on Linux physical machine' do
     let :facts do
       {
-        osfamily:               'RedHat',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
-        virtual:                'physical',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
+        virtual:                'physical',
       }
     end
 
@@ -916,11 +982,15 @@ describe 'ntp' do
   context 'on Linux Xen guest' do
     let :facts do
       {
-        osfamily:               'RedHat',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6',
-        virtual:                'xenu',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
+        virtual:                'xenu',
       }
     end
 
@@ -930,7 +1000,9 @@ describe 'ntp' do
   context 'on non-Linux Xen guest' do
     let :facts do
       {
-        osfamily:      'Solaris',
+        os: {
+          family:  'Solaris',
+        },
         kernelrelease: '5.11',
         virtual:       'xenu',
         kernel:        'Solaris',
@@ -943,10 +1015,14 @@ describe 'ntp' do
   describe 'with package_name set' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -995,7 +1071,7 @@ describe 'ntp' do
       it do
         expect {
           is_expected.to contain_class('ntp')
-        }.to raise_error(Puppet::Error, %r{ntp::package_name must be a string or an array.})
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -1003,10 +1079,14 @@ describe 'ntp' do
   describe 'with restrict_options set' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -1031,7 +1111,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{restrict_options must be an array \(prefered\) or a string \(will be deprecated\)})
+          }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1040,10 +1120,14 @@ describe 'ntp' do
   describe 'with restrict_localhost set' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6',
         virtual:                'physical',
       }
     end
@@ -1068,7 +1152,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{restrict_localhost must be an array or the string \'USE_DEFAULTS\'.})
+          }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1077,10 +1161,14 @@ describe 'ntp' do
   describe 'with servers set' do
     let(:facts) do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
@@ -1105,7 +1193,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{is not an Array.})
+          }.to raise_error(Puppet::Error, %r{expects an Array})
         end
       end
     end
@@ -1114,22 +1202,26 @@ describe 'ntp' do
   describe 'with disable_monitor set' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
 
-    [true, 'true', false, 'false'].each do |value|
+    [true, false].each do |value|
       context "to #{value} as #{value.class}" do
         let(:params) { { disable_monitor: value } }
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_class('ntp') }
 
-        if [true, 'true'].include?(value)
+        if value == true
           it { is_expected.to contain_file('ntp_conf').with_content(%r{^disable monitor$}) }
         else
           it { is_expected.to contain_file('ntp_conf').without_content(%r{^disable monitor$}) }
@@ -1143,7 +1235,7 @@ describe 'ntp' do
       it do
         expect {
           is_expected.to contain_class('ntp')
-        }.to raise_error(Puppet::Error, %r{str2bool})
+        }.to raise_error(Puppet::Error, %r{expects a Boolean})
       end
     end
   end
@@ -1151,15 +1243,19 @@ describe 'ntp' do
   describe 'with enable_tinker set to' do
     let :facts do
       {
-        osfamily:               'RedHat',
+        os: {
+          family:  'RedHat',
+          name:    'RedHat',
+          release: {
+            full:  '6.0',
+          },
+        },
         kernel:                 'Linux',
-        operatingsystem:        'RedHat',
-        operatingsystemrelease: '6.0',
         virtual:                'physical',
       }
     end
 
-    [true, 'true', false, 'false'].each do |value|
+    [true, false].each do |value|
       context "valid #{value} as #{value.class}" do
         let(:params) { { enable_tinker: value } }
 
@@ -1178,7 +1274,7 @@ describe 'ntp' do
         it do
           expect {
             is_expected.to contain_class('ntp')
-          }.to raise_error(Puppet::Error, %r{str2bool})
+          }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1309,10 +1405,14 @@ describe 'ntp' do
       context k.to_s do
         let(:facts) do
           {
+            os: {
+              family:  v[:osfamily],
+              name:    v[:operatingsystem],
+              release: {
+                full:  v[:operatingsystemrelease],
+              },
+            },
             kernel:                 v[:kernel],
-            osfamily:               v[:osfamily],
-            operatingsystem:        v[:operatingsystem],
-            operatingsystemrelease: v[:operatingsystemrelease],
             virtual:                'physical',
           }
         end
@@ -1324,21 +1424,25 @@ describe 'ntp' do
       end
     end
   end
+
   describe 'sysconfig file with non-default values for parameters on' do
     platforms.sort.each do |k, v|
       context k.to_s do
         let(:facts) do
           {
+            os: {
+              family:  v[:osfamily],
+              name:    v[:operatingsystem],
+              release: {
+                full:  v[:operatingsystemrelease],
+              },
+            },
             kernel:                 v[:kernel],
-            osfamily:               v[:osfamily],
-            operatingsystem:        v[:operatingsystem],
-            operatingsystemrelease: v[:operatingsystemrelease],
             virtual:                'physical',
           }
         end
         let(:params) { { sysconfig_options: v[:sysconfig_options] } }
 
-        # sysconfig_fixture = File.read(fixtures(v[:sysconffixture].to_s))
         it {
           is_expected.to contain_file('ntp_sysconfig').with_content(%r{#{v[:sysconfig_options]}})
         }

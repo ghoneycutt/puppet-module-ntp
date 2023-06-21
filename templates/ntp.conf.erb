@@ -11,7 +11,7 @@
 driftfile <%= @driftfile_real %>
 <% end -%>
 
-<% if @my_enable_stats == true %>
+<% if @enable_stats == true %>
 # Statistics are being logged
 statsdir <%= @statsdir %>
 statistics loopstats peerstats clockstats
@@ -80,12 +80,12 @@ restrict <%= value %>
 # next lines.  Please do this only if you trust everybody on the network!
 #disable auth
 #broadcastclient
-<% if @ignore_local_clock_real == false -%>
+<% if @ignore_local_clock == false -%>
 
 # Undisciplined Local Clock. This is a fake driver intended for backup
 # and when no outside source of synchronized time is available.
 server  127.127.1.0  # local clock
-fudge  127.127.1.0 stratum <%= @fudge_stratum %>
+fudge  127.127.1.0 stratum <%= @fudge_stratum.to_s %>
 <% end -%>
 <% if @keys_real != '' and @keys_real != nil -%>
 
@@ -111,7 +111,7 @@ keys <%= @keys_real %>
 # Accept any offset - useful for VM's or suspended systems
 tinker panic 0
 <% end -%>
-<% if @disable_monitor_real == true -%>
+<% if @disable_monitor == true -%>
 
 # Disabling monitor - https://isc.sans.edu/diary/NTP+reflection+attack/17300
 disable monitor
